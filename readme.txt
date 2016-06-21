@@ -11,6 +11,8 @@ Add a shortcode [pmpro_signup] that can be used to embed a sign up form for free
 
 Use the [pmpro_signup] shortcode to embed a sign up form anywhere on your site. You can place it into sidebar widgets or use popover plugins like Optin Monster and Popup Maker to embed the form into a popover.
 
+Note: This replaces similar functionality that used to be included in the PMPro Register Helper addon.
+
 == Installation ==
 
 1. Upload the `pmpro-signup-shortcode` directory to the `/wp-content/plugins/` directory of your site.
