@@ -68,39 +68,6 @@ function pmprosus_load_shortcode() {
 add_action('init', 'pmprosus_load_shortcode');
 
 /*
-	Add name field to checkout if short="nameandemail"
-*/
-function pmprosus_pmpro_checkout_after_password() {
-	global $pmprosus_short;
-	if($pmprosus_short == 'nameandemail' || isset($_REQUEST['fname'])) {
-	?>
-	<div>
-		<label for="fname"><?php _e('Name', 'pmprosus');?></label>
-		<input id="fname" name="fname" type="text" class="input <?php echo pmpro_getClassForField('fname');?>" size="30" value="" />
-	</div>
-	<?php
-	}
-}
-add_action('pmpro_checkout_after_password', 'pmprosus_pmpro_checkout_after_password');
-
-/*
-	Require fname field if short="nameandemail"
-*/
-function pmprosus_pmpro_required_user_fields($fields) {
-	global $pmprosus_short;
-	if($pmprosus_short == 'nameandemail' || isset($_REQUEST['fname'])) {
-		if(!empty($_REQUEST['fname']))
-			$fname = $_REQUEST['fname'];
-		else
-			$fname = '';
-		$fields['fname'] = $fname;
-	}
-
-	return $fields;
-}
-add_filter('pmpro_required_user_fields', 'pmprosus_pmpro_required_user_fields');
-
-/*
 	Save referrer to session
 */
 function pmprosus_init_referrer() {
@@ -177,12 +144,15 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		'title' => NULL,
 	), $atts));
 	
+		
 	// set title
-	if (isset($title))
+	if($title === "1" || $title === "true" || $title === "yes")
+		$title_display = true;
+
+	if(isset($title_display))
 		if(!empty($level))
 			$title = 'Register For ' . pmpro_getLevel($level)->name;
 		else
-			
 			$title = 'Register For ' . get_option('blogname');
 	
 	//turn 0's into falses
@@ -195,15 +165,12 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	if($intro === "0" || $intro === "false" || $intro === "no")
 		$intro = false;
 
-	if($short === "0" || $short === "false" || $short === "no")
-		$short = false;
+	if($short === "1" || $short === "true" || $short === "yes")
+		$short = true;
 	elseif($short === "emailonly")
 		$short = "emailonly";
 	else
-		$short = true;
-
-	if(empty($title))
-		$title = pmpro_getLevel($level)->name;
+		$short = false;
 		
 	global $current_user, $membership_levels, $pmpro_pages;	
 	
@@ -213,9 +180,10 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 			<p>You are logged in as <?php echo $current_user->user_login; ?>.</p>
 		<?php } else { ?>
 		<form class="pmpro_form pmpro_signup_form" action="<?php echo pmpro_url("checkout"); ?>" method="post">
-			<?php if( !empty($title) ) { ?>
-				<h2><?php echo $title; ?></h2>
-			<?php } ?>
+			<?php
+				if(!empty($title))
+					echo '<h2>' . $title . '</h2>';
+			?>
 			<?php
 				if(!empty($intro))
 					echo wpautop($intro);
@@ -233,14 +201,14 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 				else
 				{
 					?>
-					<?php if( $short !== 'emailonly' && $short != 'nameandemail' ) { ?>
+					<?php if( $short !== 'emailonly') { ?>
 					<div>
 						<label for="username"><?php _e('Username', 'pmprosus');?></label>
 						<input id="username" name="username" type="text" class="input" size="30" value="" />
 					</div>
 					<?php } ?>
 					<?php do_action("pmpro_checkout_after_username");?>
-					<?php if( $short !== 'emailonly' && $short != 'nameandemail' ) { ?>
+					<?php if( $short !== 'emailonly') { ?>
 					<div>
 						<label for="password"><?php _e('Password', 'pmprosus');?></label>
 						<input id="password" name="password" type="password" class="input" size="30" value="" />
@@ -272,7 +240,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						if($redirect == 'referrer') 
 							$redirect_to = $_SERVER['REQUEST_URI'];
 						elseif($redirect == 'account')
-							$redirect_to = $pmpro_pages['account'];
+							$redirect_to = get_permalink($pmpro_pages['account']);
 						elseif(empty($redirect) )
 							$redirect_to = '';
 						else
