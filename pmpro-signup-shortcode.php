@@ -181,7 +181,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 				if(current_user_can("manage_options") )
 				{
 					?>
-					<p><?php _e('&#91;pmpro_signup&93; Admin Only Shortcode Alert: You are logged in as an administrator and already have the membership level specified.', 'pmprosus'); ?></p>
+					<div class="pmpro_message pmpro_alert"><?php _e('&#91;pmpro_signup&#93; Admin Only Shortcode Alert: You are logged in as an administrator and already have the membership level specified.', 'pmprosus'); ?></div>
 					<?php
 				}
 			?>
