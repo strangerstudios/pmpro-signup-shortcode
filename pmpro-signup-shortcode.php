@@ -177,7 +177,14 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	ob_start();
 	?>
 		<?php if(!empty($current_user->ID) && pmpro_hasMembershipLevel($level,$current_user->ID)) { ?>
-			<p>You are logged in as <?php echo $current_user->user_login; ?>.</p>
+			<?php 
+				if(current_user_can("manage_options") )
+				{
+					?>
+					<p><?php _e('&#91;pmpro_signup&93; Admin Only Shortcode Alert: You are logged in as an administrator and already have the membership level specified.', 'pmprosus'); ?></p>
+					<?php
+				}
+			?>
 		<?php } else { ?>
 		<form class="pmpro_form pmpro_signup_form" action="<?php echo pmpro_url("checkout"); ?>" method="post">
 			<?php
@@ -284,3 +291,19 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	ob_end_clean();
 	return $temp_content;
 }
+
+/*
+Function to add links to the plugin row meta
+*/
+function pmprosus_plugin_row_meta($links, $file) {
+	if(strpos($file, 'pmpro-signup-shortcode.php') !== false)
+	{
+		$new_links = array(
+			'<a href="' . esc_url('http://www.paidmembershipspro.com/add-ons/plus-add-ons/pmpro-signup-shortcode/')  . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro' ) . '</a>',
+			'<a href="' . esc_url('http://paidmembershipspro.com/support/') . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro' ) ) . '">' . __( 'Support', 'pmpro' ) . '</a>',
+		);
+		$links = array_merge($links, $new_links);
+	}
+	return $links;
+}
+add_filter('plugin_row_meta', 'pmprosus_plugin_row_meta', 10, 2);
