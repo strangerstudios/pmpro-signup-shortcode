@@ -197,6 +197,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 			?>
 			<input type="hidden" id="level" name="level" value="<?php echo $level; ?>" />
 			<input type="hidden" id="pmpro_signup_shortcode" name="pmpro_signup_shortcode" value=1>
+			<?php do_action( 'pmpro_signup_form_before_fields' ); ?>
 			<?php
 				if(!empty($current_user->ID))
 				{
@@ -274,6 +275,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<?php
 				}
 			?>
+			<?php do_action( 'pmpro_signup_form_before_submit' ); ?>
 			<div>
 				<span id="pmpro_submit_span" >
 					<input type="hidden" name="submit-checkout" value="1" />
@@ -285,7 +287,9 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 				<a href="<?php echo wp_login_url(get_permalink()); ?>"><?php _e('Log In','pmpro'); ?></a>
 			</div>
 			<?php } ?>
+			<?php do_action( 'pmpro_signup_form_after_submit' ); ?>
 		</form>
+		<?php do_action( 'pmpro_signup_form_after_form' ); ?>
 		<?php } ?>
 	<?php
 	$temp_content = ob_get_contents();
