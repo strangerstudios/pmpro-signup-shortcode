@@ -283,7 +283,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 				</span>
 			</div>
 			<?php if(!empty($login) && empty($current_user->ID)) { ?>
-			<div style="text-align:center;">
+			<div class="login-link" style="text-align:center;">
 				<a href="<?php echo wp_login_url(get_permalink()); ?>"><?php _e('Log In','pmpro'); ?></a>
 			</div>
 			<?php } ?>
