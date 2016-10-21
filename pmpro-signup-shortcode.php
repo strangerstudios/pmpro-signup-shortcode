@@ -196,6 +196,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					echo wpautop($intro);
 			?>
 			<input type="hidden" id="level" name="level" value="<?php echo $level; ?>" />
+			<input type="hidden" id="pmpro_signup_shortcode" name="pmpro_signup_shortcode" value=1>
 			<?php
 				if(!empty($current_user->ID))
 				{
