@@ -140,6 +140,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		'login' => true,
 		'redirect' => NULL,
 		'short' => NULL,
+		'exclude_rh_fields' => false,
 		'submit_button' => __("Sign Up Now", 'pmprosus'),
 		'title' => NULL,
 	), $atts));
@@ -171,6 +172,13 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		$short = "emailonly";
 	else
 		$short = false;
+	
+	if ($exclude_rh_fields === "0" || strtolower( $exclude_rh_fields ) === "false" || strtolower( $exclude_rh_fields ) === "no" ) {
+		$exclude_rh_fields = false;
+	elseif ( $exclude_rh_fields === "1" || strtolower( $exclude_rh_fields ) === "true" || strtolower( $exclude_rh_fields ) === "yes" ) {
+		$exclude_rh_fields = true;
+	else 
+		$exclude_rh_fields = false;
 		
 	global $current_user, $membership_levels, $pmpro_pages;	
 	
@@ -214,7 +222,10 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						<input id="username" name="username" type="text" class="input" size="30" value="" />
 					</div>
 					<?php } ?>
-					<?php do_action("pmpro_checkout_after_username");?>
+					<?php if ( false === $exclude_rh_fields ) {
+						do_action("pmpro_checkout_after_username");
+					}?>
+			
 					<?php if( $short !== 'emailonly') { ?>
 					<div>
 						<label for="password"><?php _e('Password', 'pmprosus');?></label>
@@ -229,7 +240,9 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							<input id="password2" name="password2" type="password" class="input" size="30" value="" />
 						</div>
 					<?php } ?>
-					<?php do_action("pmpro_checkout_after_password");?>
+					<?php if ( false === $exclude_rh_fields ) {
+						do_action("pmpro_checkout_after_password");
+					}?>
 					<div>
 						<label for="bemail"><?php _e('E-mail Address', 'pmprosus');?></label>
 						<input id="bemail" name="bemail" type="email" class="input" size="30" value="" />
@@ -254,7 +267,9 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							$redirect_to = $redirect;
 					?>
 					<input type="hidden" name="redirect_to" value="<?php echo esc_attr($redirect_to);?>" />
-					<?php do_action("pmpro_checkout_after_email");?>
+					<?php if ( false === $exclude_rh_fields ) {
+						do_action("pmpro_checkout_after_email");
+					}?>						
 					<div class="pmpro_hidden">
 						<label for="fullname"><?php _e('Full Name', 'pmprosus');?></label>
 						<input id="fullname" name="fullname" type="text" class="input" size="30" value="" /> <strong><?php _e('LEAVE THIS BLANK', 'pmprosus');?></strong>
