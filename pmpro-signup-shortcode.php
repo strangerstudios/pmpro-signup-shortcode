@@ -6,7 +6,18 @@ Description: Shortcode for a simplified Membership Signup Form with options for 
 Version: .1
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
+Text Domain: pmprosus
 */
+
+/**
+ * Load the languages folder for translations.
+ */
+
+function pmprosus_load_textdomain(){
+	load_plugin_textdomain( 'pmprosus', false, basename( dirname( __FILE__ ) ) . '/languages' ); 
+}
+
+add_action( 'plugins_loaded', 'pmprosus_load_textdomain' );
 
 /*
 	Use Email Address as Username and Generate a Password
@@ -142,9 +153,9 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		'short' => NULL,
 		'submit_button' => __("Sign Up Now", 'pmprosus'),
 		'title' => NULL,
-		'custom_fields' => true,
 	), $atts));
 	
+		
 	// set title
 	if($title === "1" || $title === "true" || $title === "yes")
 		$title_display = true;
@@ -171,12 +182,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		$short = "emailonly";
 	else
 		$short = false;
-
-	//turn 0's into falses
-	if( $custom_fields === "0" || $custom_fields === "false" || $custom_fields === "no")
-		$custom_fields = false;
 		
-
 	global $current_user, $membership_levels, $pmpro_pages;	
 	
 	ob_start();
@@ -213,13 +219,13 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 				else
 				{
 					?>
-					<?php if( $short !== 'emailonly' ) { ?>
+					<?php if( $short !== 'emailonly') { ?>
 					<div>
 						<label for="username"><?php _e('Username', 'pmprosus');?></label>
 						<input id="username" name="username" type="text" class="input" size="30" value="" />
 					</div>
 					<?php } ?>
-					<?php if($custom_fields){ do_action("pmpro_checkout_after_username"); }?>
+					<?php do_action("pmpro_checkout_after_username");?>
 					<?php if( $short !== 'emailonly') { ?>
 					<div>
 						<label for="password"><?php _e('Password', 'pmprosus');?></label>
@@ -234,7 +240,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							<input id="password2" name="password2" type="password" class="input" size="30" value="" />
 						</div>
 					<?php } ?>
-					<?php if($custom_fields){ do_action("pmpro_checkout_after_password"); }?>
+					<?php do_action("pmpro_checkout_after_password");?>
 					<div>
 						<label for="bemail"><?php _e('E-mail Address', 'pmprosus');?></label>
 						<input id="bemail" name="bemail" type="email" class="input" size="30" value="" />
@@ -284,16 +290,13 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<input type="submit" class="pmpro_btn pmpro_btn-submit-checkout" value="<?php echo $submit_button; ?>" />
 				</span>
 			</div>
-			<?php do_action( 'pmpross-after-submit' ); ?>
 			<?php if(!empty($login) && empty($current_user->ID)) { ?>
 			<div style="text-align:center;">
 				<a href="<?php echo wp_login_url(get_permalink()); ?>"><?php _e('Log In','pmpro'); ?></a>
 			</div>
 			<?php } ?>
 		</form>
-		<?php } 
-		do_action( 'pmpross-after-form' );
-		?>
+		<?php } ?>
 	<?php
 	$temp_content = ob_get_contents();
 	ob_end_clean();
