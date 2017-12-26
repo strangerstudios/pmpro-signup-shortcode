@@ -124,6 +124,9 @@ add_filter('pmpro_confirmation_url', 'pmprosus_pmpro_confirmation_url', 10, 3);
 */
 function pmprosus_signup_shortcode($atts, $content=null, $code="")
 {
+
+
+
 	// $atts    ::= array of attributes
 	// $content ::= text within enclosing form of shortcode element
 	// $code    ::= the shortcode found, when == callback name
@@ -144,7 +147,9 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		'title' => NULL,
 	), $atts));
 	
-		
+	// try to get the Terms of Service page settings
+	$tospage = pmpro_getOption( 'tospage' );	
+
 	// set title
 	if($title === "1" || $title === "true" || $title === "yes")
 		$title_display = true;
@@ -272,6 +277,17 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					?>
 					<?php
 				}
+
+
+				if( !empty( $tospage ) ){
+					$tospage = get_post( $tospage );
+			?>
+
+				<input type="checkbox" name="tos" value="1" id="tos" /> <label class="pmpro_label-inline pmpro_clickable" for="tos"><?php printf(__('I agree to the %s', 'paid-memberships-pro' ), $tospage->post_title);?></label>
+
+			<?php
+
+				}
 			?>
 			<div>
 				<span id="pmpro_submit_span" >
@@ -289,6 +305,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	<?php
 	$temp_content = ob_get_contents();
 	ob_end_clean();
+
 	return $temp_content;
 }
 
