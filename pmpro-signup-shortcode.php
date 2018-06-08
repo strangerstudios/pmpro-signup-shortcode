@@ -273,6 +273,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<?php
 				}
 			?>
+			<?php do_action('pmpro_checkout_after_user_fields'); ?>
 			<div>
 				<span id="pmpro_submit_span" >
 					<input type="hidden" name="submit-checkout" value="1" />
