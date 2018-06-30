@@ -136,6 +136,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	//set defaults
 	extract(shortcode_atts(array(
 		'intro' => "0",
+		'hidelabels' => NULL,
 		'level' => NULL,
 		'login' => true,
 		'redirect' => NULL,
@@ -143,7 +144,6 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		'submit_button' => __("Sign Up Now", 'pmprosus'),
 		'title' => NULL,
 	), $atts));
-
 
 	// set title
 	if($title === "1" || $title === "true" || $title === "yes")
@@ -162,6 +162,10 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		$login = true;
 
 	//check which form format is specified
+	if( ! empty( $hidelabels ) ) {
+		$hidelabels = true;
+	}
+
 	if($intro === "0" || $intro === "false" || $intro === "no")
 		$intro = false;
 
@@ -186,7 +190,16 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 				}
 			?>
 		<?php } else { ?>
-		<form class="pmpro_form pmpro_signup_form" action="<?php echo pmpro_url("checkout"); ?>" method="post">
+		<style>
+			.pmpro_signup_form-hidelabels label {
+				clip: rect(1px, 1px, 1px, 1px);
+				position: absolute!important;
+				height: 1px;
+				width: 1px;
+				overflow: hidden
+			}
+		</style>
+		<form class="pmpro_form pmpro_signup_form<?php if( ! empty( $hidelabels ) ) { ?> pmpro_signup_form-hidelabels<?php } ?>" action="<?php echo pmpro_url("checkout"); ?>" method="post">
 			<?php
 				if(!empty($title))
 					echo '<h2>' . $title . '</h2>';
@@ -210,7 +223,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						<?php if ( $short !== 'emailonly') { ?>
 							<div class="pmpro_checkout-field pmpro_checkout-field-username">
 								<label for="username"><?php _e('Username', 'pmprosus');?></label>
-								<input id="username" name="username" type="text" class="input" size="30" value="" />
+								<input id="username" name="username" type="text" class="input" size="30" value="" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php _e('Username', 'pmprosus');?>"<?php } ?> />
 							</div>
 						<?php } ?>
 
@@ -219,7 +232,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						<?php if ( $short !== 'emailonly') { ?>
 							<div class="pmpro_checkout-field pmpro_checkout-field-password">
 								<label for="password"><?php _e('Password', 'pmprosus');?></label>
-								<input id="password" name="password" type="password" class="input" size="30" value="" />
+								<input id="password" name="password" type="password" class="input" size="30" value=""<?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php _e('Password', 'pmprosus');?>"<?php } ?> />
 							</div>
 						<?php } ?>
 
@@ -228,7 +241,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						<?php } else { ?>
 							<div class="pmpro_checkout-field pmpro_checkout-field-password2">
 								<label for="password2"><?php _e('Confirm Password', 'pmprosus');?></label>
-								<input id="password2" name="password2" type="password" class="input" size="30" value="" />
+								<input id="password2" name="password2" type="password" class="input" size="30" value="" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php _e('Confirm Password', 'pmprosus');?>"<?php } ?> />
 							</div>
 						<?php } ?>
 
@@ -236,7 +249,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 
 						<div class="pmpro_checkout-field pmpro_checkout-field-bemail">
 							<label for="bemail"><?php _e('E-mail Address', 'pmprosus');?></label>
-							<input id="bemail" name="bemail" type="email" class="input" size="30" value="" />
+							<input id="bemail" name="bemail" type="email" class="input" size="30" value=""<?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php _e('E-mail Address', 'pmprosus');?>"<?php } ?> />
 						</div>
 
 						<?php if( ! empty( $short ) ) { ?>
@@ -244,7 +257,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						<?php } else { ?>
 							<div class="pmpro_checkout-field pmpro_checkout-field-bconfirmemail">
 								<label for="bconfirmemail"><?php _e('Confirm E-mail', 'pmprosus');?></label>
-								<input id="bconfirmemail" name="bconfirmemail" type="email" class="input" size="30" value="" />
+								<input id="bconfirmemail" name="bconfirmemail" type="email" class="input" size="30" value="" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php _e('Confirm E-mail', 'pmprosus');?>"<?php } ?> />
 							</div>
 						<?php } ?>
 

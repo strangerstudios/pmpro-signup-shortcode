@@ -18,6 +18,7 @@ Note: This replaces similar functionality that used to be included in the Regist
 Shortcode attributes for `[pmpro_signup]` include:
 
 1. intro – (optional) Override the default 'Register for LEVEL NAME' text above the checkout form or hide the text completely. (default: true; accepts: true, false, or your custom text)
+1. hidelabels - (optional) Hide the form input field labels and use the input field placeholder attribute instead. (default: false; accepts: true, 1, or yes).
 1. level – (required) determines which level to use for the checkout form
 1. login – (optional) Set this attribute to show a 'Log In' link below the submit button. (i.e. login='1')
 1. redirect – (optional) Set the page to redirect to after form submission. (default: Membership Confirmation page. accepts: referrer, account, or your custom URL)
@@ -42,6 +43,7 @@ Please post it in the issues section of GitHub and we'll fix it as soon as we ca
 
 == Changelog ==
 = .2 =
+* ENHANCEMENT: Added 'hidelabels' attribute to shortcode to hide form labels and use input field placeholder text instead.
 * ENHANCEMENT: Added CSS classes to all form elements to allow for better style control.
 
 = .1 =
