@@ -45,6 +45,7 @@ Please post it in the issues section of GitHub and we'll fix it as soon as we ca
 = .2 =
 * BUG FIX: Fixed bug where logged in users were being prompted about their insecure passwords.
 * BUG FIX: Fixed issue where session might not have been created before trying to save a new user's password there (for use with offsite checkouts like PayPal Express).
+* ENHANCEMENT: Added a new attribute "custom_fields". When set to false or 0, the pmpro_checkout_after_username, pmpro_checkout_after_email, and pmpro_checkout_before_submit action hooks will not fire. This will stop Register Helper from adding fields to the checkout form. Note that required fields will still be required.
 * ENHANCEMENT: Added 'hidelabels' attribute to shortcode to hide form labels and use input field placeholder text instead.
 * ENHANCEMENT: Added CSS classes to all form elements to allow for better style control.
 * ENHANCEMENT: Added the pmpro_checkout_after_user_fields action hook that is also on the PMPro checkout page now.
