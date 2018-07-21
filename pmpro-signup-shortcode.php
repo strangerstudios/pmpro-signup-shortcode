@@ -314,6 +314,8 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							<?php } ?>
 
 					<?php } ?>
+
+					<?php do_action('pmpro_checkout_after_user_fields'); ?>
 					
 					<?php
 					if( !empty( $tospage ) ){
@@ -366,7 +368,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						}
 					?>
 				</div> <!-- end pmpro_checkout-fields -->
-			</div> <!-- end pmpro_checkout -->			
+			</div> <!-- end pmpro_checkout -->
 		</form>
 		<?php do_action( 'pmpro_signup_form_after_form' ); ?>
 		<?php } ?>
