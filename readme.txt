@@ -1,8 +1,8 @@
 === Paid Memberships Pro - Signup Shortcode ===
 Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup, sign up, shortcode, register
-Requires at least: 3.5
-Tested up to: 4.5.2
+Requires at least: 4
+Tested up to: 4.9.8
 Stable tag: .2
 
 Add a shortcode [pmpro_signup] that can be used to embed a sign up form for Paid Memberships Pro levels.
@@ -43,8 +43,16 @@ Please post it in the issues section of GitHub and we'll fix it as soon as we ca
 
 == Changelog ==
 = .2 =
+* BUG FIX: Fixed bug where logged in users were being prompted about their insecure passwords.
+* BUG FIX: Fixed issue where session might not have been created before trying to save a new user's password there (for use with offsite checkouts like PayPal Express).
 * ENHANCEMENT: Added 'hidelabels' attribute to shortcode to hide form labels and use input field placeholder text instead.
 * ENHANCEMENT: Added CSS classes to all form elements to allow for better style control.
+* ENHANCEMENT: Added the pmpro_checkout_after_user_fields action hook that is also on the PMPro checkout page now.
+* ENHANCEMENT: Showing a checkbox to agree to the Terms of Service page if one is set in the PMPro advanced settings. You can place your GDPR-related conditions in the TOS page and PMPro will track that the TOS has been agreed to.
+* ENHANCEMENT: Added translation support and a South African English translation.
+* ENHANCEMENT: Added a "login-link" class to the div wrapping the login link for styling. (Thanks, Rafe Colton)
+* ENHANCEMENT: Added some signup shortcode specific action hooks: pmpro_signup_form_before_fields, pmpro_signup_form_before_submit, pmpro_signup_form_after_submit, pmpro_signup_form_after_form. (Thanks, Rafe Colton)
+* ENHANCEMENT: Added a hidden field "pmpro_signup_shortcode" so you can tell when a form submission comes from the signup shortcode form. (Thanks, Rafe Colton)
 
 = .1 =
 * Initial version.

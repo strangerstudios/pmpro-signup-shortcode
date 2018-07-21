@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - Signup Shortcode
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-signup-shortcode/
 Description: Shortcode for a simplified Membership Signup Form with options for email only signup and more.
-Version: .1
+Version: .2
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
 Text Domain: pmprosus
