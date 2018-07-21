@@ -6,7 +6,18 @@ Description: Shortcode for a simplified Membership Signup Form with options for 
 Version: .1
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
+Text Domain: pmprosus
 */
+
+/**
+ * Load the languages folder for translations.
+ */
+
+function pmprosus_load_textdomain(){
+	load_plugin_textdomain( 'pmprosus', false, basename( dirname( __FILE__ ) ) . '/languages' ); 
+}
+
+add_action( 'plugins_loaded', 'pmprosus_load_textdomain' );
 
 /*
 	Use Email Address as Username and Generate a Password
