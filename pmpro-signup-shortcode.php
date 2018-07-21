@@ -159,6 +159,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		'short' => NULL,
 		'submit_button' => __("Sign Up Now", 'pmprosus'),
 		'title' => NULL,
+		'custom_fields' => true,
 	), $atts));
 	
 	// try to get the Terms of Service page settings
@@ -180,14 +181,20 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	else
 		$login = true;
 
+	//turn 0's into falses
+	if( $custom_fields === "0" || $custom_fields === "false" || $custom_fields === "no")
+		$custom_fields = false;
+
 	//check which form format is specified
 	if( ! empty( $hidelabels ) ) {
 		$hidelabels = true;
 	}
 
+	//turn 0's into falses
 	if($intro === "0" || $intro === "false" || $intro === "no")
 		$intro = false;
 
+	//turn 1's and 'yes' into true
 	if($short === "1" || $short === "true" || $short === "yes")
 		$short = true;
 	elseif($short === "emailonly")
@@ -248,7 +255,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							</div>
 						<?php } ?>
 
-						<?php do_action("pmpro_checkout_after_username");?>
+						<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_username"); } ?>
 
 						<?php if ( $short !== 'emailonly') { ?>
 							<div class="pmpro_checkout-field pmpro_checkout-field-password">
@@ -266,7 +273,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							</div>
 						<?php } ?>
 
-						<?php do_action("pmpro_checkout_after_password");?>
+						<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_password"); } ?>
 
 						<div class="pmpro_checkout-field pmpro_checkout-field-bemail">
 							<label for="bemail"><?php _e('E-mail Address', 'pmprosus');?></label>
@@ -281,7 +288,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 								<input id="bconfirmemail" name="bconfirmemail" type="email" class="input" size="30" value="" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php _e('Confirm E-mail', 'pmprosus');?>"<?php } ?> />
 							</div>
 						<?php } ?>
-
+						
 						<input type="hidden" name="pmprosus_referrer" value="<?php echo esc_attr($_SERVER['REQUEST_URI']);?>" />
 
 						<?php
@@ -298,7 +305,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 
 						<input type="hidden" name="redirect_to" value="<?php echo esc_attr($redirect_to);?>" />
 
-						<?php do_action("pmpro_checkout_after_email");?>
+						<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_email"); } ?>
 
 						<div class="pmpro_hidden">
 							<label for="fullname"><?php _e('Full Name', 'pmprosus');?></label>
@@ -325,7 +332,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						<?php
 					} ?>
 
-					<?php do_action( 'pmpro_signup_form_before_submit' ); ?>
+					<?php if( !empty( $custom_fields ) ) { do_action( 'pmpro_signup_form_before_submit' ); } ?>
 
 					<div class="pmpro_submit">
 						<span id="pmpro_submit_span">
@@ -339,34 +346,6 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							<a href="<?php echo wp_login_url( get_permalink() ); ?>"><?php _e('Log In','pmprosus'); ?></a>
 						</div>
 					<?php } ?>
-					<input type="hidden" name="pmprosus_referrer" value="<?php echo esc_attr($_SERVER['REQUEST_URI']);?>" />
-					<?php 
-						if($redirect == 'referrer') 
-							$redirect_to = $_SERVER['REQUEST_URI'];
-						elseif($redirect == 'account')
-							$redirect_to = get_permalink($pmpro_pages['account']);
-						elseif(empty($redirect) )
-							$redirect_to = '';
-						else
-							$redirect_to = $redirect;
-					?>
-					<input type="hidden" name="redirect_to" value="<?php echo esc_attr($redirect_to);?>" />
-					<?php do_action("pmpro_checkout_after_email");?>
-					<div class="pmpro_hidden">
-						<label for="fullname"><?php _e('Full Name', 'pmprosus');?></label>
-						<input id="fullname" name="fullname" type="text" class="input" size="30" value="" /> <strong><?php _e('LEAVE THIS BLANK', 'pmprosus');?></strong>
-					</div>
-					<?php
-						global $recaptcha, $recaptcha_publickey;							
-						if($recaptcha == 2 || (!empty($level) && $recaptcha == 1 && pmpro_isLevelFree(pmpro_getLevel($level))))
-						{
-							?>
-							<div class="pmpro_captcha">
-								<?php echo pmpro_recaptcha_get_html($recaptcha_publickey, NULL, true); ?>
-							</div> <!-- end pmpro_captcha -->
-							<?php
-						}
-					?>
 				</div> <!-- end pmpro_checkout-fields -->
 			</div> <!-- end pmpro_checkout -->
 		</form>
