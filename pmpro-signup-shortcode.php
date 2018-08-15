@@ -182,8 +182,16 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		$login = true;
 
 	//turn 0's into falses
-	if( $custom_fields === "0" || $custom_fields === "false" || $custom_fields === "no")
+	if( $custom_fields === "0" || $custom_fields === "false" || $custom_fields === "no") {
 		$custom_fields = false;
+	}
+
+	//the default checkout boxes location is loaded only if custom_fields is specifically "1" or "true"
+	if( $custom_fields === "1" || $custom_fields === "true" ) {
+		$checkout_boxes = true;
+	} else {
+		$checkout_boxes = false;
+	}
 
 	//check which form format is specified
 	if( ! empty( $hidelabels ) ) {
@@ -324,6 +332,8 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 
 					<?php do_action('pmpro_checkout_after_user_fields'); ?>
 					
+					<?php if( $checkout_boxes && function_exists('pmprorh_pmpro_checkout_boxes') ) { pmprorh_pmpro_checkout_boxes(); } ?>
+
 					<?php
 					if( !empty( $tospage ) ){
 						$tospage = get_post( $tospage );

@@ -45,11 +45,11 @@ Please post it in the issues section of GitHub and we'll fix it as soon as we ca
 = .2 =
 * BUG FIX: Fixed bug where logged in users were being prompted about their insecure passwords.
 * BUG FIX: Fixed issue where session might not have been created before trying to save a new user's password there (for use with offsite checkouts like PayPal Express).
-* ENHANCEMENT: Added a new attribute "custom_fields". When set to false or 0, the pmpro_checkout_after_username, pmpro_checkout_after_email, and pmpro_checkout_before_submit action hooks will not fire. This will stop Register Helper from adding fields to the checkout form. Note that required fields will still be required.
-* ENHANCEMENT: Added 'hidelabels' attribute to shortcode to hide form labels and use input field placeholder text instead.
+* ENHANCEMENT: Showing a checkbox to agree to the Terms of Service page if one is set in the PMPro advanced settings. You can place your GDPR-related conditions in the TOS page and PMPro will track that the TOS has been agreed to.
+* ENHANCEMENT: Added a new attribute "custom_fields". When set to false or 0, the pmpro_checkout_after_username, pmpro_checkout_after_email, and pmpro_checkout_before_submit action hooks will not fire. This will stop Register Helper from adding fields to the checkout form. Note that required fields will still be required. If set to true or 1 specifically and Register Helper is loaded, then the pmprorh_pmpro_checkout_boxes() functino will fire to include fields from the checkout_boxes area at the bottom of the form.
+* ENHANCEMENT: Added 'hidelabels' attribute to shortcode to hide form labels and use input field placeholder text instead. Note for Register Helper fields, you will need to add a placeholder attribute to your fields. You can add an option like this: 'html_attributes' => array('placeholder'=>'Placeholder Text')
 * ENHANCEMENT: Added CSS classes to all form elements to allow for better style control.
 * ENHANCEMENT: Added the pmpro_checkout_after_user_fields action hook that is also on the PMPro checkout page now.
-* ENHANCEMENT: Showing a checkbox to agree to the Terms of Service page if one is set in the PMPro advanced settings. You can place your GDPR-related conditions in the TOS page and PMPro will track that the TOS has been agreed to.
 * ENHANCEMENT: Added translation support and a South African English translation.
 * ENHANCEMENT: Added a "login-link" class to the div wrapping the login link for styling. (Thanks, Rafe Colton)
 * ENHANCEMENT: Added some signup shortcode specific action hooks: pmpro_signup_form_before_fields, pmpro_signup_form_before_submit, pmpro_signup_form_after_submit, pmpro_signup_form_after_form. (Thanks, Rafe Colton)
