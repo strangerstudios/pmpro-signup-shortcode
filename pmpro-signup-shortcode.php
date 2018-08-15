@@ -332,11 +332,8 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<?php } ?>
 
 					<?php do_action('pmpro_checkout_after_user_fields'); ?>
-<<<<<<< HEAD
-					
+
 					<?php if( $checkout_boxes && function_exists('pmprorh_pmpro_checkout_boxes') ) { pmprorh_pmpro_checkout_boxes(); } ?>
-=======
->>>>>>> 6e6c9d05ef98a94fef59125a3cb2f059c0d54777
 
 					<?php
 					if( !empty( $tospage ) ){
