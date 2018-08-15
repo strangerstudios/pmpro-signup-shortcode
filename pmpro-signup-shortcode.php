@@ -14,7 +14,7 @@ Text Domain: pmprosus
  */
 
 function pmprosus_load_textdomain(){
-	load_plugin_textdomain( 'pmprosus', false, basename( dirname( __FILE__ ) ) . '/languages' ); 
+	load_plugin_textdomain( 'pmprosus', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
 add_action( 'plugins_loaded', 'pmprosus_load_textdomain' );
@@ -25,7 +25,7 @@ add_action( 'plugins_loaded', 'pmprosus_load_textdomain' );
 function pmprosus_skip_username_password()
 {
 	 global $current_user;
-	 
+
 	//copy email to username if no username field is present
 	if(!empty($_REQUEST['bemail']) && !isset($_REQUEST['username']))
 		$_REQUEST['username'] = $_REQUEST['bemail'];
@@ -161,7 +161,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		'title' => NULL,
 		'custom_fields' => true,
 	), $atts));
-	
+
 	// try to get the Terms of Service page settings
 	$tospage = pmpro_getOption( 'tospage' );
 
@@ -217,13 +217,14 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 			?>
 		<?php } else { ?>
 		<style>
-			.pmpro_signup_form-hidelabels label {
+			.pmpro_signup_form-hidelabels .pmpro_checkout-field label:first-child {
 				clip: rect(1px, 1px, 1px, 1px);
-				position: absolute!important;
+				position: absolute;
 				height: 1px;
 				width: 1px;
 				overflow: hidden
 			}
+			
 		</style>
 		<form class="pmpro_form pmpro_signup_form<?php if( ! empty( $hidelabels ) ) { ?> pmpro_signup_form-hidelabels<?php } ?>" action="<?php echo pmpro_url("checkout"); ?>" method="post">
 			<?php
@@ -288,7 +289,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 								<input id="bconfirmemail" name="bconfirmemail" type="email" class="input" size="30" value="" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php _e('Confirm E-mail', 'pmprosus');?>"<?php } ?> />
 							</div>
 						<?php } ?>
-						
+
 						<input type="hidden" name="pmprosus_referrer" value="<?php echo esc_attr($_SERVER['REQUEST_URI']);?>" />
 
 						<?php
@@ -323,7 +324,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<?php } ?>
 
 					<?php do_action('pmpro_checkout_after_user_fields'); ?>
-					
+
 					<?php
 					if( !empty( $tospage ) ){
 						$tospage = get_post( $tospage );
