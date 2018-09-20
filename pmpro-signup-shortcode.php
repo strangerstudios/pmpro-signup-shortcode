@@ -37,10 +37,10 @@ function pmprosus_skip_username_password()
 		$_GET['username'] = $_GET['bemail'];
 
 	//autogenerate password if no field is present
-	if(!empty($_REQUEST['bemail']) && !isset($_REQUEST['password'])&& !isset($current_user))
-	{
+	if(!empty($_REQUEST['bemail']) && !isset($_REQUEST['password']) && ( !isset( $current_user ) || $current_user->ID === 0 ) ) {
+
 		//genreate password
-		$_REQUEST['password'] = pmpro_getDiscountCode() . pmpro_getDiscountCode();	//using two random discount codes
+		$_REQUEST['password'] = wp_generate_password( 12, true, false );
 		$_REQUEST['password2'] = $_REQUEST['password'];
 
 		//set flag so we add the password to the confirmation email later
