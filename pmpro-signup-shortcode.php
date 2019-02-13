@@ -37,7 +37,7 @@ function pmprosus_skip_username_password()
 		$_GET['username'] = $_GET['bemail'];
 
 	//autogenerate password if no field is present
-	if(!empty($_REQUEST['bemail']) && !isset($_REQUEST['password']) && ( !isset( $current_user ) || $current_user->ID === 0 ) ) {
+	if(!empty($_REQUEST['bemail']) && !isset($_REQUEST['password']) && ! is_user_logged_in() ) {
 
 		//genreate password
 		$_REQUEST['password'] = wp_generate_password( 12, true, false );
