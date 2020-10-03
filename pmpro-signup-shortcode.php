@@ -242,7 +242,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 			}
 			
 		</style>
-		<form class="pmpro_form pmpro_signup_form<?php if( ! empty( $hidelabels ) ) { ?> pmpro_signup_form-hidelabels<?php } ?>" action="<?php echo pmpro_url("checkout"); ?>" method="post">
+		<form id="pmpro_form" class="pmpro_form pmpro_signup_form<?php if( ! empty( $hidelabels ) ) { ?> pmpro_signup_form-hidelabels<?php } ?>" action="<?php echo pmpro_url("checkout"); ?>" method="post">
 			<?php
 				if(!empty($title))
 					echo '<h2>' . $title . '</h2>';
@@ -356,7 +356,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<div class="pmpro_submit">
 						<span id="pmpro_submit_span">
 							<input type="hidden" name="submit-checkout" value="1" />
-							<input type="submit" class="pmpro_btn pmpro_btn-submit-checkout" value="<?php echo $submit_button; ?>" />
+							<input id="pmpro_btn-submit" type="submit" class="pmpro_btn pmpro_btn-submit-checkout" value="<?php echo $submit_button; ?>" />
 						</span>
 					</div>
 					<?php do_action( 'pmpro_signup_form_after_submit' ); ?>
