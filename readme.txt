@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup, sign up, shortcode, register
 Requires at least: 4
-Tested up to: 4.9.8
-Stable tag: .2
+Tested up to: 5.6
+Stable tag: 0.3
 
 Add a shortcode [pmpro_signup] that can be used to embed a sign up form for Paid Memberships Pro levels.
 
@@ -43,6 +43,15 @@ Add a sign up form to a post/widget/page using a shortcode:
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-signup-shortcode/issues
 
 == Changelog ==
+
+= 0.3 - 2020-01-15 =
+* ENHANCEMENT: Added option to pass URL attributes for "email" or "username" to a page and prefill the signup form.
+* ENHANCEMENT: Switching all cases where a password is generated to use core WordPress wp_generate_password function.
+* BUG FIX/ENHANCEMENT: Now using pmpro_session_start core function where sessions are needed.
+* BUG FIX: Fixed case where passwords were sometimes not generating.
+* BUG FIX: Fixed bug where level-specific custom fields in Register Helper would not show for the specified "level" in the signup shortcode.
+* BUG FIX: Fixed edge case where the stored session variable for a generated password wasn't being cleared.
+
 = .2 =
 * BUG FIX: Fixed bug where logged in users were being prompted about their insecure passwords.
 * BUG FIX: Fixed issue where session might not have been created before trying to save a new user's password there (for use with offsite checkouts like PayPal Express).
