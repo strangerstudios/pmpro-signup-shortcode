@@ -140,6 +140,8 @@ add_filter('pmpro_confirmation_url', 'pmprosus_pmpro_confirmation_url', 10, 3);
 */
 function pmprosus_signup_shortcode($atts, $content=null, $code="")
 {
+	global $pmpro_level;
+
 	// $atts    ::= array of attributes
 	// $content ::= text within enclosing form of shortcode element
 	// $code    ::= the shortcode found, when == callback name
@@ -161,6 +163,9 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		'title' => NULL,
 		'custom_fields' => true,
 	), $atts));
+
+	// If there is a current level in global, save it to a backup variable.
+	$pmpro_level_backup = $pmpro_level;
 
 	// try to get the Terms of Service page settings
 	$tospage = pmpro_getOption( 'tospage' );
@@ -189,6 +194,12 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	//the default checkout boxes location is loaded only if custom_fields is specifically "1" or "true"
 	if( $custom_fields === "1" || $custom_fields === "true" ) {
 		$checkout_boxes = true;
+
+		// Set the level for this signup shortcode so level-specific checkout fields appear.
+		if ( ! empty( $level ) ) {
+			$pmpro_level = pmpro_getLevel( $level );
+		}
+
 	} else {
 		$checkout_boxes = false;
 	}
@@ -373,6 +384,9 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	<?php
 	$temp_content = ob_get_contents();
 	ob_end_clean();
+
+	// Set the global level back to the correct object.
+	$pmpro_level = $pmpro_level_backup;
 
 	return $temp_content;
 }
