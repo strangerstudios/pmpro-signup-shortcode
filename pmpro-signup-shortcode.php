@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Paid Memberships Pro - Signup Shortcode
-Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-signup-shortcode/
+Plugin Name: Paid Memberships Pro - Signup Shortcode Add On
+Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/
 Description: Shortcode for a simplified Membership Signup Form with options for email only signup and more.
-Version: .2
-Author: Stranger Studios
-Author URI: http://www.strangerstudios.com
+Version: 0.3
+Author: Paid Memberships Pro
+Author URI: https://www.paidmembershipspro.com/
 Text Domain: pmprosus
 */
 
@@ -421,7 +421,7 @@ function pmprosus_plugin_row_meta($links, $file) {
 	if(strpos($file, 'pmpro-signup-shortcode.php') !== false)
 	{
 		$new_links = array(
-			'<a href="' . esc_url('http://www.paidmembershipspro.com/add-ons/plus-add-ons/pmpro-signup-shortcode/')  . '" title="' . esc_attr( __( 'View Documentation', 'pmprosus' ) ) . '">' . __( 'Docs', 'pmprosus' ) . '</a>',
+			'<a href="' . esc_url('https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/')  . '" title="' . esc_attr( __( 'View Documentation', 'pmprosus' ) ) . '">' . __( 'Docs', 'pmprosus' ) . '</a>',
 			'<a href="' . esc_url('http://paidmembershipspro.com/support/') . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmprosus' ) ) . '">' . __( 'Support', 'pmprosus' ) . '</a>',
 		);
 		$links = array_merge($links, $new_links);
