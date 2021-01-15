@@ -140,7 +140,7 @@ add_filter('pmpro_confirmation_url', 'pmprosus_pmpro_confirmation_url', 10, 3);
 */
 function pmprosus_signup_shortcode($atts, $content=null, $code="")
 {
-	global $pmpro_level;
+	global $current_user, $pmpro_level, $username, $email;
 
 	// $atts    ::= array of attributes
 	// $content ::= text within enclosing form of shortcode element
@@ -221,6 +221,22 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	else
 		$short = false;
 
+	// Get field values from URL or user.
+	if ( isset( $_REQUEST['username'] ) ) {
+		$username = sanitize_user( stripslashes( $_REQUEST['username'] ) );
+	} elseif ( is_user_logged_in() ) {
+		$username = $current_user->user_login;
+	} else {
+		$username = '';
+	}
+	if ( isset ( $_REQUEST['email'] ) ) {
+		$bemail = sanitize_email( stripslashes( $_REQUEST['email'] ) );
+	} elseif ( is_user_logged_in() ) {
+		$bemail = $current_user->user_email;
+	} else {
+		$bemail = '';
+	}
+
 	// treat this page load as a checkout
 	add_filter( 'pmpro_is_checkout', '__return_true' );
 
@@ -279,7 +295,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						<?php if ( $short !== 'emailonly') { ?>
 							<div class="pmpro_checkout-field pmpro_checkout-field-username">
 								<label for="username"><?php _e('Username', 'pmprosus');?></label>
-								<input id="username" name="username" type="text" class="input" size="30" value="" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php _e('Username', 'pmprosus');?>"<?php } ?> />
+								<input id="username" name="username" type="text" class="input" size="30" value="<?php echo esc_attr( $username ); ?>" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php _e('Username', 'pmprosus');?>"<?php } ?> />
 							</div>
 						<?php } ?>
 
@@ -288,7 +304,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						<?php if ( $short !== 'emailonly') { ?>
 							<div class="pmpro_checkout-field pmpro_checkout-field-password">
 								<label for="password"><?php _e('Password', 'pmprosus');?></label>
-								<input id="password" name="password" type="password" class="input" size="30" value=""<?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php _e('Password', 'pmprosus');?>"<?php } ?> />
+								<input id="password" name="password" type="password" class="input" size="30" value="" <?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php _e('Password', 'pmprosus');?>"<?php } ?> />
 							</div>
 						<?php } ?>
 
@@ -305,7 +321,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 
 						<div class="pmpro_checkout-field pmpro_checkout-field-bemail">
 							<label for="bemail"><?php _e('E-mail Address', 'pmprosus');?></label>
-							<input id="bemail" name="bemail" type="email" class="input" size="30" value=""<?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php _e('E-mail Address', 'pmprosus');?>"<?php } ?> />
+							<input id="bemail" name="bemail" type="email" class="input" size="30" value="<?php echo esc_attr( $bemail ); ?>" <?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php _e('E-mail Address', 'pmprosus');?>"<?php } ?> />
 						</div>
 
 						<?php if( ! empty( $short ) ) { ?>
