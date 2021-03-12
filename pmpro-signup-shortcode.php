@@ -314,6 +314,8 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 
 							$li_string = rtrim($li_string, ",");
 							$sqlQuery .= ' WHERE id IN('.$li_string.') ORDER BY id';
+						} else {
+							$sqlQuery .= ' WHERE allow_signups = 1 ORDER BY id';
 						}
 
 						// get levels from the DB
@@ -321,7 +323,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 
 						if( $levels_select == "dropdown" ) {
 						?>
-							<select name="level" id="level">
+							<select name="level" id="level" class="pmpro_short_selection">
 							<?php
 							foreach ( $raw_levels as $raw_level ) {
 								?>
@@ -330,10 +332,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 									<?php if( $level == $raw_level->id ) { echo "selected"; } ?>
 								>
 									<?php
-										echo $raw_level->name;
-										if( $raw_level->initial_payment > 0 || $raw_level->billing_amount > 0 ) {
-											echo " (".pmpro_getLevelCost($raw_level).")";
-										}
+										echo $raw_level->name . " (" . pmpro_getLevelCost($raw_level) . ")";
 									?>
 								</option>
 								<?php
@@ -345,12 +344,13 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 								?>
 								<input 
 									type="radio" 
-									id="<?php echo $raw_level->id; ?>" 
+									id="<?php echo $raw_level->id; ?>"
+									class="pmpro_short_selection"
 									name="level" 
 									value="<?php echo $raw_level->id; ?>"
 									<?php if( $level == $raw_level->id ) { echo "checked"; } ?>
 								>
-								<label for="<?php echo $raw_level->id; ?>"><?php echo $raw_level->name . " (".pmpro_getLevelCost($raw_level).")"; ?></label><br>
+								<label for="<?php echo $raw_level->id; ?>"><?php echo $raw_level->name . " (" .pmpro_getLevelCost($raw_level).")"; ?></label><br>
 								<?php
 							}	
 						} 
