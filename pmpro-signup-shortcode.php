@@ -147,7 +147,7 @@ add_filter('pmpro_confirmation_url', 'pmprosus_pmpro_confirmation_url', 10, 3);
 */
 function pmprosus_signup_shortcode($atts, $content=null, $code="")
 {
-	global $current_user, $pmpro_level, $username, $email;
+	global $current_user, $pmpro_level, $username, $email, $wpdb;
 
 	// $atts    ::= array of attributes
 	// $content ::= text within enclosing form of shortcode element
@@ -169,6 +169,8 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		'submit_button' => __("Sign Up Now", 'pmprosus'),
 		'title' => NULL,
 		'custom_fields' => true,
+		'levels' => NULL,
+		'levels_select' => 'dropdown',
 	), $atts));
 
 	// If there is a current level in global, save it to a backup variable.
@@ -178,8 +180,9 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	$tospage = pmpro_getOption( 'tospage' );
 
 	// set title
-	if($title === "1" || $title === "true" || $title === "yes")
+	if(($title === "1" || $title === "true" || $title === "yes") && $levels == NULL) {
 		$title_display = true;
+	}
 
 	if(isset($title_display))
 		if(!empty($level))
@@ -244,6 +247,13 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		$bemail = '';
 	}
 
+	// If user wants to have level selection then individual level details cannot show
+	if( $levels !== NULL ) {
+		$checkout_boxes = false;
+		if( $intro == "true" ) unset($intro); // only show custom strings
+		if( $title == "true") unset($title); // only show custom strings
+	}
+
 	// treat this page load as a checkout
 	add_filter( 'pmpro_is_checkout', '__return_true' );
 
@@ -287,9 +297,68 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 			?>
 			<div class="pmpro_checkout">
 				<div class="pmpro_checkout-fields">
+					<?php
+					// if only one level was specified
+					if( $levels == NULL || $levels == $level) { ?>
+						<input type="hidden" id="level" name="level" value="<?php echo $level; ?>" />
+					<?php } else { 
+						// build query
+						$sqlQuery = "SELECT * FROM $wpdb->pmpro_membership_levels ";
+						if ( $levels !== "all" ) {
+							$levels_in = explode(",", $levels);
+							$li_string = "";
 
-					<input type="hidden" id="level" name="level" value="<?php echo $level; ?>" />
+							foreach( $levels_in as $li ) {
+								$li_string .= "'$li',";
+							}
+
+							$li_string = rtrim($li_string, ",");
+							$sqlQuery .= ' WHERE id IN('.$li_string.') ORDER BY id';
+						}
+
+						// get levels from the DB
+						$raw_levels = $wpdb->get_results( $sqlQuery );
+
+						if( $levels_select == "dropdown" ) {
+						?>
+							<select name="level" id="level">
+							<?php
+							foreach ( $raw_levels as $raw_level ) {
+								?>
+								<option 
+									value="<?php echo $raw_level->id; ?>"
+									<?php if( $level == $raw_level->id ) { echo "selected"; } ?>
+								>
+									<?php
+										echo $raw_level->name;
+										if( $raw_level->initial_payment > 0 || $raw_level->billing_amount > 0 ) {
+											echo " (".pmpro_getLevelCost($raw_level).")";
+										}
+									?>
+								</option>
+								<?php
+							}
+							?>
+							</select>
+						<?php } else { 
+							foreach ( $raw_levels as $raw_level ) {
+								?>
+								<input 
+									type="radio" 
+									id="<?php echo $raw_level->id; ?>" 
+									name="level" 
+									value="<?php echo $raw_level->id; ?>"
+									<?php if( $level == $raw_level->id ) { echo "checked"; } ?>
+								>
+								<label for="<?php echo $raw_level->id; ?>"><?php echo $raw_level->name . " (".pmpro_getLevelCost($raw_level).")"; ?></label><br>
+								<?php
+							}	
+						} 
+					}
+					?>
+
 					<input type="hidden" id="pmpro_signup_shortcode" name="pmpro_signup_shortcode" value="1" />
+
 					<?php do_action( 'pmpro_signup_form_before_fields' ); ?>
 
 					<?php if ( ! empty( $current_user->ID ) ) { ?>
