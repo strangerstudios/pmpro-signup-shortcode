@@ -28,7 +28,7 @@ function pmprosus_skip_username_password()
 
 	//copy email to username if no username field is present
 	if(!empty($_REQUEST['bemail']) && !isset($_REQUEST['username']))
-		$_REQUEST['username'] = $_REQUEST['bemail'];
+		$_REQUEST['username'] = function_exists( 'pmpro_generateUsername' ) ? pmpro_generateUsername( $_REQUEST['bemail'] ) : $_REQUEST['bemail'];
 
 	if(!empty($_POST['bemail']) && !isset($_POST['username']))
 		$_POST['username'] = $_POST['bemail'];
