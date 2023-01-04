@@ -386,6 +386,34 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					} ?>
 
 					<?php if( !empty( $custom_fields ) ) { do_action( 'pmpro_signup_form_before_submit' ); } ?>
+					
+					<?php 
+
+					if( ! empty( $custom_fields ) ) {
+						//Adds support for User Fields
+						global $pmpro_user_fields;
+						foreach( $pmpro_user_fields as $group ) {
+							foreach( $group as $field ) {
+								if ( ! pmpro_is_field( $field ) ) {
+									continue;
+								}
+								
+								if ( ! pmpro_check_field_for_level( $field ) ) {
+									continue;
+								}
+																	
+								if( ! isset( $field->profile ) || $field->profile !== 'only' && $field->profile !== 'only_admin' ) {
+									if ( ! empty( $field->required ) ) {
+										$field->showrequired = 'label';
+									} else {
+										$field->showrequired = '';
+									}
+									$field->displayAtCheckout();
+								}									
+							}
+						}
+					}
+					?>
 
 					<div class="pmpro_submit">
 						<span id="pmpro_submit_span">
