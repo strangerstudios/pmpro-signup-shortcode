@@ -294,7 +294,17 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 
 					<?php if ( ! empty( $current_user->ID ) ) { ?>
 						<p id="pmpro_account_loggedin">
-							<?php printf( esc_html__('You are logged in as <strong>%s</strong>. If you would like to use a different account for this membership, <a href="%s">log out now</a>.', 'pmprosus'), esc_html( $current_user->user_login ), esc_url( wp_logout_url( $_SERVER['REQUEST_URI'] ) ) ); ?>
+							<?php
+								$allowed_html = array(
+									'a' => array(
+										'href' => array(),
+										'target' => array(),
+										'title' => array(),
+									),
+									'strong' => array(),
+								);
+								echo wp_kses( sprintf( __('You are logged in as <strong>%s</strong>. If you would like to use a different account for this membership, <a href="%s">log out now</a>.', 'pmprosus'), $current_user->user_login, esc_url( wp_logout_url( $_SERVER['REQUEST_URI'] ) ) ), $allowed_html );
+							?>
 						</p>
 						<?php
 					} else { ?>
@@ -380,15 +390,15 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<?php
 					if( !empty( $tospage ) ){
 						$tospage = get_post( $tospage );
-            $allowed_html = array (
-              'a' => array (
-                'href' => array(),
-                'target' => array(),
-                'title' => array(),
-              ),
-            );
+						$allowed_html = array (
+							'a' => array (
+								'href' => array(),
+								'target' => array(),
+								'title' => array(),
+							),
+						);
 						?>
-						<input type="checkbox" name="tos" value="1" id="tos" /> <label class="pmpro_label-inline pmpro_clickable" for="tos"><?php echo wp_kses( sprintf( __('I agree to the <a href="%s" target="_blank">%s</a>', 'paid-memberships-pro' ), get_permalink( $tospage ), $tospage->post_title ) );?></label>
+						<input type="checkbox" name="tos" value="1" id="tos" /> <label class="pmpro_label-inline pmpro_clickable" for="tos"><?php echo wp_kses( sprintf( __('I agree to the <a href="%s" target="_blank">%s</a>', 'paid-memberships-pro' ), get_permalink( $tospage ), $tospage->post_title ), $allowed_html );?></label>
 						<?php
 					} ?>
 
