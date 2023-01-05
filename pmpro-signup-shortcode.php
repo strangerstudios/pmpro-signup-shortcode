@@ -28,7 +28,7 @@ function pmprosus_skip_username_password()
 
 	//copy email to username if no username field is present
 	if(!empty($_REQUEST['bemail']) && !isset($_REQUEST['username']))
-		$_REQUEST['username'] = $_REQUEST['bemail'];
+		$_REQUEST['username'] = function_exists( 'pmpro_generateUsername' ) ? pmpro_generateUsername( $_REQUEST['bemail'] ) : $_REQUEST['bemail'];
 
 	if(!empty($_POST['bemail']) && !isset($_POST['username']))
 		$_POST['username'] = $_POST['bemail'];
@@ -380,8 +380,15 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<?php
 					if( !empty( $tospage ) ){
 						$tospage = get_post( $tospage );
+            $allowed_html = array (
+              'a' => array (
+                'href' => array(),
+                'target' => array(),
+                'title' => array(),
+              ),
+            );
 						?>
-						<input type="checkbox" name="tos" value="1" id="tos" /> <label class="pmpro_label-inline pmpro_clickable" for="tos"><?php printf( esc_html__('I agree to the %s', 'paid-memberships-pro' ), esc_html( $tospage->post_title ) );?></label>
+						<input type="checkbox" name="tos" value="1" id="tos" /> <label class="pmpro_label-inline pmpro_clickable" for="tos"><?php echo wp_kses( sprintf( __('I agree to the <a href="%s" target="_blank">%s</a>', 'paid-memberships-pro' ), get_permalink( $tospage ), $tospage->post_title ) );?></label>
 						<?php
 					} ?>
 
