@@ -381,7 +381,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					if( !empty( $tospage ) ){
 						$tospage = get_post( $tospage );
 						?>
-						<input type="checkbox" name="tos" value="1" id="tos" /> <label class="pmpro_label-inline pmpro_clickable" for="tos"><?php printf(__('I agree to the %s', 'paid-memberships-pro' ), $tospage->post_title);?></label>
+						<input type="checkbox" name="tos" value="1" id="tos" /> <label class="pmpro_label-inline pmpro_clickable" for="tos"><?php printf(__('I agree to the %s', 'paid-memberships-pro' ), '<a href="' . get_permalink( $tospage ) . '" target="_blank">' . $tospage->post_title . '</a>' );?></label>
 						<?php
 					} ?>
 
