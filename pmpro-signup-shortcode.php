@@ -398,7 +398,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							),
 						);
 						?>
-						<input type="checkbox" name="tos" value="1" id="tos" /> <label class="pmpro_label-inline pmpro_clickable" for="tos"><?php echo wp_kses( sprintf( __('I agree to the <a href="%s" target="_blank">%s</a>', 'paid-memberships-pro' ), get_permalink( $tospage ), $tospage->post_title ), $allowed_html );?></label>
+						<input type="checkbox" name="tos" value="1" id="tos" /> <label class="pmpro_label-inline pmpro_clickable" for="tos"><?php echo wp_kses( sprintf( __('I agree to the <a href="%s" target="_blank">%s</a>', 'pmprosus' ), get_permalink( $tospage ), $tospage->post_title ), $allowed_html );?></label>
 						<?php
 					} ?>
 
