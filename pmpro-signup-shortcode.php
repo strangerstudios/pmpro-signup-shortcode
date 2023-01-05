@@ -263,7 +263,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		pmpro_init_recaptcha();
 	}
 
-	global $current_user, $membership_levels, $pmpro_pages;
+	global $current_user, $membership_levels, $pmpro_pages, $pmpro_msg, $pmpro_msgt;
 
 	ob_start();
 	?>
@@ -442,6 +442,14 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						}
 					}
 					?>
+					
+					<?php if($pmpro_msg) { ?>
+						<div id="pmpro_message" class="<?php echo pmpro_get_element_class( 'pmpro_message ' . $pmpro_msgt, $pmpro_msgt ); ?>">
+							<?php echo apply_filters( 'pmpro_checkout_message', $pmpro_msg, $pmpro_msgt ) ?>
+						</div>
+					<?php } else { ?>
+						<div id="pmpro_message" class="<?php echo pmpro_get_element_class( 'pmpro_message' ); ?>" style="display: none;"></div>
+					<?php } ?>
 
 					<div class="pmpro_submit">
 						<span id="pmpro_submit_span">
