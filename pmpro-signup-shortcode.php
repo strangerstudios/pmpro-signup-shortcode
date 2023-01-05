@@ -382,16 +382,16 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						<div class="pmpro_hidden">
 							<label for="fullname"><?php esc_html_e('Full Name', 'pmpro-signup-shortcode');?></label>
 							<input id="fullname" name="fullname" type="text" class="input" size="30" value="" /> <strong><?php esc_html_e('LEAVE THIS BLANK', 'pmpro-signup-shortcode');?></strong>
-						</div>
+						</div>						
 
-						<?php
-							global $recaptcha, $recaptcha_publickey;
-							if( $recaptcha == 2 || ( ! empty( $level ) && $recaptcha == 1 && pmpro_isLevelFree( pmpro_getLevel( $level ) ) ) ) { ?>
-								<div class="pmpro_checkout-field pmpro_captcha">
-									<?php echo pmpro_recaptcha_get_html( $recaptcha_publickey, NULL, true ); ?>
-								</div> <!-- end pmpro_captcha -->
-							<?php } ?>
+					<?php } ?>
 
+					<?php
+					global $recaptcha, $recaptcha_publickey;
+					if( $recaptcha == 2 || ( ! empty( $level ) && $recaptcha == 1 && pmpro_isLevelFree( pmpro_getLevel( $level ) ) ) ) { ?>
+						<div class="pmpro_checkout-field pmpro_captcha">
+							<?php echo pmpro_recaptcha_get_html( $recaptcha_publickey, NULL, true ); ?>
+						</div> <!-- end pmpro_captcha -->
 					<?php } ?>
 
 					<?php do_action('pmpro_checkout_after_user_fields'); ?>
