@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup, sign up, shortcode, register
 Requires at least: 4
-Tested up to: 5.6
-Stable tag: 0.3
+Tested up to: 6.1.1
+Stable tag: 0.3.1
 
 Add a shortcode [pmpro_signup] that can be used to embed a sign up form for Paid Memberships Pro levels.
 
@@ -43,6 +43,13 @@ Add a sign up form to a post/widget/page using a shortcode:
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-signup-shortcode/issues
 
 == Changelog ==
+= 0.3.1 - 2023-01-04 =
+* SECURITY: Better escaping and sanitization.
+* ENHANCEMENT: Added link to the TOS checkbox.
+* ENHANCEMENT: Now using the pmpro_generateUsername to generate the username when only an email is passed in.
+* ENHANCEMENT: Changed text domain to pmpro-signup-shortcode. Some systems expect the plugin slug and text domain to match.
+* ENHANCEMENT: Added "confirm_email" and "confirm_password" params for the shortcode to hide just those fields. Set to 0, false, or no to hide those fields.
+* BUG FIX/ENHANCEMENT: Removed the comma between the password and email when the password is included in the confirmation email. The comma was often mistaken as part of the password. #40 (@secretagencyit)
 
 = 0.3 - 2020-01-15 =
 * ENHANCEMENT: Added option to pass URL attributes for "email" or "username" to a page and prefill the signup form.
