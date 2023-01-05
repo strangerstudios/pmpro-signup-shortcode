@@ -169,6 +169,8 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		'submit_button' => __( "Sign Up Now", "pmpro-signup-shortcode" ),
 		'title' => NULL,
 		'custom_fields' => true,
+		'confirm_email' => true,
+		'confirm_password' => true
 	), $atts));
 
 	// If there is a current level in global, save it to a backup variable.
@@ -214,6 +216,14 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	//check which form format is specified
 	if( ! empty( $hidelabels ) ) {
 		$hidelabels = true;
+	}
+
+	if( $confirm_email === "0" || $confirm_email === "false" || $confirm_email === "no" ){
+		$confirm_email = false;
+	}
+
+	if( $confirm_password === "0" || $confirm_password === "false" || $confirm_password === "no" ){
+		$confirm_password = false;
 	}
 
 	//turn 0's into falses
@@ -325,7 +335,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							</div>
 						<?php } ?>
 
-						<?php if( ! empty( $short ) ) { ?>
+						<?php if( ! empty( $short ) || ! $confirm_password ) { ?>
 							<input type="hidden" name="password2_copy" value="1" />
 						<?php } else { ?>
 							<div class="pmpro_checkout-field pmpro_checkout-field-password2">
@@ -341,7 +351,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							<input id="bemail" name="bemail" type="email" class="input" size="30" value="<?php echo esc_attr( $bemail ); ?>" <?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php esc_attr_e('E-mail Address', 'pmpro-signup-shortcode');?>"<?php } ?> />
 						</div>
 
-						<?php if( ! empty( $short ) ) { ?>
+						<?php if( ! empty( $short ) || ! $confirm_email ) { ?>
 							<input type="hidden" name="bconfirmemail_copy" value="1" />
 						<?php } else { ?>
 							<div class="pmpro_checkout-field pmpro_checkout-field-bconfirmemail">
