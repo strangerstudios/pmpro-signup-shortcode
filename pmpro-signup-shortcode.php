@@ -416,8 +416,11 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<?php if( !empty( $custom_fields ) ) { do_action( 'pmpro_signup_form_before_submit' ); } ?>
 					
 					<?php 
-
-					if( ! empty( $custom_fields ) ) {
+					/**
+					 * Adding in has_action ensures that the when using the pmpro_signup_form_before_submit hook
+					 * that we don't show duplicate fields below.
+					**/
+					if( ! empty( $custom_fields ) && ! has_action( 'pmpro_signup_form_before_submit' ) ) {
 						//Adds support for User Fields
 						global $pmpro_user_fields;
 						foreach( $pmpro_user_fields as $group ) {
