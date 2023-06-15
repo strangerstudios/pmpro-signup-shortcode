@@ -178,7 +178,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	$pmpro_level_backup = $pmpro_level;
 
 	// try to get the Terms of Service page settings
-	$tospage = pmpro_getOption( 'tospage' );
+	$tospage = get_option( 'pmpro_tospage' );
 
 	// set title
 	if($title === "1" || $title === "true" || $title === "yes")
