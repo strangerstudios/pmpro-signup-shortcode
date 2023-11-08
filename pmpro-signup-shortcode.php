@@ -383,8 +383,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							<label for="fullname"><?php esc_html_e('Full Name', 'pmpro-signup-shortcode');?></label>
 							<input id="fullname" name="fullname" type="text" class="input" size="30" value="" /> <strong><?php esc_html_e('LEAVE THIS BLANK', 'pmpro-signup-shortcode');?></strong>
 						</div>
-	
-					<?php } ?>					
+						<?php } ?>					
 
 					<?php do_action('pmpro_checkout_after_user_fields'); ?>
 
