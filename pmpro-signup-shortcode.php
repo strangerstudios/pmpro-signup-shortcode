@@ -3,16 +3,16 @@
 Plugin Name: Paid Memberships Pro - Signup Shortcode Add On
 Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/
 Description: Shortcode for a simplified Membership Signup Form with options for email only signup and more.
-Version: 0.3.1
+Version: 0.3.2
 Author: Paid Memberships Pro
 Author URI: https://www.paidmembershipspro.com/
 Text Domain: pmpro-signup-shortcode
+Domain Path: /languages
 */
 
 /**
  * Load the languages folder for translations.
  */
-
 function pmprosus_load_textdomain(){
 	load_plugin_textdomain( 'pmpro-signup-shortcode', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
