@@ -446,7 +446,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<?php } ?>
 
 					<?php
-					$recaptcha = pmpro_getOption("recaptcha");
+					$recaptcha = get_option( 'pmpro_recaptcha' );
 					if ( $recaptcha == 2 || $recaptcha == 1 ) { ?>
 						<div class="pmpro_checkout-field pmpro_captcha">
 							<?php echo pmpro_recaptcha_get_html( ); ?>
