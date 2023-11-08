@@ -178,7 +178,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	$pmpro_level_backup = $pmpro_level;
 
 	// try to get the Terms of Service page settings
-	$tospage = pmpro_getOption( 'tospage' );
+	$tospage = get_option( 'pmpro_tospage' );
 
 	// set title
 	if($title === "1" || $title === "true" || $title === "yes")
@@ -263,7 +263,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 		pmpro_init_recaptcha();
 	}
 
-	global $current_user, $membership_levels, $pmpro_pages;
+	global $current_user, $membership_levels, $pmpro_pages, $pmpro_msg, $pmpro_msgt;
 
 	ob_start();
 	?>
@@ -408,8 +408,11 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<?php if( !empty( $custom_fields ) ) { do_action( 'pmpro_signup_form_before_submit' ); } ?>
 					
 					<?php 
-
-					if( ! empty( $custom_fields ) ) {
+					/**
+					 * Adding in has_action ensures that the when using the pmpro_signup_form_before_submit hook
+					 * that we don't show duplicate fields below.
+					**/
+					if( ! empty( $custom_fields ) && ! has_action( 'pmpro_signup_form_before_submit' ) ) {
 						//Adds support for User Fields
 						global $pmpro_user_fields;
 						foreach( $pmpro_user_fields as $group ) {
@@ -434,6 +437,14 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						}
 					}
 					?>
+					
+					<?php if($pmpro_msg) { ?>
+						<div id="pmpro_message" class="<?php echo pmpro_get_element_class( 'pmpro_message ' . $pmpro_msgt, $pmpro_msgt ); ?>">
+							<?php echo apply_filters( 'pmpro_checkout_message', $pmpro_msg, $pmpro_msgt ) ?>
+						</div>
+					<?php } else { ?>
+						<div id="pmpro_message" class="<?php echo pmpro_get_element_class( 'pmpro_message' ); ?>" style="display: none;"></div>
+					<?php } ?>
 
 					<?php
 					$recaptcha = pmpro_getOption("recaptcha");
