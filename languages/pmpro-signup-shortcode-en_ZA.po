@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the Paid Memberships Pro - Signup Shortcode Add On plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Paid Memberships Pro - Signup Shortcode Add On 0.3.1\n"
+"Project-Id-Version: Paid Memberships Pro - Signup Shortcode Add On 0.3.2\n"
 "Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
 "Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-05T03:54:37+00:00\n"
+"POT-Creation-Date: 2023-11-08T15:13:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: pmpro-signup-shortcode\n"
 
 #: pmpro-signup-shortcode.php:65
@@ -77,26 +77,31 @@ msgstr "LEAVE THIS BLANK"
 
 #: pmpro-signup-shortcode.php:295
 #: pmpro-signup-shortcode.php:455
+#: pmpro-signup-shortcode.php:465
 msgid "Log In"
 msgstr "Log In"
 
 #: pmpro-signup-shortcode.php:313
 #: pmpro-signup-shortcode.php:480
+#: pmpro-signup-shortcode.php:490
 msgid "View Documentation"
 msgstr "View Documentation"
 
 #: pmpro-signup-shortcode.php:313
 #: pmpro-signup-shortcode.php:480
+#: pmpro-signup-shortcode.php:490
 msgid "Docs"
 msgstr "Docs"
 
 #: pmpro-signup-shortcode.php:314
 #: pmpro-signup-shortcode.php:481
+#: pmpro-signup-shortcode.php:491
 msgid "Visit Customer Support Forum"
 msgstr "Visit Customer Support Forum"
 
 #: pmpro-signup-shortcode.php:314
 #: pmpro-signup-shortcode.php:481
+#: pmpro-signup-shortcode.php:491
 msgid "Support"
 msgstr "Support"
 
@@ -146,5 +151,6 @@ msgid "Paid Memberships Pro must be installed to use the pmpro_signup shortcode.
 msgstr ""
 
 #: pmpro-signup-shortcode.php:412
+#: pmpro-signup-shortcode.php:403
 msgid "I agree to the <a href=\"%s\" target=\"_blank\">%s</a>"
 msgstr ""
