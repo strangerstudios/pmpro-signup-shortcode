@@ -259,7 +259,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	add_filter( 'pmpro_is_checkout', '__return_true' );
 
 	// load recaptcha if needed
-	if ( ! function_exists( 'pmpro_recaptcha_get_html' ) ) {
+	if ( function_exists( 'pmpro_recaptcha_get_html' ) ) {
 		pmpro_init_recaptcha();
 	}
 
@@ -382,17 +382,8 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						<div class="pmpro_hidden">
 							<label for="fullname"><?php esc_html_e('Full Name', 'pmpro-signup-shortcode');?></label>
 							<input id="fullname" name="fullname" type="text" class="input" size="30" value="" /> <strong><?php esc_html_e('LEAVE THIS BLANK', 'pmpro-signup-shortcode');?></strong>
-						</div>						
-
-					<?php } ?>
-
-					<?php
-					global $recaptcha, $recaptcha_publickey;
-					if( $recaptcha == 2 || ( ! empty( $level ) && $recaptcha == 1 && pmpro_isLevelFree( pmpro_getLevel( $level ) ) ) ) { ?>
-						<div class="pmpro_checkout-field pmpro_captcha">
-							<?php echo pmpro_recaptcha_get_html( $recaptcha_publickey, NULL, true ); ?>
-						</div> <!-- end pmpro_captcha -->
-					<?php } ?>
+						</div>
+						<?php } ?>					
 
 					<?php do_action('pmpro_checkout_after_user_fields'); ?>
 
@@ -452,6 +443,14 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						</div>
 					<?php } else { ?>
 						<div id="pmpro_message" class="<?php echo pmpro_get_element_class( 'pmpro_message' ); ?>" style="display: none;"></div>
+					<?php } ?>
+
+					<?php
+					$recaptcha = pmpro_getOption("recaptcha");
+					if ( $recaptcha == 2 || $recaptcha == 1 ) { ?>
+						<div class="pmpro_checkout-field pmpro_captcha">
+							<?php echo pmpro_recaptcha_get_html( ); ?>
+						</div> <!-- end pmpro_captcha -->
 					<?php } ?>
 
 					<div class="pmpro_submit">
