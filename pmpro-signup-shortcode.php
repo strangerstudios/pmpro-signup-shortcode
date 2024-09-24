@@ -3,7 +3,7 @@
  * Plugin Name: Paid Memberships Pro - Signup Shortcode Add On
  * Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/
  * Description: Embed signup forms anywhere on your WordPress site. Designed to simplify membership registration, especially for free levels.
- * Version: 0.3.1
+ * Version: 0.3.3
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com
  * Text Domain: pmpro-signup-shortcode
@@ -178,7 +178,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	$pmpro_level_backup = $pmpro_level;
 
 	// try to get the Terms of Service page settings
-	$tospage = pmpro_getOption( 'tospage' );
+	$tospage = get_option( 'pmpro_tospage' );
 
 	// set title
 	if($title === "1" || $title === "true" || $title === "yes")
@@ -259,11 +259,11 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	add_filter( 'pmpro_is_checkout', '__return_true' );
 
 	// load recaptcha if needed
-	if ( ! function_exists( 'pmpro_recaptcha_get_html' ) ) {
+	if ( function_exists( 'pmpro_recaptcha_get_html' ) ) {
 		pmpro_init_recaptcha();
 	}
 
-	global $current_user, $membership_levels, $pmpro_pages;
+	global $current_user, $membership_levels, $pmpro_pages, $pmpro_msg, $pmpro_msgt;
 
 	ob_start();
 	?>

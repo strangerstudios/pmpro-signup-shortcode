@@ -3,7 +3,7 @@ Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup, sign up, shortcode, register
 Requires at least: 5.4
 Tested up to: 6.6
-Stable tag: 0.3.1
+Stable tag: 0.3.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -45,6 +45,15 @@ Add a sign up form to a post/widget/page using a shortcode:
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-signup-shortcode/issues
 
 == Changelog ==
+= 0.3.3 - 2024-03-21 =
+* BUG FIX/ENHANCEMENT: Added a checkout nonce needed for PMPro v3.0+. #56 (@dparker1005)
+
+= 0.3.2 - 2023-11-08 =
+* ENHANCEMENT: Added support for error handling on submit (i.e. reCAPTCHA missing). (@JarrydLong)
+* BUG FIX/ENHANCEMENT: Improved logic to support reCAPTCHA on the signup shortcode. (@JarrydLong)
+* BUG FIX: Fixed an issue in some cases User Fields would show duplicates via code. (@JarrydLong)
+* REFACTOR: refactored pmpro_getOption to get_option (@JarrydLong, @andrewlimaza)
+
 = 0.3.1 - 2023-01-04 =
 * SECURITY: Better escaping and sanitization.
 * ENHANCEMENT: Added link to the TOS checkbox.
