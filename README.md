@@ -3,7 +3,7 @@
 # [Paid Memberships Pro - Signup Shortcode](https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/) #
 [comment]: # (Generate badges from shields.io, only works for .org plugins to get other stats etc. We'd have to create our own endpoints for Premium plugins)
 
-![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg?style=flat-square)
+![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg?style=flat-square)
 
 ### Welcome to the Paid Memberships Pro - Signup Shortcode GitHub Repository
 
