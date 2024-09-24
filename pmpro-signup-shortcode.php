@@ -443,6 +443,11 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					}
 					?>
 
+					<?php
+						// Add nonce.
+						wp_nonce_field( 'pmpro_checkout_nonce', 'pmpro_checkout_nonce' );
+					?>
+
 					<div class="pmpro_submit">
 						<span id="pmpro_submit_span">
 							<input type="hidden" name="submit-checkout" value="1" />
