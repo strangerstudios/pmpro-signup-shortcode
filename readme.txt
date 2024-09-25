@@ -48,6 +48,7 @@ Please post it in the issues section of GitHub and we'll fix it as soon as we ca
 
 = 0.4 - 2024-09-25 =
 * ENHANCEMENT: Updated UI for compatibility with PMPro v3.1. #58 (@kimcoleman)
+* BUG FIX: Fixed case where user fields for specific level would not show on Signup Form. #60 (@kimcoleman)
 
 = 0.3.3 - 2024-03-21 =
 * BUG FIX/ENHANCEMENT: Added a checkout nonce needed for PMPro v3.0+. #56 (@dparker1005)
