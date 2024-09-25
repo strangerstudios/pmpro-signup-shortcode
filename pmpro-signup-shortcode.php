@@ -3,7 +3,7 @@
  * Plugin Name: Paid Memberships Pro - Signup Shortcode Add On
  * Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/
  * Description: Embed signup forms anywhere on your WordPress site. Designed to simplify membership registration, especially for free levels.
- * Version: 0.3.3
+ * Version: 0.4
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com
  * Text Domain: pmpro-signup-shortcode
@@ -16,7 +16,6 @@
 function pmprosus_load_textdomain(){
 	load_plugin_textdomain( 'pmpro-signup-shortcode', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
-
 add_action( 'plugins_loaded', 'pmprosus_load_textdomain' );
 
 /*
@@ -304,6 +303,8 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 								?>
 								<h2 class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_card_title pmpro_font-large' ) ); ?>"><?php echo esc_html( $title ); ?></h2>
 								<?php
+							} else {
+								echo '<br />';
 							}
 						?>
 						<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_card_content' ) ); ?>">
@@ -395,16 +396,6 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 										<input id="fullname" name="fullname" type="text" class="input" size="30" value="" /> <strong><?php esc_html_e('LEAVE THIS BLANK', 'pmpro-signup-shortcode');?></strong>
 									</div>
 
-									<?php
-										global $recaptcha, $recaptcha_publickey;
-										if( $recaptcha == 2 || ( ! empty( $level ) && $recaptcha == 1 && pmpro_isLevelFree( pmpro_getLevel( $level ) ) ) ) { ?>
-											<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_captcha' ) ); ?>">
-												<?php echo pmpro_recaptcha_get_html( $recaptcha_publickey, NULL, true ); ?>
-											</div> <!-- end pmpro_captcha -->
-											<?php
-										}
-									?>
-
 								<?php } ?>
 
 								<?php do_action('pmpro_checkout_after_user_fields'); ?>
@@ -441,6 +432,16 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 								?>
 							</div> <!-- end pmpro_form_fields -->
 
+							<?php
+								global $recaptcha, $recaptcha_publickey;
+								if ( $recaptcha == 2 || ( ! empty( $level ) && $recaptcha == 1 && pmpro_isLevelFree( pmpro_getLevel( $level ) ) ) ) { ?>
+									<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_captcha' ) ); ?>">
+										<?php echo pmpro_recaptcha_get_html( $recaptcha_publickey, NULL, true ); ?>
+									</div> <!-- end pmpro_captcha -->
+									<?php
+								}
+							?>
+
 							<?php if ( ! empty( $tospage ) ) {
 								$tospage = get_post( $tospage );
 								$allowed_html = array (
@@ -465,6 +466,11 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 								</fieldset> <!-- end pmpro_tos_fields -->
 								<?php
 								}
+							?>
+
+							<?php
+								// Add nonce.
+								wp_nonce_field( 'pmpro_checkout_nonce', 'pmpro_checkout_nonce' );
 							?>
 
 							<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_submit' ) ); ?>">
@@ -506,7 +512,7 @@ function pmprosus_plugin_row_meta($links, $file) {
 	{
 		$new_links = array(
 			'<a href="' . esc_url('https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/')  . '" title="' . esc_attr( __( 'View Documentation', 'pmpro-signup-shortcode' ) ) . '">' . esc_html__( 'Docs', 'pmpro-signup-shortcode' ) . '</a>',
-			'<a href="' . esc_url('http://paidmembershipspro.com/support/') . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-signup-shortcode' ) ) . '">' . esc_html__( 'Support', 'pmpro-signup-shortcode' ) . '</a>',
+			'<a href="' . esc_url('https://www.paidmembershipspro.com/support/') . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-signup-shortcode' ) ) . '">' . esc_html__( 'Support', 'pmpro-signup-shortcode' ) . '</a>',
 		);
 		$links = array_merge($links, $new_links);
 	}
