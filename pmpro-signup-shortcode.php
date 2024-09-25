@@ -201,7 +201,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	}
 
 	//the default checkout boxes location is loaded only if custom_fields is specifically "1" or "true"
-	if( $custom_fields === "1" || $custom_fields === "true" ) {
+	if ( $custom_fields === "1" || $custom_fields === "true" || isset( $custom_fields ) ) {
 		$checkout_boxes = true;
 
 		// Set the level for this signup shortcode so level-specific checkout fields appear.
