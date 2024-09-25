@@ -3,16 +3,16 @@
 Plugin Name: Paid Memberships Pro - Signup Shortcode Add On
 Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/
 Description: Shortcode for a simplified Membership Signup Form with options for email only signup and more.
-Version: 0.3.1
+Version: 0.3.3
 Author: Paid Memberships Pro
 Author URI: https://www.paidmembershipspro.com/
 Text Domain: pmpro-signup-shortcode
+Domain Path: /languages
 */
 
 /**
  * Load the languages folder for translations.
  */
-
 function pmprosus_load_textdomain(){
 	load_plugin_textdomain( 'pmpro-signup-shortcode', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
@@ -178,7 +178,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	$pmpro_level_backup = $pmpro_level;
 
 	// try to get the Terms of Service page settings
-	$tospage = pmpro_getOption( 'tospage' );
+	$tospage = get_option( 'pmpro_tospage' );
 
 	// set title
 	if($title === "1" || $title === "true" || $title === "yes")
@@ -259,11 +259,11 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	add_filter( 'pmpro_is_checkout', '__return_true' );
 
 	// load recaptcha if needed
-	if ( ! function_exists( 'pmpro_recaptcha_get_html' ) ) {
+	if ( function_exists( 'pmpro_recaptcha_get_html' ) ) {
 		pmpro_init_recaptcha();
 	}
 
-	global $current_user, $membership_levels, $pmpro_pages;
+	global $current_user, $membership_levels, $pmpro_pages, $pmpro_msg, $pmpro_msgt;
 
 	ob_start();
 	?>
@@ -383,16 +383,7 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 							<label for="fullname"><?php esc_html_e('Full Name', 'pmpro-signup-shortcode');?></label>
 							<input id="fullname" name="fullname" type="text" class="input" size="30" value="" /> <strong><?php esc_html_e('LEAVE THIS BLANK', 'pmpro-signup-shortcode');?></strong>
 						</div>
-
-						<?php
-							global $recaptcha, $recaptcha_publickey;
-							if( $recaptcha == 2 || ( ! empty( $level ) && $recaptcha == 1 && pmpro_isLevelFree( pmpro_getLevel( $level ) ) ) ) { ?>
-								<div class="pmpro_checkout-field pmpro_captcha">
-									<?php echo pmpro_recaptcha_get_html( $recaptcha_publickey, NULL, true ); ?>
-								</div> <!-- end pmpro_captcha -->
-							<?php } ?>
-
-					<?php } ?>
+						<?php } ?>					
 
 					<?php do_action('pmpro_checkout_after_user_fields'); ?>
 
@@ -416,8 +407,11 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					<?php if( !empty( $custom_fields ) ) { do_action( 'pmpro_signup_form_before_submit' ); } ?>
 					
 					<?php 
-
-					if( ! empty( $custom_fields ) ) {
+					/**
+					 * Adding in has_action ensures that the when using the pmpro_signup_form_before_submit hook
+					 * that we don't show duplicate fields below.
+					**/
+					if( ! empty( $custom_fields ) && ! has_action( 'pmpro_signup_form_before_submit' ) ) {
 						//Adds support for User Fields
 						global $pmpro_user_fields;
 						foreach( $pmpro_user_fields as $group ) {
@@ -442,12 +436,27 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 						}
 					}
 					?>
+					
+					<?php if($pmpro_msg) { ?>
+						<div id="pmpro_message" class="<?php echo pmpro_get_element_class( 'pmpro_message ' . $pmpro_msgt, $pmpro_msgt ); ?>">
+							<?php echo apply_filters( 'pmpro_checkout_message', $pmpro_msg, $pmpro_msgt ) ?>
+						</div>
+					<?php } else { ?>
+						<div id="pmpro_message" class="<?php echo pmpro_get_element_class( 'pmpro_message' ); ?>" style="display: none;"></div>
+					<?php } ?>
 
 					<?php
-						// Add nonce.
-						wp_nonce_field( 'pmpro_checkout_nonce', 'pmpro_checkout_nonce' );
-					?>
+					$recaptcha = get_option( 'pmpro_recaptcha' );
+					if ( $recaptcha == 2 || $recaptcha == 1 ) { ?>
+						<div class="pmpro_checkout-field pmpro_captcha">
+							<?php echo pmpro_recaptcha_get_html( ); ?>
+						</div> <!-- end pmpro_captcha -->
+					<?php
+					}
 
+					// Add nonce.
+					wp_nonce_field( 'pmpro_checkout_nonce', 'pmpro_checkout_nonce' );
+					?>
 					<div class="pmpro_submit">
 						<span id="pmpro_submit_span">
 							<input type="hidden" name="submit-checkout" value="1" />
