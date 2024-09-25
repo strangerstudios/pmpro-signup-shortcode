@@ -304,6 +304,8 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 								?>
 								<h2 class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_card_title pmpro_font-large' ) ); ?>"><?php echo esc_html( $title ); ?></h2>
 								<?php
+							} else {
+								echo '<br />';
 							}
 						?>
 						<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_card_content' ) ); ?>">
@@ -395,16 +397,6 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 										<input id="fullname" name="fullname" type="text" class="input" size="30" value="" /> <strong><?php esc_html_e('LEAVE THIS BLANK', 'pmpro-signup-shortcode');?></strong>
 									</div>
 
-									<?php
-										global $recaptcha, $recaptcha_publickey;
-										if( $recaptcha == 2 || ( ! empty( $level ) && $recaptcha == 1 && pmpro_isLevelFree( pmpro_getLevel( $level ) ) ) ) { ?>
-											<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_captcha' ) ); ?>">
-												<?php echo pmpro_recaptcha_get_html( $recaptcha_publickey, NULL, true ); ?>
-											</div> <!-- end pmpro_captcha -->
-											<?php
-										}
-									?>
-
 								<?php } ?>
 
 								<?php do_action('pmpro_checkout_after_user_fields'); ?>
@@ -441,6 +433,18 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 								?>
 							</div> <!-- end pmpro_form_fields -->
 
+							<?php
+								if ( empty( $current_user->ID ) ) {
+									global $recaptcha, $recaptcha_publickey;
+									if ( $recaptcha == 2 || ( ! empty( $level ) && $recaptcha == 1 && pmpro_isLevelFree( pmpro_getLevel( $level ) ) ) ) { ?>
+										<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_captcha' ) ); ?>">
+											<?php echo pmpro_recaptcha_get_html( $recaptcha_publickey, NULL, true ); ?>
+										</div> <!-- end pmpro_captcha -->
+										<?php
+									}
+								}
+							?>
+
 							<?php if ( ! empty( $tospage ) ) {
 								$tospage = get_post( $tospage );
 								$allowed_html = array (
@@ -465,6 +469,11 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 								</fieldset> <!-- end pmpro_tos_fields -->
 								<?php
 								}
+							?>
+
+							<?php
+								// Add nonce.
+								wp_nonce_field( 'pmpro_checkout_nonce', 'pmpro_checkout_nonce' );
 							?>
 
 							<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_submit' ) ); ?>">
