@@ -1,9 +1,11 @@
 === Paid Memberships Pro - Signup Shortcode ===
 Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup, sign up, shortcode, register
-Requires at least: 5.0
-Tested up to: 6.4
+Requires at least: 5.4
+Tested up to: 6.6
 Stable tag: 0.3.3
+License: GPLv3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Add a shortcode [pmpro_signup] that can be used to embed a sign up form for Paid Memberships Pro levels.
 

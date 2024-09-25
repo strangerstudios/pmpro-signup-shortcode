@@ -1,14 +1,14 @@
 <?php
-/*
-Plugin Name: Paid Memberships Pro - Signup Shortcode Add On
-Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/
-Description: Shortcode for a simplified Membership Signup Form with options for email only signup and more.
-Version: 0.3.3
-Author: Paid Memberships Pro
-Author URI: https://www.paidmembershipspro.com/
-Text Domain: pmpro-signup-shortcode
-Domain Path: /languages
-*/
+/**
+ * Plugin Name: Paid Memberships Pro - Signup Shortcode Add On
+ * Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/
+ * Description: Embed signup forms anywhere on your WordPress site. Designed to simplify membership registration, especially for free levels.
+ * Version: 0.3.3
+ * Author: Paid Memberships Pro
+ * Author URI: https://www.paidmembershipspro.com
+ * Text Domain: pmpro-signup-shortcode
+ * Domain Path: /languages
+ */
 
 /**
  * Load the languages folder for translations.
@@ -277,202 +277,216 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 				}
 			?>
 		<?php } else { ?>
-		<style>
-			.pmpro_signup_form-hidelabels .pmpro_checkout-field label:first-child {
-				clip: rect(1px, 1px, 1px, 1px);
-				position: absolute;
-				height: 1px;
-				width: 1px;
-				overflow: hidden
-			}
-			
-		</style>
-		<form id="pmpro_form" class="pmpro_form pmpro_signup_form<?php if( ! empty( $hidelabels ) ) { ?> pmpro_signup_form-hidelabels<?php } ?>" action="<?php echo esc_url( pmpro_url("checkout") ); ?>" method="post">
+			<style>
+				.pmpro_signup_form-hidelabels .pmpro_checkout-field label:first-child {
+					clip: rect(1px, 1px, 1px, 1px);
+					position: absolute;
+					height: 1px;
+					width: 1px;
+					overflow: hidden
+				}
+			</style>
 			<?php
-				if(!empty($title))
-					echo '<h2>' . esc_html( $title ) . '</h2>';
+				// Build the selectors for the form based on shortcode attributes.
+				$classes = array();
+				$classes[] = 'pmpro_form';
+				$classes[] = 'pmpro_signup_form';
+				if( ! empty( $hidelabels ) ) {
+					$classes[] = 'pmpro_signup_form-hidelabels';
+				}
+				$class = implode( ' ', array_unique( $classes ) );
 			?>
-			<?php
-				if(!empty($intro))
-					echo wp_kses_post( wpautop($intro) );
-			?>
-			<div class="pmpro_checkout">
-				<div class="pmpro_checkout-fields">
+			<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro' ) ); ?>">
+				<form id="pmpro_form" class="<?php echo esc_attr( pmpro_get_element_class( $class, 'pmpro_signup_form' ) ); ?>" action="<?php echo esc_url( pmpro_url("checkout") ); ?>" method="post">
+					<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_card' ) ); ?>">
+						<?php
+							if ( ! empty( $title ) ) {
+								?>
+								<h2 class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_card_title pmpro_font-large' ) ); ?>"><?php echo esc_html( $title ); ?></h2>
+								<?php
+							}
+						?>
+						<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_card_content' ) ); ?>">
+							<input type="hidden" id="level" name="level" value="<?php echo intval( $level ); ?>" />
+							<input type="hidden" id="pmpro_signup_shortcode" name="pmpro_signup_shortcode" value="1" />
+							<?php do_action( 'pmpro_signup_form_before_fields' ); ?>
+							<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_fields' ) ); ?>">
+								<?php if ( ! empty( $intro ) ) { ?>
+									<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_fields-description' ) ); ?>">
+										<?php echo wp_kses_post( wpautop($intro) ); ?>
+									</div>
+								<?php } ?>
+								<?php if ( ! empty( $current_user->ID ) ) { ?>
+									<div id="pmpro_account_loggedin">
+										<?php
+											$allowed_html = array(
+												'a' => array(
+													'href' => array(),
+													'target' => array(),
+													'title' => array(),
+												),
+												'strong' => array(),
+											);
+											echo wp_kses( sprintf( __('You are logged in as <strong>%s</strong>. If you would like to use a different account for this membership, <a href="%s">log out now</a>.', 'pmpro-signup-shortcode'), $current_user->user_login, esc_url( wp_logout_url( $_SERVER['REQUEST_URI'] ) ) ), $allowed_html );
+										?>
+									</div>
+								<?php } else { ?>
+									<?php if ( $short !== 'emailonly') { ?>
+										<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-text pmpro_form_field-username', 'pmpro_form_field-username' ) ); ?>">
+											<label for="username" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_label' ) ); ?>"><?php esc_html_e('Username', 'pmpro-signup-shortcode' );?></label>
+											<input id="username" name="username" type="text" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_input pmpro_form_input-text', 'username' ) ); ?>" autocomplete="username" value="<?php echo esc_attr( $username ); ?>" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php esc_attr_e('Username', 'pmpro-signup-shortcode'); ?>"<?php } ?> />
+										</div> <!-- end pmpro_form_field-username -->
+									<?php } ?>
 
-					<input type="hidden" id="level" name="level" value="<?php echo intval( $level ); ?>" />
-					<input type="hidden" id="pmpro_signup_shortcode" name="pmpro_signup_shortcode" value="1" />
-					<?php do_action( 'pmpro_signup_form_before_fields' ); ?>
+									<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_username"); } ?>
 
-					<?php if ( ! empty( $current_user->ID ) ) { ?>
-						<p id="pmpro_account_loggedin">
-							<?php
-								$allowed_html = array(
-									'a' => array(
+									<?php if ( $short !== 'emailonly') { ?>
+										<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-password' ) ); ?>">
+											<label for="password" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_label' ) ); ?>"><?php esc_html_e('Password', 'pmpro-signup-shortcode');?></label>
+											<input type="password" name="password" id="password" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_input pmpro_form_input-password', 'password' ) ); ?>" autocomplete="new-password" spellcheck="false" value="" <?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php esc_attr_e('Password', 'pmpro-signup-shortcode');?>"<?php } ?> />
+										</div> <!-- end pmpro_form_field-password -->
+									<?php } ?>
+
+									<?php if( ! empty( $short ) || ! $confirm_password ) { ?>
+										<input type="hidden" name="password2_copy" value="1" />
+									<?php } else { ?>
+										<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-password', 'pmpro_form_field-password2' ) ); ?>">
+											<label for="password2" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_label' ) ); ?>"><?php esc_html_e('Confirm Password', 'pmpro-signup-shortcode');?></label>
+											<input type="password" name="password2" id="password2" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_input pmpro_form_input-password', 'password2' ) ); ?>" autocomplete="new-password" spellcheck="false" value="" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php esc_attr_e('Confirm Password', 'pmpro-signup-shortcode');?>"<?php } ?> />
+										</div> <!-- end pmpro_form_field-password2 -->
+									<?php } ?>
+
+									<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_password"); } ?>
+
+									<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-email pmpro_form_field-bemail', 'pmpro_form_field-bemail' ) ); ?>">
+										<label for="bemail" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_label' ) ); ?>"><?php esc_html_e('E-mail Address', 'pmpro-signup-shortcode');?></label>
+										<input id="bemail" name="bemail" type="email" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_input pmpro_form_input-email', 'bemail' ) ); ?>" value="<?php echo esc_attr( $bemail ); ?>" <?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php esc_attr_e('E-mail Address', 'pmpro-signup-shortcode');?>"<?php } ?> />
+									</div> <!-- end pmpro_form_field-bemail -->
+
+									<?php if( ! empty( $short ) || ! $confirm_email ) { ?>
+										<input type="hidden" name="bconfirmemail_copy" value="1" />
+									<?php } else { ?>
+										<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-email pmpro_form_field-bconfirmemail', 'pmpro_form_field-bconfirmemail' ) ); ?>">
+											<label for="bconfirmemail" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_label' ) ); ?>"><?php esc_html_e('Confirm E-mail', 'pmpro-signup-shortcode');?></label>
+											<input id="bconfirmemail" name="bconfirmemail" type="email" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_input pmpro_form_input-email', 'bconfirmemail' ) ); ?>" value="" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php esc_attr_e('Confirm E-mail', 'pmpro-signup-shortcode');?>"<?php } ?> />
+										</div> <!-- end pmpro_form_field-bconfirmemail -->
+									<?php } ?>
+
+									<input type="hidden" name="pmprosus_referrer" value="<?php echo esc_attr($_SERVER['REQUEST_URI']);?>" />
+
+									<?php
+										if ( $redirect == 'referrer' ) {
+											$redirect_to = $_SERVER['REQUEST_URI'];
+										} elseif ( $redirect == 'account' ) {
+											$redirect_to = get_permalink( $pmpro_pages['account'] );
+										} elseif ( empty( $redirect ) ) {
+											$redirect_to = '';
+										} else {
+											$redirect_to = $redirect;
+										}
+									?>
+
+									<input type="hidden" name="redirect_to" value="<?php echo esc_url($redirect_to);?>" />
+
+									<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_email"); } ?>
+
+									<div class="pmpro_hidden">
+										<label for="fullname"><?php esc_html_e('Full Name', 'pmpro-signup-shortcode');?></label>
+										<input id="fullname" name="fullname" type="text" class="input" size="30" value="" /> <strong><?php esc_html_e('LEAVE THIS BLANK', 'pmpro-signup-shortcode');?></strong>
+									</div>
+
+									<?php
+										global $recaptcha, $recaptcha_publickey;
+										if( $recaptcha == 2 || ( ! empty( $level ) && $recaptcha == 1 && pmpro_isLevelFree( pmpro_getLevel( $level ) ) ) ) { ?>
+											<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_captcha' ) ); ?>">
+												<?php echo pmpro_recaptcha_get_html( $recaptcha_publickey, NULL, true ); ?>
+											</div> <!-- end pmpro_captcha -->
+											<?php
+										}
+									?>
+
+								<?php } ?>
+
+								<?php do_action('pmpro_checkout_after_user_fields'); ?>
+
+								<?php if( $checkout_boxes && function_exists('pmprorh_pmpro_checkout_boxes') ) { pmprorh_pmpro_checkout_boxes(); } ?>
+
+								<?php if( !empty( $custom_fields ) ) { do_action( 'pmpro_signup_form_before_submit' ); } ?>
+
+								<?php
+									if( ! empty( $custom_fields ) ) {
+										//Adds support for User Fields
+										global $pmpro_user_fields;
+										foreach( $pmpro_user_fields as $group ) {
+											foreach( $group as $field ) {
+												if ( ! pmpro_is_field( $field ) ) {
+													continue;
+												}
+
+												if ( ! pmpro_check_field_for_level( $field ) ) {
+													continue;
+												}
+
+												if( ! isset( $field->profile ) || $field->profile !== 'only' && $field->profile !== 'only_admin' ) {
+													if ( ! empty( $field->required ) ) {
+														$field->showrequired = 'label';
+													} else {
+														$field->showrequired = '';
+													}
+													$field->displayAtCheckout();
+												}
+											}
+										}
+									}
+								?>
+							</div> <!-- end pmpro_form_fields -->
+
+							<?php if ( ! empty( $tospage ) ) {
+								$tospage = get_post( $tospage );
+								$allowed_html = array (
+									'a' => array (
 										'href' => array(),
 										'target' => array(),
 										'title' => array(),
 									),
-									'strong' => array(),
 								);
-								echo wp_kses( sprintf( __('You are logged in as <strong>%s</strong>. If you would like to use a different account for this membership, <a href="%s">log out now</a>.', 'pmpro-signup-shortcode'), $current_user->user_login, esc_url( wp_logout_url( $_SERVER['REQUEST_URI'] ) ) ), $allowed_html );
+								?>
+								<fieldset id="pmpro_tos_fields" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_fieldset', 'pmpro_tos_fields' ) ); ?>">
+									<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_fields' ) ); ?>">
+										<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-checkbox' ) ); ?>">
+											<label class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_label pmpro_clickable', 'tos' ) ); ?>" for="tos">
+												<input type="checkbox" name="tos" value="1" id="tos" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_input pmpro_form_input-checkbox', 'tos' ) ); ?>" />
+												<?php
+													echo wp_kses( sprintf( __('I agree to the <a href="%s" target="_blank">%s</a>', 'pmpro-signup-shortcode' ), get_permalink( $tospage ), $tospage->post_title ), $allowed_html );
+												?>
+											</label>
+										</div> <!-- end pmpro_form_field-tos -->
+									</div> <!-- end pmpro_form_fields -->
+								</fieldset> <!-- end pmpro_tos_fields -->
+								<?php
+								}
 							?>
-						</p>
-						<?php
-					} else { ?>
 
-						<?php if ( $short !== 'emailonly') { ?>
-							<div class="pmpro_checkout-field pmpro_checkout-field-username">
-								<label for="username"><?php _e('Username', 'pmpro-signup-shortcode');?></label>
-								<input id="username" name="username" type="text" class="input" size="30" value="<?php echo esc_attr( $username ); ?>" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php esc_attr_e('Username', 'pmpro-signup-shortcode'); ?>"<?php } ?> />
+							<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_submit' ) ); ?>">
+								<span id="pmpro_submit_span">
+									<input type="hidden" name="submit-checkout" value="1" />
+									<input type="submit" id="pmpro_btn-submit" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_btn pmpro_btn-submit-checkout', 'pmpro_btn-submit-checkout' ) ); ?>" value="<?php echo esc_attr( $submit_button ); ?>" />
+								</span>
 							</div>
+							<?php do_action( 'pmpro_signup_form_after_submit' ); ?>
+						</div> <!-- end pmpro_card_content -->
+
+						<?php if ( ! empty( $login ) && empty( $current_user->ID ) ) { ?>
+							<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_card_actions' ) ); ?>">
+								<div class="login-link">
+									<a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>"><?php esc_html_e( 'Log In','pmpro-signup-shortcode' ); ?></a>
+								</div>
+							</div> <!-- end pmpro_card_actions -->
 						<?php } ?>
-
-						<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_username"); } ?>
-
-						<?php if ( $short !== 'emailonly') { ?>
-							<div class="pmpro_checkout-field pmpro_checkout-field-password">
-								<label for="password"><?php esc_html_e('Password', 'pmpro-signup-shortcode');?></label>
-								<input id="password" name="password" type="password" class="input" size="30" value="" <?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php esc_attr_e('Password', 'pmpro-signup-shortcode');?>"<?php } ?> />
-							</div>
-						<?php } ?>
-
-						<?php if( ! empty( $short ) || ! $confirm_password ) { ?>
-							<input type="hidden" name="password2_copy" value="1" />
-						<?php } else { ?>
-							<div class="pmpro_checkout-field pmpro_checkout-field-password2">
-								<label for="password2"><?php esc_html_e('Confirm Password', 'pmpro-signup-shortcode');?></label>
-								<input id="password2" name="password2" type="password" class="input" size="30" value="" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php esc_attr_e('Confirm Password', 'pmpro-signup-shortcode');?>"<?php } ?> />
-							</div>
-						<?php } ?>
-
-						<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_password"); } ?>
-
-						<div class="pmpro_checkout-field pmpro_checkout-field-bemail">
-							<label for="bemail"><?php esc_html_e('E-mail Address', 'pmpro-signup-shortcode');?></label>
-							<input id="bemail" name="bemail" type="email" class="input" size="30" value="<?php echo esc_attr( $bemail ); ?>" <?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php esc_attr_e('E-mail Address', 'pmpro-signup-shortcode');?>"<?php } ?> />
-						</div>
-
-						<?php if( ! empty( $short ) || ! $confirm_email ) { ?>
-							<input type="hidden" name="bconfirmemail_copy" value="1" />
-						<?php } else { ?>
-							<div class="pmpro_checkout-field pmpro_checkout-field-bconfirmemail">
-								<label for="bconfirmemail"><?php esc_html_e('Confirm E-mail', 'pmpro-signup-shortcode');?></label>
-								<input id="bconfirmemail" name="bconfirmemail" type="email" class="input" size="30" value="" <?php if( ! empty( $hidelabels ) ) { ?>placeholder="<?php esc_attr_e('Confirm E-mail', 'pmpro-signup-shortcode');?>"<?php } ?> />
-							</div>
-						<?php } ?>
-
-						<input type="hidden" name="pmprosus_referrer" value="<?php echo esc_attr($_SERVER['REQUEST_URI']);?>" />
-
-						<?php
-							if ( $redirect == 'referrer' ) {
-								$redirect_to = $_SERVER['REQUEST_URI'];
-							} elseif ( $redirect == 'account' ) {
-								$redirect_to = get_permalink( $pmpro_pages['account'] );
-							} elseif ( empty( $redirect ) ) {
-								$redirect_to = '';
-							} else {
-								$redirect_to = $redirect;
-							}
-						?>
-
-						<input type="hidden" name="redirect_to" value="<?php echo esc_url($redirect_to);?>" />
-
-						<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_email"); } ?>
-
-						<div class="pmpro_hidden">
-							<label for="fullname"><?php esc_html_e('Full Name', 'pmpro-signup-shortcode');?></label>
-							<input id="fullname" name="fullname" type="text" class="input" size="30" value="" /> <strong><?php esc_html_e('LEAVE THIS BLANK', 'pmpro-signup-shortcode');?></strong>
-						</div>
-						<?php } ?>					
-
-					<?php do_action('pmpro_checkout_after_user_fields'); ?>
-
-					<?php if( $checkout_boxes && function_exists('pmprorh_pmpro_checkout_boxes') ) { pmprorh_pmpro_checkout_boxes(); } ?>
-
-					<?php
-					if( !empty( $tospage ) ){
-						$tospage = get_post( $tospage );
-						$allowed_html = array (
-							'a' => array (
-								'href' => array(),
-								'target' => array(),
-								'title' => array(),
-							),
-						);
-						?>
-						<input type="checkbox" name="tos" value="1" id="tos" /> <label class="pmpro_label-inline pmpro_clickable" for="tos"><?php echo wp_kses( sprintf( __('I agree to the <a href="%s" target="_blank">%s</a>', 'pmpro-signup-shortcode' ), get_permalink( $tospage ), $tospage->post_title ), $allowed_html );?></label>
-						<?php
-					} ?>
-
-					<?php if( !empty( $custom_fields ) ) { do_action( 'pmpro_signup_form_before_submit' ); } ?>
-					
-					<?php 
-					/**
-					 * Adding in has_action ensures that the when using the pmpro_signup_form_before_submit hook
-					 * that we don't show duplicate fields below.
-					**/
-					if( ! empty( $custom_fields ) && ! has_action( 'pmpro_signup_form_before_submit' ) ) {
-						//Adds support for User Fields
-						global $pmpro_user_fields;
-						foreach( $pmpro_user_fields as $group ) {
-							foreach( $group as $field ) {
-								if ( ! pmpro_is_field( $field ) ) {
-									continue;
-								}
-								
-								if ( ! pmpro_check_field_for_level( $field ) ) {
-									continue;
-								}
-																	
-								if( ! isset( $field->profile ) || $field->profile !== 'only' && $field->profile !== 'only_admin' ) {
-									if ( ! empty( $field->required ) ) {
-										$field->showrequired = 'label';
-									} else {
-										$field->showrequired = '';
-									}
-									$field->displayAtCheckout();
-								}									
-							}
-						}
-					}
-					?>
-					
-					<?php if($pmpro_msg) { ?>
-						<div id="pmpro_message" class="<?php echo pmpro_get_element_class( 'pmpro_message ' . $pmpro_msgt, $pmpro_msgt ); ?>">
-							<?php echo apply_filters( 'pmpro_checkout_message', $pmpro_msg, $pmpro_msgt ) ?>
-						</div>
-					<?php } else { ?>
-						<div id="pmpro_message" class="<?php echo pmpro_get_element_class( 'pmpro_message' ); ?>" style="display: none;"></div>
-					<?php } ?>
-
-					<?php
-					$recaptcha = get_option( 'pmpro_recaptcha' );
-					if ( $recaptcha == 2 || $recaptcha == 1 ) { ?>
-						<div class="pmpro_checkout-field pmpro_captcha">
-							<?php echo pmpro_recaptcha_get_html( ); ?>
-						</div> <!-- end pmpro_captcha -->
-					<?php
-					}
-
-					// Add nonce.
-					wp_nonce_field( 'pmpro_checkout_nonce', 'pmpro_checkout_nonce' );
-					?>
-					<div class="pmpro_submit">
-						<span id="pmpro_submit_span">
-							<input type="hidden" name="submit-checkout" value="1" />
-							<input id="pmpro_btn-submit" type="submit" class="pmpro_btn pmpro_btn-submit-checkout" value="<?php echo esc_attr( $submit_button ); ?>" />
-						</span>
-					</div>
-					<?php do_action( 'pmpro_signup_form_after_submit' ); ?>
-					<?php if ( ! empty( $login ) && empty( $current_user->ID ) ) { ?>
-						<div class="login-link" style="text-align:center;">
-							<a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>"><?php esc_html_e( 'Log In','pmpro-signup-shortcode' ); ?></a>
-						</div>
-					<?php } ?>
-				</div> <!-- end pmpro_checkout-fields -->
-			</div> <!-- end pmpro_checkout -->
-		</form>
-		<?php do_action( 'pmpro_signup_form_after_form' ); ?>
+					</div> <!-- end pmpro_card -->
+				</form> <!-- end pmpro_form -->
+				<?php do_action( 'pmpro_signup_form_after_form' ); ?>
+			</div> <!-- end pmpro -->
 		<?php } ?>
 	<?php
 	$temp_content = ob_get_contents();
