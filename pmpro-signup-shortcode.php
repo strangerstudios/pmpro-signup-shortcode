@@ -285,8 +285,9 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 					overflow: hidden
 				}
 			</style>
-			// Use messaging from PMPro Checkout Page       
+			      
 			<?php if($pmpro_msg) { ?>
+			// Use messaging from PMPro Checkout Page 
 				<div role="alert" id="pmpro_message" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_message ' . $pmpro_msgt, $pmpro_msgt ) ); ?>">
 					<?php echo wp_kses_post( apply_filters( 'pmpro_checkout_message', $pmpro_msg, $pmpro_msgt ) ); ?>
 				</div>
