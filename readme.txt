@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup, sign up, shortcode, register
 Requires at least: 5.4
-Tested up to: 6.6
-Stable tag: 0.4
+Tested up to: 6.8
+Stable tag: 1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -45,6 +45,8 @@ Add a sign up form to a post/widget/page using a shortcode:
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-signup-shortcode/issues
 
 == Changelog ==
+= 1.0 - 2025-07-18 =
+* BUG FIX: Fixed deprecation warnings that would show when showing user fields on the signup form while running PMPro v3.4+. #66 (@dwanjuki)
 
 = 0.4 - 2024-09-25 =
 * ENHANCEMENT: Updated UI for compatibility with PMPro v3.1. #58 (@kimcoleman)

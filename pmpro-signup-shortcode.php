@@ -3,8 +3,8 @@
  * Plugin Name: Paid Memberships Pro - Signup Shortcode Add On
  * Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/
  * Description: Embed signup forms anywhere on your WordPress site. Designed to simplify membership registration, especially for free levels.
- * Version: 0.401
- * Author: Paid Memberships Pro 
+ * Version: 1.0
+ * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com
  * Text Domain: pmpro-signup-shortcode
  * Domain Path: /languages
@@ -415,25 +415,42 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 
 								<?php
 									if( ! empty( $custom_fields ) ) {
-										//Adds support for User Fields
-										global $pmpro_user_fields;
-										foreach( $pmpro_user_fields as $group ) {
-											foreach( $group as $field ) {
-												if ( ! pmpro_is_field( $field ) ) {
-													continue;
-												}
-
-												if ( ! pmpro_check_field_for_level( $field ) ) {
-													continue;
-												}
-
-												if( ! isset( $field->profile ) || $field->profile !== 'only' && $field->profile !== 'only_admin' ) {
-													if ( ! empty( $field->required ) ) {
-														$field->showrequired = 'label';
-													} else {
-														$field->showrequired = '';
+										// Adds support for User Fields.
+										if ( class_exists( 'PMPro_Field_Group' ) ) {
+											// Loop through all the field groups.
+											$field_groups = PMPro_Field_Group::get_all();
+											foreach ( $field_groups as $field_group ) {
+												$field_group->display(
+													array(
+														'markup' => 'div',
+														'show_group_label' => false,
+														'scope' => 'checkout',
+														'prefill_from_request' => true,
+														'show_required' => true,
+													)
+												);
+											}
+										} else {
+											// Legacy support for displaying User Fields on PMPro < 3.4.
+											global $pmpro_user_fields;
+											foreach( $pmpro_user_fields as $group ) {
+												foreach( $group as $field ) {
+													if ( ! pmpro_is_field( $field ) ) {
+														continue;
 													}
-													$field->displayAtCheckout();
+
+													if ( ! pmpro_check_field_for_level( $field ) ) {
+														continue;
+													}
+
+													if( ! isset( $field->profile ) || $field->profile !== 'only' && $field->profile !== 'only_admin' ) {
+														if ( ! empty( $field->required ) ) {
+															$field->showrequired = 'label';
+														} else {
+															$field->showrequired = '';
+														}
+														$field->displayAtCheckout();
+													}
 												}
 											}
 										}
