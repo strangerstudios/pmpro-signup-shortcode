@@ -1,0 +1,60 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pmpro-signup-shortcode/pmpro-signup-shortcode",
+  "title": "PMPro Signup shortcode",
+  "category": "pmpro",
+  "description": "Inserts a customizable signup form for Paid Memberships Pro.",
+  "keywords": ["signup", "register", "form", "paid memberships pro", "pmpro"],
+  "attributes": {
+    "intro": {
+      "type": "string",
+      "default": ""
+    },
+    "hidelabels": {
+      "type": "boolean",
+      "default": false
+    },
+    "level": {
+      "type": "string",
+      "default": ""
+    },
+    "login": {
+      "type": "boolean",
+      "default": false
+    },
+    "redirect": {
+      "type": "string",
+      "default": ""
+    },
+    "short": {
+      "type": "string",
+      "default": null
+    },
+    "submit_button": {
+      "type": "string",
+      "default": null
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "custom_fields": {
+      "type": "boolean",
+      "default": false
+    },
+    "confirm_email": {
+      "type": "boolean",
+      "default": false
+    },
+    "confirm_password": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {},
+  "example": {},
+  "textdomain": "pmpro-signup-shortcode",
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

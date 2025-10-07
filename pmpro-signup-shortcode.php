@@ -145,9 +145,8 @@ add_filter('pmpro_confirmation_url', 'pmprosus_pmpro_confirmation_url', 10, 3);
 	If the level is not free, the user will be taken to the membership checkout
 	page to enter billing information.
 */
-function pmprosus_signup_shortcode($atts, $content=null, $code="")
-{
-	global $current_user, $pmpro_level, $username, $email;
+function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
+	global $current_user, $pmpro_level, $username, $email, $pmpro_pages;
 
 	// $atts    ::= array of attributes
 	// $content ::= text within enclosing form of shortcode element
@@ -155,8 +154,9 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	// examples: [pmpro_signup level="3" short="1" intro="0" submit_button="Signup Now"]
 
 	//make sure PMPro is activated
-	if(!function_exists('pmpro_getLevel'))
-		return __( "Paid Memberships Pro must be installed to use the pmpro_signup shortcode.", "pmpro-signup-shortcode" );
+	if ( ! function_exists( 'pmpro_getLevel' ) ) {
+		return esc_html__( 'Paid Memberships Pro must be installed to use the pmpro_signup shortcode.', 'pmpro-signup-shortcode' );
+	}
 
 	//set defaults
 	extract(shortcode_atts(array(
@@ -179,64 +179,36 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	// try to get the Terms of Service page settings
 	$tospage = get_option( 'pmpro_tospage' );
 
-	// set title
-	if($title === "1" || $title === "true" || $title === "yes")
-		$title_display = true;
+	// Filters the $title value to allow either dynamic or static titles. Note: Returns string if it's a string.
+	$title_display = filter_var( $title, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
+	$login = filter_var( $login, FILTER_VALIDATE_BOOLEAN );
+	$custom_fields = filter_var( $custom_fields, FILTER_VALIDATE_BOOLEAN );
+	$confirm_email = filter_var( $confirm_email, FILTER_VALIDATE_BOOLEAN );
+	$confirm_password = filter_var( $confirm_password, FILTER_VALIDATE_BOOLEAN );
+	$intro = pmprosus_filter_bool_or_string( $intro );
+	$short = pmprosus_filter_bool_or_string( $short );
+	$hidelabels = filter_var( $hidelabels, FILTER_VALIDATE_BOOLEAN );
 
-	if(isset($title_display))
-		if(!empty($level))
-			$title = 'Register For ' . pmpro_getLevel($level)->name;
-		else
-			$title = 'Register For ' . get_option('blogname');
-
-	//turn 0's into falses
-	if($login === "0" || $login === "false" || $login === "no")
-		$login = false;
-	else
-		$login = true;
-
-	//turn 0's into falses
-	if( $custom_fields === "0" || $custom_fields === "false" || $custom_fields === "no") {
-		$custom_fields = false;
+	// Should we display the default title if $title is true.
+	if ( isset( $title_display ) ) {
+		if ( ! empty( $level ) ) {
+			$title = 'Register For ' . pmpro_getLevel( $level )->name;
+		} else {
+			$title = 'Register For ' . get_option( 'blogname' );
+		}
 	}
 
-	//the default checkout boxes location is loaded only if custom_fields is specifically "1" or "true"
-	if ( $custom_fields === "1" || $custom_fields === "true" || isset( $custom_fields ) ) {
+	// The default checkout boxes location is loaded only if custom_fields is specifically "1" or "true"
+	if ( $custom_fields || isset( $custom_fields ) ) {
 		$checkout_boxes = true;
 
 		// Set the level for this signup shortcode so level-specific checkout fields appear.
 		if ( ! empty( $level ) ) {
 			$pmpro_level = pmpro_getLevel( $level );
 		}
-
 	} else {
 		$checkout_boxes = false;
 	}
-
-	//check which form format is specified
-	if( ! empty( $hidelabels ) ) {
-		$hidelabels = true;
-	}
-
-	if( $confirm_email === "0" || $confirm_email === "false" || $confirm_email === "no" ){
-		$confirm_email = false;
-	}
-
-	if( $confirm_password === "0" || $confirm_password === "false" || $confirm_password === "no" ){
-		$confirm_password = false;
-	}
-
-	//turn 0's into falses
-	if($intro === "0" || $intro === "false" || $intro === "no")
-		$intro = false;
-
-	//turn 1's and 'yes' into true
-	if($short === "1" || $short === "true" || $short === "yes")
-		$short = true;
-	elseif($short === "emailonly")
-		$short = "emailonly";
-	else
-		$short = false;
 
 	// Get field values from URL or user.
 	if ( isset( $_REQUEST['username'] ) ) {
@@ -246,6 +218,8 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	} else {
 		$username = '';
 	}
+
+	// Get email value from URL or user.
 	if ( isset ( $_REQUEST['email'] ) ) {
 		$bemail = sanitize_email( stripslashes( $_REQUEST['email'] ) );
 	} elseif ( is_user_logged_in() ) {
@@ -257,12 +231,10 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 	// treat this page load as a checkout
 	add_filter( 'pmpro_is_checkout', '__return_true' );
 
-	// load recaptcha if needed
+	// load recaptcha if needed.
 	if ( function_exists( 'pmpro_recaptcha_get_html' ) ) {
 		pmpro_init_recaptcha();
 	}
-
-	global $current_user, $membership_levels, $pmpro_pages, $pmpro_msg, $pmpro_msgt;
 
 	ob_start();
 	?>
@@ -520,6 +492,30 @@ function pmprosus_signup_shortcode($atts, $content=null, $code="")
 
 	return $temp_content;
 }
+
+/**
+ * Helper function to filter a "dual" type of attribute that could be true|false or a string.
+ * Tries to filter as boolean first, then fallback as sanitized string.
+ *
+ * @since TBD
+ * 
+ * @param bool|string $value The attribute value we want to filter.
+ * @return bool|string The filtered boolean or string value.
+ */
+function pmprosus_filter_bool_or_string( $value ) {
+    $is_bool = filter_var( $value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
+    return ! is_null( $is_bool ) ? $is_bool : filter_var( $value, FILTER_SANITIZE_STRING );
+}
+
+/**
+ * Register blocks for the Block Editor.
+ *
+ * @since TBD
+ */
+function pmprosus_register_block_type() {
+	register_block_type( __DIR__ . '/blocks/build/pmpro-signup-shortcode' );
+}
+add_action( 'init', 'pmprosus_register_block_type' );
 
 /*
 Function to add links to the plugin row meta

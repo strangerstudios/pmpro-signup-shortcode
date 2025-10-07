@@ -1,0 +1,137 @@
+import { __ } from '@wordpress/i18n';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, TextControl, SelectControl, ToggleControl } from '@wordpress/components';
+import apiFetch from '@wordpress/api-fetch';
+import { useEffect, useState } from 'react';
+
+/**
+ * Fetch all membership levels and return a value:id, label:name pair.
+ *
+ * @returns {Promise} Promise resolving to an array of membership levels.
+ */
+async function pmprosus_get_all_levels() {
+	try {
+		const levels = await apiFetch({ path: '/pmpro/v1/membership_levels', method: 'GET' });
+
+		Object.keys(levels).forEach((key) => {
+			levels[key] = { value: levels[key].id, label: levels[key].name };
+		});
+
+		return Object.values(levels);
+	} catch (error) {
+		console.error('Failed to fetch membership levels:', error);
+		return [];
+	}
+}
+
+export default function Edit({ attributes, setAttributes }) {
+	
+	const blockProps = useBlockProps();
+	const {
+		intro,
+		hidelabels,
+		level,
+		login,
+		redirect,
+		short,
+		submit_button,
+		title,
+		custom_fields,
+		confirm_email,
+		confirm_password
+	} = attributes;
+	const [levelsOptions, setLevelsOptions] = useState([]);
+	useEffect(() => {
+		pmprosus_get_all_levels().then(setLevelsOptions);
+	}, []);
+
+	return (
+		<>
+		<InspectorControls>
+			<PanelBody>
+				<ToggleControl
+					label={ __( 'Hide Labels', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Hide field labels and use placeholders instead.', 'pmpro-signup-shortcode' ) }
+					checked={hidelabels}
+					onChange={(value) => setAttributes({ hidelabels: value })}
+				/>
+				<ToggleControl
+					label={ __( 'Login', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Display a login link above the form.', 'pmpro-signup-shortcode' ) }
+					checked={login}
+					onChange={(value) => setAttributes({ login: value })}
+				/>
+				<ToggleControl
+					label={ __( 'Custom Fields', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Display custom user fields defined in Memberships > Settings > Custom Fields.', 'pmpro-signup-shortcode' ) }
+					checked={custom_fields}
+					onChange={(value) => setAttributes({ custom_fields: value })}
+				/>
+				<ToggleControl
+					label={ __( 'Confirm Email', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Require users to confirm their email address by entering it twice.', 'pmpro-signup-shortcode' ) }
+					checked={confirm_email}
+					onChange={(value) => setAttributes({ confirm_email: value })}
+				/>
+				<ToggleControl
+					label={ __( 'Confirm Password', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Require users to confirm their password by entering it twice.', 'pmpro-signup-shortcode' ) }
+					checked={confirm_password}
+					onChange={(value) => setAttributes({ confirm_password: value })}
+				/>
+				<TextControl
+					label={ __( 'Title', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Optionally specify a title to display above the form.', 'pmpro-signup-shortcode' ) }
+					value={title}
+					onChange={(value) => setAttributes({ title: value })}
+				/>
+				<TextControl
+					label={ __( 'Intro', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Display the intro text, if defined.', 'pmpro-signup-shortcode' ) }
+					value={intro}
+					onChange={(value) => setAttributes({ intro: value })}
+				/>
+				<SelectControl
+					label={ __( 'Level', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Optionally specify a membership level to preselect.' , 'pmpro-signup-shortcode' ) }
+					value={level}
+					options={[
+						{ label: __('Select a level', 'pmpro-signup-shortcode'), value: '' },
+						...levelsOptions
+					]}
+					onChange={(value) => setAttributes({ level: value })}
+				/>
+				<TextControl
+					label={ __( 'Redirect', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Optionally specify a URL to redirect to after signup.', 'pmpro-signup-shortcode' ) }
+					value={redirect}
+					onChange={(value) => setAttributes({ redirect: value })}
+				/>
+				<SelectControl
+					label={ __( 'Short', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Use the short version of the form (no billing fields).', 'pmpro-signup-shortcode' ) }
+					value={short}
+					options={[
+						{ label: 'True', value: true },
+						{ label: 'False', value: false },
+						{ label: 'Email Only', value: 'emailonly' },
+					]}
+					onChange={(value) => setAttributes({ short: value })}
+				/>
+				<TextControl
+					label={ __( 'Submit Button Text', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Optionally customize the text on the submit button.', 'pmpro-signup-shortcode' ) }
+					value={submit_button}
+					onChange={(value) => setAttributes({ submit_button: value })}
+				/>
+			</PanelBody>
+		</InspectorControls>
+		<div { ...blockProps }>
+			<div className="pmpro-block-element" { ...blockProps }>
+				<span className="pmpro-block-title">{ __( 'Paid Memberships Pro', 'pmpro-signup-shortcode' ) }</span>
+				<span className="pmpro-block-subtitle">{ __( 'Signup Shortcode', 'pmpro-signup-shortcode' ) }</span>
+			</div>
+		</div>
+		</>
+	);
+}
