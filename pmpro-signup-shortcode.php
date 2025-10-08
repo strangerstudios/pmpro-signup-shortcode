@@ -503,8 +503,8 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
  * @return bool|string The filtered boolean or string value.
  */
 function pmprosus_filter_bool_or_string( $value ) {
-    $is_bool = filter_var( $value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
-    return ! is_null( $is_bool ) ? $is_bool : filter_var( $value, FILTER_SANITIZE_STRING );
+	$is_bool = filter_var( $value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
+	return ! is_null( $is_bool ) ? $is_bool : sanitize_text_field( $value );
 }
 
 /**
