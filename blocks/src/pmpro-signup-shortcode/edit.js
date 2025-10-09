@@ -90,8 +90,8 @@ export default function Edit({ attributes, setAttributes }) {
 					help={ __( 'Use the short version of the form (no billing fields).', 'pmpro-signup-shortcode' ) }
 					value={short}
 					options={[
-						{ label: 'True', value: true },
-						{ label: 'False', value: false },
+						{ label: 'True', value: 'true' },
+						{ label: 'False', value: 'false' },
 						{ label: 'Email Only', value: 'emailonly' },
 					]}
 					onChange={(value) => setAttributes({ short: value })}

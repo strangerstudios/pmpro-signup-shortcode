@@ -1,6 +1,6 @@
 <?php
 /**
- * Render the Advanced Levels Page block on the frontend.
+ * Render the Signup Shortcode block on the frontend.
  */
 $output = pmprosus_signup_shortcode( $attributes );
 ?>
