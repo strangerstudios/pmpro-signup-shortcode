@@ -12,7 +12,7 @@ import Edit from './edit';
 import metadata from './block.json';
 
 /**
- * Register the Advanced Levels Page block.
+ * Register the Signup Shortcode block.
  */
 registerBlockType( metadata.name, {
 	icon: {
