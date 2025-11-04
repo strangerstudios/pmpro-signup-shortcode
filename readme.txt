@@ -1,9 +1,11 @@
 === Paid Memberships Pro - Signup Shortcode ===
 Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup, sign up, shortcode, register
-Requires at least: 4
-Tested up to: 5.6
-Stable tag: 0.3
+Requires at least: 5.4
+Tested up to: 6.8
+Stable tag: 1.0
+License: GPLv3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Add a shortcode [pmpro_signup] that can be used to embed a sign up form for Paid Memberships Pro levels.
 
@@ -43,6 +45,29 @@ Add a sign up form to a post/widget/page using a shortcode:
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-signup-shortcode/issues
 
 == Changelog ==
+= 1.0 - 2025-07-18 =
+* BUG FIX: Fixed deprecation warnings that would show when showing user fields on the signup form while running PMPro v3.4+. #66 (@dwanjuki)
+
+= 0.4 - 2024-09-25 =
+* ENHANCEMENT: Updated UI for compatibility with PMPro v3.1. #58 (@kimcoleman)
+* BUG FIX: Fixed case where user fields for specific level would not show on Signup Form. #60 (@kimcoleman)
+
+= 0.3.3 - 2024-03-21 =
+* BUG FIX/ENHANCEMENT: Added a checkout nonce needed for PMPro v3.0+. #56 (@dparker1005)
+
+= 0.3.2 - 2023-11-08 =
+* ENHANCEMENT: Added support for error handling on submit (i.e. reCAPTCHA missing). (@JarrydLong)
+* BUG FIX/ENHANCEMENT: Improved logic to support reCAPTCHA on the signup shortcode. (@JarrydLong)
+* BUG FIX: Fixed an issue in some cases User Fields would show duplicates via code. (@JarrydLong)
+* REFACTOR: refactored pmpro_getOption to get_option (@JarrydLong, @andrewlimaza)
+
+= 0.3.1 - 2023-01-04 =
+* SECURITY: Better escaping and sanitization.
+* ENHANCEMENT: Added link to the TOS checkbox.
+* ENHANCEMENT: Now using the pmpro_generateUsername to generate the username when only an email is passed in.
+* ENHANCEMENT: Changed text domain to pmpro-signup-shortcode. Some systems expect the plugin slug and text domain to match.
+* ENHANCEMENT: Added "confirm_email" and "confirm_password" params for the shortcode to hide just those fields. Set to 0, false, or no to hide those fields.
+* BUG FIX/ENHANCEMENT: Removed the comma between the password and email when the password is included in the confirmation email. The comma was often mistaken as part of the password. #40 (@secretagencyit)
 
 = 0.3 - 2020-01-15 =
 * ENHANCEMENT: Added option to pass URL attributes for "email" or "username" to a page and prefill the signup form.
