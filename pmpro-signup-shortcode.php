@@ -39,7 +39,7 @@ function pmprosus_skip_username_password() {
 	// Autogenerate password if no field is present.
 	if ( ! empty( $_REQUEST['bemail'] ) && ! isset( $_REQUEST['password'] ) && ! is_user_logged_in() ) {
 		// Generate password.
-		$_REQUEST['password']  = wp_generate_password();
+		$_REQUEST['password'] = wp_generate_password();
 		$_REQUEST['password2'] = $_REQUEST['password'];
 
 		if ( function_exists( 'pmpro_start_session' ) ) {
@@ -50,13 +50,13 @@ function pmprosus_skip_username_password() {
 	}
 
 	if ( ! empty( $_POST['bemail'] ) && ! isset( $_POST['password'] ) && ! is_user_logged_in() ) {
-		$_POST['password']  = wp_generate_password();
+		$_POST['password'] = wp_generate_password();
 		$_POST['password2'] = $_POST['password'];
 	}
 
 	if ( ! empty( $_GET['bemail'] ) && ! isset( $_GET['password'] ) && ! is_user_logged_in() ) {
-		$_GET['password']    = wp_generate_password();
-		$_GET['password2']   = $_GET['password'];
+		$_GET['password'] = wp_generate_password();
+		$_GET['password2'] = $_GET['password'];
 	}
 }
 add_action( 'init', 'pmprosus_skip_username_password' );
