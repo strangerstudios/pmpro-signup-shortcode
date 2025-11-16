@@ -49,17 +49,8 @@ export default function Edit({ attributes, setAttributes }) {
 		<>
 		<InspectorControls>
 			<PanelBody>
-				<TextControl
-					__next40pxDefaultSize
-					__nextHasNoMarginBottom
-					label={ __( 'Title', 'pmpro-signup-shortcode' ) }
-					help={ __( 'Optionally specify a title to display above the form.', 'pmpro-signup-shortcode' ) }
-					value={title}
-					onChange={(value) => setAttributes({ title: value })}
-				/>
 				<SelectControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ __( 'Level', 'pmpro-signup-shortcode' ) }
 					value={level}
 					options={[
@@ -70,23 +61,20 @@ export default function Edit({ attributes, setAttributes }) {
 				/>
 				<TextControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
+					label={ __( 'Title', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Optionally specify a title to display above the form.', 'pmpro-signup-shortcode' ) }
+					value={title}
+					onChange={(value) => setAttributes({ title: value })}
+				/>
+				<TextControl
+					__next40pxDefaultSize
 					label={ __( 'Intro', 'pmpro-signup-shortcode' ) }
 					help={ __( 'Leave blank for no intro. This text appears above the signup fields.', 'pmpro-signup-shortcode' ) }
 					value={intro}
 					onChange={(value) => setAttributes({ intro: value })}
 				/>
-				<TextControl
-					__next40pxDefaultSize
-					__nextHasNoMarginBottom
-					label={ __( 'Redirect', 'pmpro-signup-shortcode' ) }
-					help={ __( 'Optionally specify a URL to redirect to after signup. Accepts "referrer" or "account".', 'pmpro-signup-shortcode' ) }
-					value={redirect}
-					onChange={(value) => setAttributes({ redirect: value })}
-				/>
 				<SelectControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ __( 'Form Length', 'pmpro-signup-shortcode' ) }
 					help={ __( 'Choose how many required account fields to show.', 'pmpro-signup-shortcode' ) }
 					value={short}
@@ -100,15 +88,13 @@ export default function Edit({ attributes, setAttributes }) {
 				{ short == 'false' && (
 				<div>
 					<ToggleControl
-						__nextHasNoMarginBottom
-						label={ __( 'Confirm Email', 'pmpro-signup-shortcode' ) }
+							label={ __( 'Confirm Email', 'pmpro-signup-shortcode' ) }
 						help={ __( 'Require users to confirm their email address by entering it twice.', 'pmpro-signup-shortcode' ) }
 						checked={confirm_email}
 						onChange={(value) => setAttributes({ confirm_email: value })}
 					/>
 					<ToggleControl
-						__nextHasNoMarginBottom
-						label={ __( 'Confirm Password', 'pmpro-signup-shortcode' ) }
+							label={ __( 'Confirm Password', 'pmpro-signup-shortcode' ) }
 						help={ __( 'Require users to confirm their password by entering it twice.', 'pmpro-signup-shortcode' ) }
 						checked={confirm_password}
 						onChange={(value) => setAttributes({ confirm_password: value })}
@@ -117,32 +103,35 @@ export default function Edit({ attributes, setAttributes }) {
 				)}
 				<TextControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ __( 'Submit Button Text', 'pmpro-signup-shortcode' ) }
 					help={ __( 'Customize the text on the submit button.', 'pmpro-signup-shortcode' ) }
 					value={submit_button}
 					onChange={(value) => setAttributes({ submit_button: value })}
 				/>
 				<ToggleControl
-					__nextHasNoMarginBottom
+					label={ __( 'Custom Fields', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Display custom user fields defined in Memberships > Settings > User Fields.', 'pmpro-signup-shortcode' ) }
+					checked={custom_fields}
+					onChange={(value) => setAttributes({ custom_fields: value })}
+				/>
+				<ToggleControl
 					label={ __( 'Hide Labels', 'pmpro-signup-shortcode' ) }
 					help={ __( 'Hide field labels visually and use placeholders instead.', 'pmpro-signup-shortcode' ) }
 					checked={hidelabels}
 					onChange={(value) => setAttributes({ hidelabels: value })}
 				/>
 				<ToggleControl
-					__nextHasNoMarginBottom
-					label={ __( 'Login', 'pmpro-signup-shortcode' ) }
+					label={ __( 'Login Link', 'pmpro-signup-shortcode' ) }
 					help={ __( 'Display a login link for current members below the form.', 'pmpro-signup-shortcode' ) }
 					checked={login}
 					onChange={(value) => setAttributes({ login: value })}
 				/>
-				<ToggleControl
-					__nextHasNoMarginBottom
-					label={ __( 'Custom Fields', 'pmpro-signup-shortcode' ) }
-					help={ __( 'Display custom user fields defined in Memberships > Settings > User Fields.', 'pmpro-signup-shortcode' ) }
-					checked={custom_fields}
-					onChange={(value) => setAttributes({ custom_fields: value })}
+				<TextControl
+					__next40pxDefaultSize
+					label={ __( 'Redirect', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Optionally specify a URL to redirect to after signup. Accepts your custom URL, "referrer" or "account".', 'pmpro-signup-shortcode' ) }
+					value={redirect}
+					onChange={(value) => setAttributes({ redirect: value })}
 				/>
 			</PanelBody>
 		</InspectorControls>
