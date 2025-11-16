@@ -197,12 +197,14 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	$hidelabels = filter_var( $hidelabels, FILTER_VALIDATE_BOOLEAN );
 
 	// Should we display the default title if $title is true.
-	if ( isset( $title_display ) ) {
+	if ( $title_display === true ) {
 		if ( ! empty( $level ) ) {
 			$title = 'Register For ' . pmpro_getLevel( $level )->name;
 		} else {
 			$title = 'Register For ' . get_option( 'blogname' );
 		}
+	} elseif ( $title_display === false ) {
+		$title = '';
 	}
 
 	// The default checkout boxes location is loaded only if custom_fields is specifically "1" or "true"
