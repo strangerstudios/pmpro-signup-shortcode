@@ -1,6 +1,6 @@
 === Paid Memberships Pro - Signup Shortcode ===
 Contributors: strangerstudios
-Tags: memberships, registration, pmpro, paid memberships pro, signup, sign up, shortcode, register
+Tags: memberships, registration, pmpro, paid memberships pro, signup
 Requires at least: 5.4
 Tested up to: 6.8
 Stable tag: 1.0
