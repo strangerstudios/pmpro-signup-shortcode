@@ -249,12 +249,16 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 			?>
 		<?php } else { ?>
 			<style>
-				.pmpro_signup_form-hidelabels .pmpro_checkout-field label:first-child {
-					clip: rect(1px, 1px, 1px, 1px);
-					position: absolute;
+				.pmpro_signup_form-hidelabels .pmpro_form_field label.pmpro_form_label {
+					border: 0;
+					clip: rect(0, 0, 0, 0);
 					height: 1px;
+					margin: -1px;
+					overflow: hidden;
+					padding: 0;
+					position: absolute;
 					width: 1px;
-					overflow: hidden
+					white-space: nowrap;
 				}
 			</style>
 			<?php
