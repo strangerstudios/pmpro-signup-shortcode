@@ -1,10 +1,10 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pmpro-signup-shortcode/pmpro-signup-shortcode",
-  "title": "PMPro Signup shortcode",
+  "name": "pmpro-signup-block/pmpro-signup-block",
+  "title": "PMPro Signup Block",
   "category": "pmpro",
-  "description": "Inserts a customizable signup form for Paid Memberships Pro.",
+  "description": "Embed signup forms anywhere on your WordPress site. Designed to simplify membership registration, especially for free levels.",
   "keywords": ["signup", "register", "form", "paid memberships pro", "pmpro"],
   "attributes": {
     "intro": {
@@ -21,7 +21,7 @@
     },
     "login": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "redirect": {
       "type": "string",
@@ -33,7 +33,7 @@
     },
     "submit_button": {
       "type": "string",
-      "default": null
+      "default": "Sign Up Now"
     },
     "title": {
       "type": "string",
@@ -41,15 +41,15 @@
     },
     "custom_fields": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "confirm_email": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "confirm_password": {
       "type": "boolean",
-      "default": false
+      "default": true
     }
   },
   "supports": {},

@@ -11,11 +11,11 @@ const CopyPlugin = require("copy-webpack-plugin");
 const config = require("@wordpress/scripts/config/webpack.config.js");
 
 config.entry = {
-  "pmpro-signup-shortcode/index": path.resolve(
+  "pmpro-signup-block/index": path.resolve(
     process.cwd(),
     "blocks",
     "src",
-    "pmpro-signup-shortcode",
+    "pmpro-signup-block",
     "index.js"
   )
 };

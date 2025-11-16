@@ -12,13 +12,13 @@ import Edit from './edit';
 import metadata from './block.json';
 
 /**
- * Register the Signup Shortcode block.
+ * Register the Signup block.
  */
 registerBlockType( metadata.name, {
 	icon: {
 		background: '#FFFFFF',
 		foreground: '#658B24',
-		src: 'shortcode',
+		src: 'plus-alt',
 	},
 	/**
 	 * @see ./edit.js

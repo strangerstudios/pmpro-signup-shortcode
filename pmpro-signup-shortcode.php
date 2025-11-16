@@ -513,7 +513,7 @@ function pmprosus_filter_bool_or_string( $value ) {
  * @since TBD
  */
 function pmprosus_register_block_type() {
-	register_block_type( __DIR__ . '/blocks/build/pmpro-signup-shortcode' );
+	register_block_type( __DIR__ . '/blocks/build/pmpro-signup-block' );
 }
 add_action( 'init', 'pmprosus_register_block_type' );
 

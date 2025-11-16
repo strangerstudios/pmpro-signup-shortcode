@@ -63,7 +63,7 @@ export default function Edit({ attributes, setAttributes }) {
 					label={ __( 'Level', 'pmpro-signup-shortcode' ) }
 					value={level}
 					options={[
-						{ label: __('Select a level', 'pmpro-signup-shortcode'), value: '' },
+						{ label: __('Choose a level', 'pmpro-signup-shortcode'), value: '' },
 						...levelsOptions
 					]}
 					onChange={(value) => setAttributes({ level: value })}
@@ -72,6 +72,7 @@ export default function Edit({ attributes, setAttributes }) {
 					__next40pxDefaultSize
 					__nextHasNoMarginBottom
 					label={ __( 'Intro', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Leave blank for no intro. This text appears above the signup fields.', 'pmpro-signup-shortcode' ) }
 					value={intro}
 					onChange={(value) => setAttributes({ intro: value })}
 				/>
@@ -86,13 +87,13 @@ export default function Edit({ attributes, setAttributes }) {
 				<SelectControl
 					__next40pxDefaultSize
 					__nextHasNoMarginBottom
-					label={ __( 'Short', 'pmpro-signup-shortcode' ) }
-					help={ __( 'Use the short version of the form (no billing fields).', 'pmpro-signup-shortcode' ) }
+					label={ __( 'Form Length', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Choose how many required account fields to show.', 'pmpro-signup-shortcode' ) }
 					value={short}
 					options={[
-						{ label: 'True', value: 'true' },
-						{ label: 'False', value: 'false' },
-						{ label: 'Email Only', value: 'emailonly' },
+						{ label: __( 'Full Form (default)', 'pmpro-signup-shortcode' ), value: 'false' },
+						{ label: __( 'Short (no confirm fields)', 'pmpro-signup-shortcode' ), value: 'true' },
+						{ label: __( 'Email Only Signup', 'pmpro-signup-shortcode' ), value: 'emailonly' },
 					]}
 					onChange={(value) => setAttributes({ short: value })}
 				/>
@@ -118,28 +119,28 @@ export default function Edit({ attributes, setAttributes }) {
 					__next40pxDefaultSize
 					__nextHasNoMarginBottom
 					label={ __( 'Submit Button Text', 'pmpro-signup-shortcode' ) }
-					help={ __( 'Optionally customize the text on the submit button.', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Customize the text on the submit button.', 'pmpro-signup-shortcode' ) }
 					value={submit_button}
 					onChange={(value) => setAttributes({ submit_button: value })}
 				/>
 				<ToggleControl
 					__nextHasNoMarginBottom
 					label={ __( 'Hide Labels', 'pmpro-signup-shortcode' ) }
-					help={ __( 'Hide field labels and use placeholders instead.', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Hide field labels visually and use placeholders instead.', 'pmpro-signup-shortcode' ) }
 					checked={hidelabels}
 					onChange={(value) => setAttributes({ hidelabels: value })}
 				/>
 				<ToggleControl
 					__nextHasNoMarginBottom
 					label={ __( 'Login', 'pmpro-signup-shortcode' ) }
-					help={ __( 'Display a login link above the form.', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Display a login link for current members below the form.', 'pmpro-signup-shortcode' ) }
 					checked={login}
 					onChange={(value) => setAttributes({ login: value })}
 				/>
 				<ToggleControl
 					__nextHasNoMarginBottom
 					label={ __( 'Custom Fields', 'pmpro-signup-shortcode' ) }
-					help={ __( 'Display custom user fields defined in Memberships > Settings > Custom Fields.', 'pmpro-signup-shortcode' ) }
+					help={ __( 'Display custom user fields defined in Memberships > Settings > User Fields.', 'pmpro-signup-shortcode' ) }
 					checked={custom_fields}
 					onChange={(value) => setAttributes({ custom_fields: value })}
 				/>
@@ -148,7 +149,7 @@ export default function Edit({ attributes, setAttributes }) {
 		<div { ...blockProps }>
 			<div className="pmpro-block-element" { ...blockProps }>
 				<span className="pmpro-block-title">{ __( 'Paid Memberships Pro', 'pmpro-signup-shortcode' ) }</span>
-				<span className="pmpro-block-subtitle">{ __( 'Signup Shortcode', 'pmpro-signup-shortcode' ) }</span>
+				<span className="pmpro-block-subtitle">{ __( 'Signup Block', 'pmpro-signup-shortcode' ) }</span>
 			</div>
 		</div>
 		</>
