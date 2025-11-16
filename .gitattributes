@@ -2,4 +2,8 @@
 pmpro-signup-shortcode-banner.jpg export-ignore
 .gitattributes export-ignore
 .github export-ignore
+.gitignore export-ignore
 README.md export-ignore
+package.json export-ignore
+webpack.config.js export-ignore
+blocks/src export-ignore
