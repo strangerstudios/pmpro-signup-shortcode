@@ -249,7 +249,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 			?>
 		<?php } else { ?>
 			<style>
-				.pmpro_signup_form-hidelabels .pmpro_form_field label.pmpro_form_label {
+				.pmpro_signup_form-hidelabels .pmpro_form_field label.pmpro_form_label:not(.pmpro_signup_form-hidelabels .pmpro_form_field-checkbox label.pmpro_form_label) {
 					border: 0;
 					clip: rect(0, 0, 0, 0);
 					height: 1px;
