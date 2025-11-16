@@ -29,7 +29,7 @@
     },
     "short": {
       "type": "string",
-      "default": null
+      "default": "false"
     },
     "submit_button": {
       "type": "string",
