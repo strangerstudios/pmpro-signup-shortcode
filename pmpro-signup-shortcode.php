@@ -147,7 +147,7 @@ add_filter('pmpro_confirmation_url', 'pmprosus_pmpro_confirmation_url', 10, 3);
 */
 function pmprosus_signup_shortcode($atts, $content=null, $code="")
 {
-	global $current_user, $pmpro_level, $username, $email, $wpdb;
+	global $current_user, $pmpro_level, $username, $email;
 
 	// $atts    ::= array of attributes
 	// $content ::= text within enclosing form of shortcode element
