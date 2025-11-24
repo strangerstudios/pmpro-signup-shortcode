@@ -207,16 +207,11 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 		$title = '';
 	}
 
-	// The default checkout boxes location is loaded only if custom_fields is specifically "1" or "true"
 	if ( $custom_fields || isset( $custom_fields ) ) {
-		$checkout_boxes = true;
-
 		// Set the level for this signup shortcode so level-specific checkout fields appear.
 		if ( ! empty( $level ) ) {
 			$pmpro_level = pmpro_getLevel( $level );
 		}
-	} else {
-		$checkout_boxes = false;
 	}
 
 	// Get field values from URL or user.
@@ -258,7 +253,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 			?>
 		<?php } else { ?>
 			<style>
-				.pmpro_signup_form-hidelabels .pmpro_form_field label.pmpro_form_label:not(.pmpro_signup_form-hidelabels .pmpro_form_field-checkbox label.pmpro_form_label) {
+				.pmpro_signup_form-hidelabels .pmpro_form_field label.pmpro_form_label:not(.pmpro_signup_form-hidelabels .pmpro_form_field-checkbox label.pmpro_form_label):not(.pmpro_signup_form-hidelabels .pmpro_form_field-checkbox_grouped label.pmpro_form_label) {
 					border: 0;
 					clip: rect(0, 0, 0, 0);
 					height: 1px;
@@ -332,7 +327,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 										</div> <!-- end pmpro_form_field-username -->
 									<?php } ?>
 
-									<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_username"); } ?>
+									<?php if ( ! empty( $custom_fields ) ) { do_action("pmpro_checkout_after_username"); } ?>
 
 									<?php if ( $short !== 'emailonly') { ?>
 										<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-password' ) ); ?>">
@@ -350,7 +345,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 										</div> <!-- end pmpro_form_field-password2 -->
 									<?php } ?>
 
-									<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_password"); } ?>
+									<?php if ( ! empty( $custom_fields ) ) { do_action("pmpro_checkout_after_password"); } ?>
 
 									<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-email pmpro_form_field-bemail', 'pmpro_form_field-bemail' ) ); ?>">
 										<label for="bemail" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_label' ) ); ?>"><?php esc_html_e('E-mail Address', 'pmpro-signup-shortcode');?></label>
@@ -382,7 +377,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 
 									<input type="hidden" name="redirect_to" value="<?php echo esc_url($redirect_to);?>" />
 
-									<?php if( !empty( $custom_fields ) ) { do_action("pmpro_checkout_after_email"); } ?>
+									<?php if ( ! empty( $custom_fields ) ) { do_action("pmpro_checkout_after_email"); } ?>
 
 									<div class="pmpro_hidden">
 										<label for="fullname"><?php esc_html_e('Full Name', 'pmpro-signup-shortcode');?></label>
@@ -391,55 +386,22 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 
 								<?php } ?>
 
-								<?php do_action('pmpro_checkout_after_user_fields'); ?>
-
-								<?php if( $checkout_boxes && function_exists('pmprorh_pmpro_checkout_boxes') ) { pmprorh_pmpro_checkout_boxes(); } ?>
-
-								<?php if( !empty( $custom_fields ) ) { do_action( 'pmpro_signup_form_before_submit' ); } ?>
+								<?php
+									if ( ! empty( $custom_fields ) ) { do_action( 'pmpro_checkout_after_user_fields' ); } ?>
 
 								<?php
-									if( ! empty( $custom_fields ) ) {
-										// Adds support for User Fields.
-										if ( class_exists( 'PMPro_Field_Group' ) ) {
-											// Loop through all the field groups.
-											$field_groups = PMPro_Field_Group::get_all();
-											foreach ( $field_groups as $field_group ) {
-												$field_group->display(
-													array(
-														'markup' => 'div',
-														'show_group_label' => false,
-														'scope' => 'checkout',
-														'prefill_from_request' => true,
-														'show_required' => true,
-													)
-												);
-											}
-										} else {
-											// Legacy support for displaying User Fields on PMPro < 3.4.
-											global $pmpro_user_fields;
-											foreach( $pmpro_user_fields as $group ) {
-												foreach( $group as $field ) {
-													if ( ! pmpro_is_field( $field ) ) {
-														continue;
-													}
-
-													if ( ! pmpro_check_field_for_level( $field ) ) {
-														continue;
-													}
-
-													if( ! isset( $field->profile ) || $field->profile !== 'only' && $field->profile !== 'only_admin' ) {
-														if ( ! empty( $field->required ) ) {
-															$field->showrequired = 'label';
-														} else {
-															$field->showrequired = '';
-														}
-														$field->displayAtCheckout();
-													}
-												}
-											}
-										}
+									if ( ! empty( $custom_fields ) ) {
+										/**
+										 * Add checkout boxes, including user fields, to the signup form.
+										 *
+										 * @param object $pmpro_level The PMPro Level object being purchased.
+										 */
+										do_action( 'pmpro_checkout_boxes', $pmpro_level );
 									}
 								?>
+
+								<?php if ( ! empty( $custom_fields ) ) { do_action( 'pmpro_signup_form_before_submit' ); } ?>
+
 							</div> <!-- end pmpro_form_fields -->
 
 							<?php
