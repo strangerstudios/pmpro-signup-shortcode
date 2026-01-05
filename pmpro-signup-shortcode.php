@@ -249,7 +249,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 				<?php } ?>
 		<?php } elseif ( empty( $pmpro_level ) || empty( pmpro_getLevel( $level ) ) ) { ?>
 				<?php if( current_user_can( 'manage_options' ) ) { ?>
-					<div class="pmpro_message pmpro_alert"><?php printf( esc_html__( '[pmpro_signup] The membership level specified is not valid. (ID:%s)', 'pmpro-signup-shortcode' ), esc_html( $level ) ); ?></div>
+					<div class="pmpro_message pmpro_alert"><?php printf( esc_html__( '[pmpro_signup] Admin Only Shortcode Alert: The membership level specified is not valid. (ID:%s)', 'pmpro-signup-shortcode' ), esc_html( $level ) ); ?></div>
 				<?php } ?>
 		<?php } else { ?>
 			<style>
