@@ -207,9 +207,12 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 		$title = '';
 	}
 
-	// Set the level for this signup shortcode so level-specific checkout fields appear.
+	// Set the level for this signup shortcode so level-specific checkout fields appear. Get the first level if no level is specified to use.
 	if ( ! empty( $level ) ) {
 		$pmpro_level = pmpro_getLevel( $level );
+	} else {
+		$pmpro_levels = pmpro_getAllLevels( true );
+		$pmpro_level = reset( $pmpro_levels );
 	}
 
 	// Get field values from URL or user.
