@@ -207,7 +207,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 		$title = '';
 	}
 
-	if ( $custom_fields || isset( $custom_fields ) ) {
+	if ( $custom_fields ) {
 		// Set the level for this signup shortcode so level-specific checkout fields appear.
 		if ( ! empty( $level ) ) {
 			$pmpro_level = pmpro_getLevel( $level );
@@ -244,13 +244,13 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	?>
 		<?php if(!empty($current_user->ID) && pmpro_hasMembershipLevel($level,$current_user->ID)) { ?>
 			<?php
-				if(current_user_can("manage_options") )
-				{
-					?>
-					<div class="pmpro_message pmpro_alert"><?php esc_html_e('&#91;pmpro_signup&#93; Admin Only Shortcode Alert: You are logged in as an administrator and already have the membership level specified.', 'pmpro-signup-shortcode'); ?></div>
-					<?php
-				}
-			?>
+				if ( current_user_can("manage_options") ) { ?>
+					<div class="pmpro_message pmpro_alert"><?php esc_html_e('[pmpro_signup] Admin Only Shortcode Alert: You are logged in as an administrator and already have the membership level specified.', 'pmpro-signup-shortcode'); ?></div>
+				<?php } ?>
+		<?php } elseif ( empty( $pmpro_level ) || empty( pmpro_getLevel( $level ) ) ) { ?>
+				<?php if( current_user_can( 'manage_options' ) ) { ?>
+					<div class="pmpro_message pmpro_alert"><?php printf( esc_html__( '[pmpro_signup] The membership level specified is not valid. (ID:%s)', 'pmpro-signup-shortcode' ), esc_html( $level ) ); ?></div>
+				<?php } ?>
 		<?php } else { ?>
 			<style>
 				.pmpro_signup_form-hidelabels .pmpro_form_field label.pmpro_form_label:not(.pmpro_signup_form-hidelabels .pmpro_form_field-checkbox label.pmpro_form_label):not(.pmpro_signup_form-hidelabels .pmpro_form_field-checkbox_grouped label.pmpro_form_label) {
