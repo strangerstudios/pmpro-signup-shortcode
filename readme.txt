@@ -1,4 +1,4 @@
-=== Paid Memberships Pro - Signup Shortcode ===
+=== Paid Memberships Pro - Signup Shortcode & Block ===
 Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup
 Requires at least: 5.4
@@ -38,6 +38,7 @@ Please post it in the issues section of GitHub and we'll fix it as soon as we ca
 = 1.1 - 2026-xx-xx =
 * ENHANCEMENT: Added Block Editor support. Now you can add the signup form using a block instead of a shortcode. #71 (@kimcoleman,@andrewlimaza)
 * ENHANCEMENT: Added support for `pmpro_checkout_boxes` hook to allow other Add Ons and custom fields to display on the signup form. #69 (@kimcoleman)
+* ENHANCEMENT: Show a warning to admins when no level attribute is set on the shortcode/block or an invalid level is provided. #72 (@andrewlimaza)
 * BUG FIX: Fixes an issue with username generation would not work with numbers. This was due to the pmpro_generateUserName function order of parameters. #68 (@andrewlimaza)
 
 = 1.0 - 2025-07-18 =
