@@ -242,14 +242,14 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 
 		// Do some conditional checks before showing the form.
 		if ( empty( $level ) && current_user_can( 'manage_options' ) ) { ?>
-			<div class="pmpro_message pmpro_alert"><?php esc_html_e('[pmpro_signup] Admin Only Shortcode Alert: No membership level specified.', 'pmpro-signup-shortcode'); ?></div>
+			<div class="pmpro_message pmpro_alert"><?php esc_html_e('&#91;pmpro_signup&#93; Admin Only Shortcode Alert: No membership level specified.', 'pmpro-signup-shortcode'); ?></div>
 		<?php } elseif( ! empty( $current_user->ID ) && pmpro_hasMembershipLevel( $level, $current_user->ID ) ) {
 				if ( current_user_can("manage_options") ) { ?>
-					<div class="pmpro_message pmpro_alert"><?php esc_html_e('[pmpro_signup] Admin Only Shortcode Alert: You are logged in as an administrator and already have the membership level specified.', 'pmpro-signup-shortcode'); ?></div>
+					<div class="pmpro_message pmpro_alert"><?php esc_html_e('&#91;pmpro_signup&#93; Admin Only Shortcode Alert: You are logged in as an administrator and already have the membership level specified.', 'pmpro-signup-shortcode'); ?></div>
 				<?php } ?>
 		<?php } elseif ( empty( $pmpro_level ) ) { ?>
 				<?php if( current_user_can( 'manage_options' ) ) { ?>
-					<div class="pmpro_message pmpro_alert"><?php printf( esc_html__( '[pmpro_signup] Admin Only Shortcode Alert: The membership level specified is not valid. (ID:%s)', 'pmpro-signup-shortcode' ), esc_html( $level ) ); ?></div>
+					<div class="pmpro_message pmpro_alert"><?php printf( esc_html__( '&#91;pmpro_signup&#93; Admin Only Shortcode Alert: The membership level specified is not valid. (ID:%s)', 'pmpro-signup-shortcode' ), esc_html( $level ) ); ?></div>
 				<?php } ?>
 		<?php } else { ?>
 			<style>
