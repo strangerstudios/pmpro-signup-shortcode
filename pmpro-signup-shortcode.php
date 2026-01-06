@@ -210,9 +210,6 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	// Set the level for this signup shortcode so level-specific checkout fields appear. Get the first level if no level is specified to use.
 	if ( ! empty( $level ) ) {
 		$pmpro_level = pmpro_getLevel( $level );
-	} else {
-		$pmpro_levels = pmpro_getAllLevels( true );
-		$pmpro_level = reset( $pmpro_levels );
 	}
 
 	// Get field values from URL or user.
@@ -242,9 +239,11 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	}
 
 	ob_start();
-	?>
-		<?php if(!empty($current_user->ID) && pmpro_hasMembershipLevel($level,$current_user->ID)) { ?>
-			<?php
+
+		// Do some conditional checks before showing the form.
+		if ( empty( $level ) && current_user_can( 'manage_options' ) ) { ?>
+			<div class="pmpro_message pmpro_alert"><?php esc_html_e('[pmpro_signup] Admin Only Shortcode Alert: No membership level specified.', 'pmpro-signup-shortcode'); ?></div>
+		<?php } elseif( ! empty( $current_user->ID ) && pmpro_hasMembershipLevel( $level, $current_user->ID ) ) {
 				if ( current_user_can("manage_options") ) { ?>
 					<div class="pmpro_message pmpro_alert"><?php esc_html_e('[pmpro_signup] Admin Only Shortcode Alert: You are logged in as an administrator and already have the membership level specified.', 'pmpro-signup-shortcode'); ?></div>
 				<?php } ?>
