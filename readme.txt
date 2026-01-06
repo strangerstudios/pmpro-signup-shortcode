@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup
 Requires at least: 5.4
-Tested up to: 6.8
-Stable tag: 1.0
+Tested up to: 6.9
+Stable tag: 1.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,7 +35,7 @@ Add a sign up form to a post/widget/page using a shortcode:
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-signup-shortcode/issues
 
 == Changelog ==
-= 1.1 - 2026-xx-xx =
+= 1.1 - 2026-01-06 =
 * ENHANCEMENT: Added Block Editor support. Now you can add the signup form using a block instead of a shortcode. #71 (@kimcoleman,@andrewlimaza)
 * ENHANCEMENT: Added support for `pmpro_checkout_boxes` hook to allow other Add Ons and custom fields to display on the signup form. #69 (@kimcoleman)
 * ENHANCEMENT: Show a warning to admins when no level attribute is set on the shortcode/block or an invalid level is provided. #72 (@andrewlimaza)
