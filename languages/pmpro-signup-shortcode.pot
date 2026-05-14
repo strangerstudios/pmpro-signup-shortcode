@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Paid Memberships Pro - Signup Shortcode & Block 1.1\n"
+"Project-Id-Version: Paid Memberships Pro - Signup Shortcode & Block 1.2\n"
 "Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
 "Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-01-06T07:56:39+00:00\n"
+"POT-Creation-Date: 2026-05-14T17:49:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pmpro-signup-shortcode\n"
@@ -55,83 +55,93 @@ msgstr ""
 msgid "Sign Up Now"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:245
+#: pmpro-signup-shortcode.php:316
 msgid "&#91;pmpro_signup&#93; Admin Only Shortcode Alert: No membership level specified."
 msgstr ""
 
-#: pmpro-signup-shortcode.php:248
+#: pmpro-signup-shortcode.php:319
 msgid "&#91;pmpro_signup&#93; Admin Only Shortcode Alert: You are logged in as an administrator and already have the membership level specified."
 msgstr ""
 
-#: pmpro-signup-shortcode.php:252
+#: pmpro-signup-shortcode.php:323
 #, php-format
 msgid "&#91;pmpro_signup&#93; Admin Only Shortcode Alert: The membership level specified is not valid. (ID:%s)"
 msgstr ""
 
+#: pmpro-signup-shortcode.php:327
+msgid "&#91;pmpro_signup&#93; Admin Only Shortcode Alert: None of the membership levels specified are valid."
+msgstr ""
+
+#: pmpro-signup-shortcode.php:330
+msgid "You already have all of the available memberships."
+msgstr ""
+
+#: pmpro-signup-shortcode.php:382
+msgid "Membership Level"
+msgstr ""
+
+#: pmpro-signup-shortcode.php:392
+msgid "Current Level"
+msgstr ""
+
 #. translators: 1: Username, 2: Logout URL
-#: pmpro-signup-shortcode.php:314
+#: pmpro-signup-shortcode.php:417
 #, php-format
 msgid "You are logged in as <strong>%1$s</strong>. If you would like to use a different account for this membership, <a href=\"%2$s\">log out now</a>."
 msgstr ""
 
-#: pmpro-signup-shortcode.php:325
-#: pmpro-signup-shortcode.php:326
+#: pmpro-signup-shortcode.php:428
+#: pmpro-signup-shortcode.php:429
 msgid "Username"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:334
-#: pmpro-signup-shortcode.php:335
+#: pmpro-signup-shortcode.php:437
+#: pmpro-signup-shortcode.php:438
 msgid "Password"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:343
-#: pmpro-signup-shortcode.php:344
+#: pmpro-signup-shortcode.php:446
+#: pmpro-signup-shortcode.php:447
 #: blocks/build/pmpro-signup-block/index.js:1
 #: blocks/src/pmpro-signup-block/edit.js:97
 msgid "Confirm Password"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:351
-#: pmpro-signup-shortcode.php:352
+#: pmpro-signup-shortcode.php:454
+#: pmpro-signup-shortcode.php:455
 msgid "E-mail Address"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:359
-#: pmpro-signup-shortcode.php:360
+#: pmpro-signup-shortcode.php:462
+#: pmpro-signup-shortcode.php:463
 msgid "Confirm E-mail"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:383
+#: pmpro-signup-shortcode.php:486
 msgid "Full Name"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:384
+#: pmpro-signup-shortcode.php:487
 msgid "LEAVE THIS BLANK"
 msgstr ""
 
-#. translators: 1: Terms of Service page URL, 2: Terms of Service page title
-#: pmpro-signup-shortcode.php:436
-#, php-format
-msgid "I agree to the <a href=\"%1$s\" target=\"_blank\">%2$s</a>"
-msgstr ""
-
-#: pmpro-signup-shortcode.php:468
+#: pmpro-signup-shortcode.php:534
 msgid "Log In"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:518
+#: pmpro-signup-shortcode.php:584
 msgid "View Documentation"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:518
+#: pmpro-signup-shortcode.php:584
 msgid "Docs"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:519
+#: pmpro-signup-shortcode.php:585
 msgid "Visit Customer Support Forum"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:519
+#: pmpro-signup-shortcode.php:585
 msgid "Support"
 msgstr ""
 
