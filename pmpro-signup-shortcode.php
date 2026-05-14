@@ -177,7 +177,8 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 		'title' => NULL,
 		'custom_fields' => true,
 		'confirm_email' => true,
-		'confirm_password' => true
+		'confirm_password' => true,
+		'levels' => NULL,
 	), $atts));
 
 	// If there is a current level in global, save it to a backup variable.
@@ -195,10 +196,71 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	$intro = pmprosus_filter_bool_or_string( $intro );
 	$short = pmprosus_filter_bool_or_string( $short );
 	$hidelabels = filter_var( $hidelabels, FILTER_VALIDATE_BOOLEAN );
+	$levels = is_null( $levels ) ? null : sanitize_text_field( $levels );
+	if ( $levels === '' ) {
+		$levels = null;
+	}
+
+	// Build the list of levels for multi-level mode and identify which ones the current user already holds.
+	$pmpro_levels = array();
+	$held_level_ids = array();
+	if ( $levels !== null ) {
+		$all_levels = pmpro_sort_levels_by_order( pmpro_getAllLevels( false, true ) );
+		$all_levels = apply_filters( 'pmpro_levels_array', $all_levels );
+
+		if ( $levels === 'all' ) {
+			$pmpro_levels = $all_levels;
+		} else {
+			$level_ids = array_map( 'intval', array_map( 'trim', explode( ',', $levels ) ) );
+			foreach ( $all_levels as $a_level ) {
+				if ( in_array( (int) $a_level->id, $level_ids, true ) ) {
+					$pmpro_levels[] = $a_level;
+				}
+			}
+		}
+
+		// If the list collapses to a single level, fall back to single-level mode and let the rest of the function handle it.
+		if ( count( $pmpro_levels ) === 1 ) {
+			$level = (int) $pmpro_levels[0]->id;
+			$levels = null;
+			$pmpro_levels = array();
+		} elseif ( ! empty( $pmpro_levels ) ) {
+			if ( ! empty( $current_user->ID ) ) {
+				foreach ( $pmpro_levels as $a_level ) {
+					if ( pmpro_hasMembershipLevel( $a_level->id, $current_user->ID ) ) {
+						$held_level_ids[] = (int) $a_level->id;
+					}
+				}
+			}
+
+			// Choose the default-selected level: prefer the requested $level if it is in the list and not held; otherwise the first non-held level.
+			$requested_level = ! empty( $level ) ? (int) $level : 0;
+			$level = 0;
+			if ( $requested_level ) {
+				foreach ( $pmpro_levels as $a_level ) {
+					if ( (int) $a_level->id === $requested_level && ! in_array( $requested_level, $held_level_ids, true ) ) {
+						$level = $requested_level;
+						break;
+					}
+				}
+			}
+			if ( empty( $level ) ) {
+				foreach ( $pmpro_levels as $a_level ) {
+					if ( ! in_array( (int) $a_level->id, $held_level_ids, true ) ) {
+						$level = (int) $a_level->id;
+						break;
+					}
+				}
+			}
+		}
+	}
 
 	// Should we display the default title if $title is true.
 	if ( $title_display === true ) {
-		if ( ! empty( $level ) ) {
+		if ( $levels !== null ) {
+			// Multi-level mode: suppress the auto-built "Register For X" title. Custom title strings ($title_display === null) bypass this block entirely and render unchanged.
+			$title = '';
+		} elseif ( ! empty( $level ) ) {
 			$title = 'Register For ' . pmpro_getLevel( $level )->name;
 		} else {
 			$title = 'Register For ' . get_option( 'blogname' );
@@ -230,22 +292,36 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 		$bemail = '';
 	}
 
+	// In multi-level mode, suppress per-level UI (custom fields) and bool-true intro. Custom intro strings still render.
+	if ( $levels !== null ) {
+		$custom_fields = false;
+		if ( $intro === true ) {
+			$intro = false;
+		}
+	}
+
 	// treat this page load as a checkout
 	add_filter( 'pmpro_is_checkout', '__return_true' );
 	
 	ob_start();
 
 		// Do some conditional checks before showing the form.
-		if ( empty( $level ) && current_user_can( 'manage_options' ) ) { ?>
+		if ( $levels === null && empty( $level ) && current_user_can( 'manage_options' ) ) { ?>
 			<div class="pmpro_message pmpro_alert"><?php esc_html_e('&#91;pmpro_signup&#93; Admin Only Shortcode Alert: No membership level specified.', 'pmpro-signup-shortcode'); ?></div>
-		<?php } elseif( ! empty( $current_user->ID ) && pmpro_hasMembershipLevel( $level, $current_user->ID ) ) {
+		<?php } elseif ( $levels === null && ! empty( $current_user->ID ) && pmpro_hasMembershipLevel( $level, $current_user->ID ) ) {
 				if ( current_user_can("manage_options") ) { ?>
 					<div class="pmpro_message pmpro_alert"><?php esc_html_e('&#91;pmpro_signup&#93; Admin Only Shortcode Alert: You are logged in as an administrator and already have the membership level specified.', 'pmpro-signup-shortcode'); ?></div>
 				<?php } ?>
-		<?php } elseif ( empty( $pmpro_level ) ) { ?>
+		<?php } elseif ( $levels === null && empty( $pmpro_level ) ) { ?>
 				<?php if( current_user_can( 'manage_options' ) ) { ?>
 					<div class="pmpro_message pmpro_alert"><?php printf( esc_html__( '&#91;pmpro_signup&#93; Admin Only Shortcode Alert: The membership level specified is not valid. (ID:%s)', 'pmpro-signup-shortcode' ), esc_html( $level ) ); ?></div>
 				<?php } ?>
+		<?php } elseif ( $levels !== null && empty( $pmpro_levels ) ) { ?>
+				<?php if ( current_user_can( 'manage_options' ) ) { ?>
+					<div class="pmpro_message pmpro_alert"><?php esc_html_e( '&#91;pmpro_signup&#93; Admin Only Shortcode Alert: None of the membership levels specified are valid.', 'pmpro-signup-shortcode' ); ?></div>
+				<?php } ?>
+		<?php } elseif ( $levels !== null && ! empty( $current_user->ID ) && count( $held_level_ids ) === count( $pmpro_levels ) ) { ?>
+			<div class="pmpro_message pmpro_alert"><?php esc_html_e( 'You already have all of the available memberships.', 'pmpro-signup-shortcode' ); ?></div>
 		<?php } else { ?>
 			<style>
 				.pmpro_signup_form-hidelabels .pmpro_form_field label.pmpro_form_label:not(.pmpro_signup_form-hidelabels .pmpro_form_field-checkbox label.pmpro_form_label):not(.pmpro_signup_form-hidelabels .pmpro_form_field-checkbox_grouped label.pmpro_form_label) {
@@ -283,7 +359,6 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 							}
 						?>
 						<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_card_content' ) ); ?>">
-							<input type="hidden" id="level" name="level" value="<?php echo intval( $level ); ?>" />
 							<input type="hidden" id="pmpro_signup_shortcode" name="pmpro_signup_shortcode" value="1" />
 							<?php do_action( 'pmpro_signup_form_before_fields' ); ?>
 							<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_fields' ) ); ?>">
@@ -292,6 +367,33 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 										<?php echo wp_kses_post( wpautop($intro) ); ?>
 									</div>
 								<?php } ?>
+
+								<?php
+									if ( $levels === null ) { ?>
+										<input type="hidden" id="level" name="level" value="<?php echo intval( $level ); ?>" />
+									<?php } else { ?>
+										<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-select pmpro_form_field-levels' ) ); ?>">
+											<label for="level" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_label' ) ); ?>"><?php esc_html_e( 'Membership Level', 'pmpro-signup-shortcode' );?></label>
+											<select name="level" id="level" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_input pmpro_form_input-select pmpro_form_input-level' ) ); ?>">
+												<?php foreach ( $pmpro_levels as $dropdown_level ) {
+													$cost_text = pmpro_getLevelCost( $dropdown_level, false, true );
+													$option_name = $dropdown_level->name;
+													if ( ! empty( $cost_text ) ) {
+														$option_name .= ' - ' . $cost_text;
+													}
+													$is_held = in_array( (int) $dropdown_level->id, $held_level_ids, true );
+													if ( $is_held ) {
+														$option_name .= ' (' . __( 'Current Level', 'pmpro-signup-shortcode' ) . ')';
+													}
+													?>
+													<option value="<?php echo esc_attr( $dropdown_level->id ); ?>" <?php selected( $level, $dropdown_level->id ); ?> <?php disabled( $is_held ); ?>>
+														<?php echo wp_kses_post( $option_name ); ?>
+													</option>
+												<?php } ?>
+											</select>
+										</div> <!-- end pmpro_form_field-levels -->
+									<?php } ?>
+
 								<?php if ( ! empty( $current_user->ID ) ) { ?>
 									<div id="pmpro_account_loggedin">
 										<?php
