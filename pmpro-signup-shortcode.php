@@ -184,9 +184,6 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	// If there is a current level in global, save it to a backup variable.
 	$pmpro_level_backup = $pmpro_level;
 
-	// try to get the Terms of Service page settings
-	$tospage = get_option( 'pmpro_tospage' );
-
 	// Filters the $title value to allow either dynamic or static titles. Note: Returns string if it's a string.
 	$title_display = filter_var( $title, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 	$login = filter_var( $login, FILTER_VALIDATE_BOOLEAN );
@@ -303,10 +300,14 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	// treat this page load as a checkout
 	add_filter( 'pmpro_is_checkout', '__return_true' );
 
-	// load recaptcha if needed.
-	if ( function_exists( 'pmpro_recaptcha_get_html' ) ) {
-		pmpro_init_recaptcha();
-	}
+	/**
+	 * Mirror the core checkout preheader action so anything that hooks into it (recaptcha JS enqueue, TOS global, gateway setup, etc.) also fires here.
+	 *
+	 * @since TBD
+	 *
+	 * @param object $pmpro_level The level being signed up for.
+	 */
+	do_action( 'pmpro_checkout_preheader', $pmpro_level );
 
 	ob_start();
 
@@ -507,53 +508,16 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 							</div> <!-- end pmpro_form_fields -->
 
 							<?php
-								global $recaptcha, $recaptcha_publickey;
-								if ( $recaptcha == 2 || ( ! empty( $level ) && $recaptcha == 1 && pmpro_isLevelFree( pmpro_getLevel( $level ) ) ) ) { ?>
-									<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_captcha' ) ); ?>">
-										<?php echo pmpro_recaptcha_get_html( $recaptcha_publickey, NULL, true ); ?>
-									</div> <!-- end pmpro_captcha -->
-									<?php
-								}
-							?>
-
-							<?php if ( ! empty( $tospage ) ) {
-								$tospage = get_post( $tospage );
-								$allowed_html = array (
-									'a' => array (
-										'href' => array(),
-										'target' => array(),
-										'title' => array(),
-									),
-								);
-								?>
-								<fieldset id="pmpro_tos_fields" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_fieldset', 'pmpro_tos_fields' ) ); ?>">
-									<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_fields' ) ); ?>">
-										<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-checkbox' ) ); ?>">
-											<label class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_label pmpro_clickable', 'tos' ) ); ?>" for="tos">
-												<input type="checkbox" name="tos" value="1" id="tos" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_input pmpro_form_input-checkbox', 'tos' ) ); ?>" />
-												<?php
-													echo wp_kses(
-														sprintf(
-															/* translators: 1: Terms of Service page URL, 2: Terms of Service page title */
-															__('I agree to the <a href="%1$s" target="_blank">%2$s</a>', 'pmpro-signup-shortcode' ),
-															get_permalink( $tospage ),
-															$tospage->post_title
-														),
-														$allowed_html
-													);
-												?>
-											</label>
-										</div> <!-- end pmpro_form_field-tos -->
-									</div> <!-- end pmpro_form_fields -->
-								</fieldset> <!-- end pmpro_tos_fields -->
-								<?php
-								}
-							?>
-
-							<?php
 								// Add nonce.
 								wp_nonce_field( 'pmpro_checkout_nonce', 'pmpro_checkout_nonce' );
-							?>
+							
+							/**
+							 * Hook to add content before the submit button on the signup form.
+							 * 
+							 * @since TBD
+							 */
+							do_action( 'pmpro_checkout_before_submit_button', $pmpro_level ); ?>
+
 
 							<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_submit' ) ); ?>">
 								<span id="pmpro_submit_span">
