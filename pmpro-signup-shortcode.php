@@ -184,9 +184,6 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	// If there is a current level in global, save it to a backup variable.
 	$pmpro_level_backup = $pmpro_level;
 
-	// try to get the Terms of Service page settings
-	$tospage = get_option( 'pmpro_tospage' );
-
 	// Filters the $title value to allow either dynamic or static titles. Note: Returns string if it's a string.
 	$title_display = filter_var( $title, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 	$login = filter_var( $login, FILTER_VALIDATE_BOOLEAN );
@@ -302,7 +299,16 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 
 	// treat this page load as a checkout
 	add_filter( 'pmpro_is_checkout', '__return_true' );
-	
+
+	/**
+	 * Mirror the core checkout preheader action so anything that hooks into it (recaptcha JS enqueue, TOS global, gateway setup, etc.) also fires here.
+	 *
+	 * @since TBD
+	 *
+	 * @param object $pmpro_level The level being signed up for.
+	 */
+	do_action( 'pmpro_checkout_preheader', $pmpro_level );
+
 	ob_start();
 
 		// Do some conditional checks before showing the form.
