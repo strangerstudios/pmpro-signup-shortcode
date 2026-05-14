@@ -1,9 +1,9 @@
-=== Paid Memberships Pro - Signup Shortcode ===
+=== Paid Memberships Pro - Signup Shortcode & Block ===
 Contributors: strangerstudios
-Tags: memberships, registration, pmpro, paid memberships pro, signup, sign up, shortcode, register
+Tags: memberships, registration, pmpro, paid memberships pro, signup
 Requires at least: 5.4
-Tested up to: 6.8
-Stable tag: 1.0
+Tested up to: 6.9
+Stable tag: 1.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,17 +17,7 @@ If the level is free, the account will be created and the member will be automat
 
 Note: This replaces similar functionality that used to be included in the Register Helper Add On for Paid Memberships Pro.
 
-Shortcode attributes for `[pmpro_signup]` include:
-
-1. intro – (optional) Override the default 'Register for LEVEL NAME' text above the checkout form or hide the text completely. (default: true; accepts: true, false, or your custom text)
-1. hidelabels - (optional) Hide the form input field labels and use the input field placeholder attribute instead. (default: false; accepts: true, 1, or yes).
-1. level – (required) determines which level to use for the checkout form
-1. login – (optional) Set this attribute to show a 'Log In' link below the submit button. (i.e. login='1')
-1. redirect – (optional) Set the page to redirect to after form submission. (default: Membership Confirmation page. accepts: referrer, account, or your custom URL)
-1. short – (optional) determines whether to show the Confirm E-mail and Confirm Password fields OR show E-mail Address field only. (default: false; accepts: true, false, or emailonly)
-1. submit_button – (optional) Change the 'Submit' button text on the checkout form. (default: 'Sign Up Now'; accepts: your custom text)
-1. title – (optional) Show a heading (h2) with a default 'Level Name' above the checkout form or your custom text. (default: false; accepts: true or your custom text)
-1. custom_fields - (optional) If set to false or 0, the pmpro_checkout_after_username, pmpro_checkout_after_email, and pmpro_checkout_before_submit action hooks will not fire. This will stop Register Helper from adding fields to the checkout form. Note that required fields will still be required. If set to true or 1 specifically and Register Helper is loaded, then the pmprorh_pmpro_checkout_boxes() function will fire to include fields from the checkout_boxes area at the bottom of the form.
+Refer to the documentation for a full list of shortcode attributes: https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/.
 
 == Installation ==
 
@@ -45,6 +35,12 @@ Add a sign up form to a post/widget/page using a shortcode:
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-signup-shortcode/issues
 
 == Changelog ==
+= 1.1 - 2026-01-06 =
+* ENHANCEMENT: Added Block Editor support. Now you can add the signup form using a block instead of a shortcode. #71 (@kimcoleman,@andrewlimaza)
+* ENHANCEMENT: Added support for `pmpro_checkout_boxes` hook to allow other Add Ons and custom fields to display on the signup form. #69 (@kimcoleman)
+* ENHANCEMENT: Show a warning to admins when no level attribute is set on the shortcode/block or an invalid level is provided. #72 (@andrewlimaza)
+* BUG FIX: Fixes an issue with username generation would not work with numbers. This was due to the pmpro_generateUserName function order of parameters. #68 (@andrewlimaza)
+
 = 1.0 - 2025-07-18 =
 * BUG FIX: Fixed deprecation warnings that would show when showing user fields on the signup form while running PMPro v3.4+. #66 (@dwanjuki)
 
