@@ -3,7 +3,7 @@ Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,6 +35,10 @@ Add a sign up form to a post/widget/page using a shortcode:
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-signup-shortcode/issues
 
 == Changelog ==
+= 1.2 - 2026-05-14 =
+* FEATURE: Added a `levels` shortcode attribute that lets you offer a dropdown of multiple membership levels on the signup form. Use `levels="all"` to show all levels or `levels="1,2,3"` to limit the selection. Levels the user already holds are shown as disabled. #37 (@louiswol94)
+* ENHANCEMENT: Replaced the inline reCAPTCHA and Terms of Service rendering with the `pmpro_checkout_preheader` and `pmpro_checkout_before_submit_button` action hooks, so the signup form picks up these features (and any other plugin that integrates with the default checkout) through PMPro core. Requires Paid Memberships Pro 3.2 or higher. #73 (@andrewlimaza)
+
 = 1.1 - 2026-01-06 =
 * ENHANCEMENT: Added Block Editor support. Now you can add the signup form using a block instead of a shortcode. #71 (@kimcoleman,@andrewlimaza)
 * ENHANCEMENT: Added support for `pmpro_checkout_boxes` hook to allow other Add Ons and custom fields to display on the signup form. #69 (@kimcoleman)

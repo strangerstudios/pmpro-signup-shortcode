@@ -3,7 +3,7 @@
  * Plugin Name: Paid Memberships Pro - Signup Shortcode & Block
  * Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-signup-shortcode/
  * Description: Embed signup forms anywhere on your WordPress site. Designed to simplify membership registration, especially for free levels.
- * Version: 1.1
+ * Version: 1.2
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com
  * Text Domain: pmpro-signup-shortcode
@@ -303,7 +303,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	/**
 	 * Mirror the core checkout preheader action so anything that hooks into it (recaptcha JS enqueue, TOS global, gateway setup, etc.) also fires here.
 	 *
-	 * @since TBD
+	 * @since 1.2
 	 *
 	 * @param object $pmpro_level The level being signed up for.
 	 */
@@ -514,7 +514,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 							/**
 							 * Hook to add content before the submit button on the signup form.
 							 * 
-							 * @since TBD
+							 * @since 1.2
 							 */
 							do_action( 'pmpro_checkout_before_submit_button', $pmpro_level ); ?>
 
@@ -554,7 +554,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
  * Helper function to filter a "dual" type of attribute that could be true|false or a string.
  * Tries to filter as boolean first, then fallback as sanitized string.
  *
- * @since TBD
+ * @since 1.2
  * 
  * @param bool|string $value The attribute value we want to filter.
  * @return bool|string The filtered boolean or string value.
@@ -567,7 +567,7 @@ function pmprosus_filter_bool_or_string( $value ) {
 /**
  * Register blocks for the Block Editor.
  *
- * @since TBD
+ * @since 1.2
  */
 function pmprosus_register_block_type() {
 	register_block_type( __DIR__ . '/blocks/build/pmpro-signup-block' );
