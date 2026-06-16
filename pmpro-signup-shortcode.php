@@ -269,6 +269,12 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	// Set the level for this signup shortcode so level-specific checkout fields appear. Get the first level if no level is specified to use.
 	if ( ! empty( $level ) ) {
 		$pmpro_level = pmpro_getLevel( $level );
+
+		// Populate the level request param so pmpro_getLevelAtCheckout() resolves to this level.
+		// Restricted user-field groups are filtered against that level (PMPro_Field_Group::get_fields_to_display()),
+		// which ignores the $pmpro_level global. Without this, the signup page has no level in the request and falls
+		// back to the default/lowest level, so level-restricted field groups would not display.
+		$_REQUEST['pmpro_level'] = (int) $level;
 	}
 
 	// Get field values from URL or user.
