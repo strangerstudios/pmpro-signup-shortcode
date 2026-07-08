@@ -184,6 +184,9 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	// If there is a current level in global, save it to a backup variable.
 	$pmpro_level_backup = $pmpro_level;
 
+	// Back up any level in the request so we can restore it after rendering.
+	$pmpro_request_level_backup = isset( $_REQUEST['pmpro_level'] ) ? $_REQUEST['pmpro_level'] : null;
+
 	// Filters the $title value to allow either dynamic or static titles. Note: Returns string if it's a string.
 	$title_display = filter_var( $title, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 	$login = filter_var( $login, FILTER_VALIDATE_BOOLEAN );
@@ -269,6 +272,12 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 	// Set the level for this signup shortcode so level-specific checkout fields appear. Get the first level if no level is specified to use.
 	if ( ! empty( $level ) ) {
 		$pmpro_level = pmpro_getLevel( $level );
+
+		// Populate the level request param so pmpro_getLevelAtCheckout() resolves to this level.
+		// Restricted user-field groups are filtered against that level (PMPro_Field_Group::get_fields_to_display()),
+		// which ignores the $pmpro_level global. Without this, the signup page has no level in the request and falls
+		// back to the default/lowest level, so level-restricted field groups would not display.
+		$_REQUEST['pmpro_level'] = (int) $level;
 	}
 
 	// Get field values from URL or user.
@@ -546,6 +555,13 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 
 	// Set the global level back to the correct object.
 	$pmpro_level = $pmpro_level_backup;
+
+	// Restore the level request param so code running after this shortcode sees the original request.
+	if ( null === $pmpro_request_level_backup ) {
+		unset( $_REQUEST['pmpro_level'] );
+	} else {
+		$_REQUEST['pmpro_level'] = $pmpro_request_level_backup;
+	}
 
 	return $temp_content;
 }
