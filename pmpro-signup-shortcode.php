@@ -277,7 +277,11 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 		// Restricted user-field groups are filtered against that level (PMPro_Field_Group::get_fields_to_display()),
 		// which ignores the $pmpro_level global. Without this, the signup page has no level in the request and falls
 		// back to the default/lowest level, so level-restricted field groups would not display.
-		$_REQUEST['pmpro_level'] = (int) $level;
+		// Use the resolved level's ID rather than the raw attribute so this also works when the
+		// attribute is a level name, which pmpro_getLevel() accepts.
+		if ( ! empty( $pmpro_level ) ) {
+			$_REQUEST['pmpro_level'] = (int) $pmpro_level->id;
+		}
 	}
 
 	// Get field values from URL or user.
