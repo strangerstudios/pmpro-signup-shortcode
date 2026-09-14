@@ -130,6 +130,9 @@ function pmprosus_pmpro_confirmation_url($url, $user_id, $level) {
 	else
 		$redirect = '';
 
+	//only allow redirects to URLs on this site
+	$redirect = wp_validate_redirect( $redirect, '' );
+
 	//unset session vars
 	unset($_SESSION['pmprosus_referrer']);
 	unset($_SESSION['pmprosus_redirect_to']);
