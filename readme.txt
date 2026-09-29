@@ -37,6 +37,8 @@ Please post it in the issues section of GitHub and we'll fix it as soon as we ca
 == Changelog ==
 = 1.2.2 - 2026-09-29 =
 * SECURITY: Improved sanitization and escaping throughout the plugin to resolve Plugin Check security findings. #76 (@dparker1005)
+* SECURITY: The auto-generated password is now only included in the member's own checkout confirmation email, never in admin notification emails. #77 (@dparker1005)
+* BUG FIX: Fixed an issue where the auto-generated password in the checkout confirmation email could be missing characters. #77 (@dparker1005)
 
 = 1.2.1 - 2026-09-14 =
 * SECURITY: The post-checkout redirect target is now validated with `wp_validate_redirect()`, so a crafted `redirect_to` value can no longer send members to an external site after signup. Sites that intentionally redirect off site can permit specific hosts with the `allowed_redirect_hosts` filter. #75 (@flintfromthebasement)
