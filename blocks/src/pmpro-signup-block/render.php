@@ -2,6 +2,11 @@
 /**
  * Render the Signup Shortcode block on the frontend.
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $output = pmprosus_signup_shortcode( $attributes );
 ?>
 <div <?php echo get_block_wrapper_attributes(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
