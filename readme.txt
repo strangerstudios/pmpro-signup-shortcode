@@ -3,7 +3,7 @@ Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup
 Requires at least: 5.4
 Tested up to: 7.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,6 +35,9 @@ Add a sign up form to a post/widget/page using a shortcode:
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-signup-shortcode/issues
 
 == Changelog ==
+= 1.2.2 - 2026-09-29 =
+* SECURITY: Improved sanitization and escaping throughout the plugin to resolve Plugin Check security findings. #76 (@dparker1005)
+
 = 1.2.1 - 2026-09-14 =
 * SECURITY: The post-checkout redirect target is now validated with `wp_validate_redirect()`, so a crafted `redirect_to` value can no longer send members to an external site after signup. Sites that intentionally redirect off site can permit specific hosts with the `allowed_redirect_hosts` filter. #75 (@flintfromthebasement)
 * BUG FIX: Fixed an issue where user field groups restricted to a specific membership level did not appear on the signup form or block. #74 (@dwanjuki)
