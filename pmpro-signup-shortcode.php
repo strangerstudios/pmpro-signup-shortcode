@@ -27,7 +27,7 @@ add_action( 'plugins_loaded', 'pmprosus_load_textdomain' );
 	Use Email Address as Username and Generate a Password
 */
 function pmprosus_skip_username_password() {
-	// phpcs:disable WordPress.Security.NonceVerification -- Only pre-fills checkout fields; PMPro core verifies pmpro_checkout_nonce before processing the checkout.
+	// phpcs:disable WordPress.Security.NonceVerification -- Only pre-fills checkout fields; PMPro core verifies pmpro_checkout_nonce on checkout submit (except for opted-in pre-3.0 custom checkout templates).
 
 	// Copy email to username if no username field is present
 	if ( ! empty( $_REQUEST['bemail'] ) && ! isset( $_REQUEST['username'] ) ) {
@@ -122,7 +122,7 @@ add_action('init', 'pmprosus_init_referrer');
 function pmprosus_pmpro_confirmation_url($url, $user_id, $level) {
 	global $post;
 
-	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Runs on the pmpro_confirmation_url filter during checkout, after PMPro core verifies pmpro_checkout_nonce.
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Runs on the pmpro_confirmation_url filter during checkout; PMPro core verifies pmpro_checkout_nonce on checkout submit (except for opted-in pre-3.0 custom checkout templates).
 	//figure out referrer
 	if(!empty($_REQUEST['pmprosus_referrer']))
 		$referrer = sanitize_url( $_REQUEST['pmprosus_referrer'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Saved with update_user_meta(), which unslashes; sanitize_url() also strips backslashes.
