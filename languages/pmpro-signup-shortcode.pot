@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-29T16:13:07+00:00\n"
+"POT-Creation-Date: 2026-09-29T18:42:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pmpro-signup-shortcode\n"
@@ -42,106 +42,106 @@ msgid "https://www.paidmembershipspro.com"
 msgstr ""
 
 #. translators: 1: Password, 2: Email
-#: pmpro-signup-shortcode.php:84
+#: pmpro-signup-shortcode.php:92
 #, php-format
 msgid "Password: %1$s Email: %2$s"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:178
+#: pmpro-signup-shortcode.php:184
 msgid "Paid Memberships Pro must be installed to use the pmpro_signup shortcode."
 msgstr ""
 
-#: pmpro-signup-shortcode.php:189
+#: pmpro-signup-shortcode.php:195
 msgid "Sign Up Now"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:344
+#: pmpro-signup-shortcode.php:350
 msgid "&#91;pmpro_signup&#93; Admin Only Shortcode Alert: No membership level specified."
 msgstr ""
 
-#: pmpro-signup-shortcode.php:347
+#: pmpro-signup-shortcode.php:353
 msgid "&#91;pmpro_signup&#93; Admin Only Shortcode Alert: You are logged in as an administrator and already have the membership level specified."
 msgstr ""
 
-#: pmpro-signup-shortcode.php:351
+#: pmpro-signup-shortcode.php:357
 #, php-format
 msgid "&#91;pmpro_signup&#93; Admin Only Shortcode Alert: The membership level specified is not valid. (ID:%s)"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:355
+#: pmpro-signup-shortcode.php:361
 msgid "&#91;pmpro_signup&#93; Admin Only Shortcode Alert: None of the membership levels specified are valid."
 msgstr ""
 
-#: pmpro-signup-shortcode.php:358
+#: pmpro-signup-shortcode.php:364
 msgid "You already have all of the available memberships."
 msgstr ""
 
-#: pmpro-signup-shortcode.php:410
+#: pmpro-signup-shortcode.php:416
 msgid "Membership Level"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:420
+#: pmpro-signup-shortcode.php:426
 msgid "Current Level"
 msgstr ""
 
 #. translators: 1: Username, 2: Logout URL
-#: pmpro-signup-shortcode.php:445
+#: pmpro-signup-shortcode.php:451
 #, php-format
 msgid "You are logged in as <strong>%1$s</strong>. If you would like to use a different account for this membership, <a href=\"%2$s\">log out now</a>."
 msgstr ""
 
-#: pmpro-signup-shortcode.php:456
-#: pmpro-signup-shortcode.php:457
+#: pmpro-signup-shortcode.php:462
+#: pmpro-signup-shortcode.php:463
 msgid "Username"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:465
-#: pmpro-signup-shortcode.php:466
+#: pmpro-signup-shortcode.php:471
+#: pmpro-signup-shortcode.php:472
 msgid "Password"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:474
-#: pmpro-signup-shortcode.php:475
+#: pmpro-signup-shortcode.php:480
+#: pmpro-signup-shortcode.php:481
 #: blocks/build/pmpro-signup-block/index.js:1
 #: blocks/src/pmpro-signup-block/edit.js:97
 msgid "Confirm Password"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:482
-#: pmpro-signup-shortcode.php:483
+#: pmpro-signup-shortcode.php:488
+#: pmpro-signup-shortcode.php:489
 msgid "E-mail Address"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:490
-#: pmpro-signup-shortcode.php:491
+#: pmpro-signup-shortcode.php:496
+#: pmpro-signup-shortcode.php:497
 msgid "Confirm E-mail"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:514
+#: pmpro-signup-shortcode.php:520
 msgid "Full Name"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:515
+#: pmpro-signup-shortcode.php:521
 msgid "LEAVE THIS BLANK"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:562
+#: pmpro-signup-shortcode.php:568
 msgid "Log In"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:619
+#: pmpro-signup-shortcode.php:625
 msgid "View Documentation"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:619
+#: pmpro-signup-shortcode.php:625
 msgid "Docs"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:620
+#: pmpro-signup-shortcode.php:626
 msgid "Visit Customer Support Forum"
 msgstr ""
 
-#: pmpro-signup-shortcode.php:620
+#: pmpro-signup-shortcode.php:626
 msgid "Support"
 msgstr ""
 
