@@ -3,7 +3,7 @@ Contributors: strangerstudios
 Tags: memberships, registration, pmpro, paid memberships pro, signup
 Requires at least: 5.4
 Tested up to: 7.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,6 +35,9 @@ Add a sign up form to a post/widget/page using a shortcode:
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-signup-shortcode/issues
 
 == Changelog ==
+= 1.2.3 - 2026-11-19 =
+* ENHANCEMENT: Added a Show Password toggle to the signup form. #78 (@dparker1005)
+
 = 1.2.2 - 2026-09-29 =
 * SECURITY: Improved sanitization and escaping throughout the plugin to resolve Plugin Check security findings. #76 (@dparker1005)
 * SECURITY: The auto-generated password is now only included in the member's own checkout confirmation email, never in admin notification emails. #77 (@dparker1005)
