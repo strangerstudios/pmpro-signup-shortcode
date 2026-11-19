@@ -473,7 +473,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 											<input type="password" name="password" id="password" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_input pmpro_form_input-password', 'password' ) ); ?>" autocomplete="new-password" spellcheck="false" value="" <?php if( ! empty( $hidelabels ) ) { ?> placeholder="<?php esc_attr_e('Password', 'pmpro-signup-shortcode');?>"<?php } ?> />
 											<?php $pmprosus_password_toggle_counter++; ?>
 											<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field-password-toggle' ) ); ?>">
-												<button type="button" id="pmprosus_btn-password-toggle-<?php echo esc_attr( $pmprosus_password_toggle_counter ); ?>" class="pmpro_btn pmpro_btn-plain hide-if-no-js" data-toggle="0">
+												<button type="button" id="pmprosus_btn-password-toggle-<?php echo (int) $pmprosus_password_toggle_counter; ?>" class="pmpro_btn pmpro_btn-plain hide-if-no-js" data-toggle="0">
 													<span class="pmpro_icon pmpro_icon-eye" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pmpro--color--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
 													<span class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field-password-toggle-state' ) ); ?>"><?php esc_html_e( 'Show Password', 'pmpro-signup-shortcode' ); ?></span>
 												</button>
@@ -481,7 +481,8 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 											<script>
 												// Password visibility toggle for this signup form only.
 												(function() {
-													const toggleButton = document.getElementById('pmprosus_btn-password-toggle-<?php echo esc_attr( $pmprosus_password_toggle_counter ); ?>');
+													const toggleButton = document.getElementById('pmprosus_btn-password-toggle-<?php echo (int) $pmprosus_password_toggle_counter; ?>');
+													const eyeIcon = toggleButton.getElementsByClassName('pmpro_icon')[0].innerHTML;
 
 													toggleButton.classList.remove('hide-if-no-js');
 													toggleButton.addEventListener('click', function() {
@@ -498,7 +499,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 														} else {
 															this.setAttribute('data-toggle', 0);
 															passwordInputs.forEach(input => input.setAttribute('type', 'password'));
-															icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pmpro--color--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+															icon.innerHTML = eyeIcon;
 															state.textContent = <?php echo wp_json_encode( __( 'Show Password', 'pmpro-signup-shortcode' ) ); ?>;
 														}
 													});
