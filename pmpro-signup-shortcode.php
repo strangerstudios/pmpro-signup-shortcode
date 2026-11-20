@@ -115,6 +115,11 @@ add_action('init', 'pmprosus_load_shortcode');
 function pmprosus_init_referrer() {
 	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Only remembers the signup page and redirect for the confirmation URL; the redirect is validated with wp_validate_redirect() before use.
 	if(!empty($_REQUEST['pmprosus_referrer'])) {
+		// Start the session first. Values set before the session starts are discarded when it does.
+		if ( function_exists( 'pmpro_start_session' ) ) {
+			pmpro_start_session();
+		}
+
 		$_SESSION['pmprosus_referrer'] = sanitize_url( wp_unslash( $_REQUEST['pmprosus_referrer'] ) );
 		$_SESSION['pmprosus_redirect_to'] = isset( $_REQUEST['redirect_to'] ) ? sanitize_url( wp_unslash( $_REQUEST['redirect_to'] ) ) : '';
 	}
