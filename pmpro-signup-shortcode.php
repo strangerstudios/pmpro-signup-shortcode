@@ -281,9 +281,11 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 			// Multi-level mode: suppress the auto-built "Register For X" title. Custom title strings ($title_display === null) bypass this block entirely and render unchanged.
 			$title = '';
 		} elseif ( ! empty( $level ) ) {
-			$title = 'Register For ' . pmpro_getLevel( $level )->name;
+			/* translators: %s: Membership level name */
+			$title = sprintf( __( 'Register For %s', 'pmpro-signup-shortcode' ), pmpro_getLevel( $level )->name );
 		} else {
-			$title = 'Register For ' . get_option( 'blogname' );
+			/* translators: %s: Site name */
+			$title = sprintf( __( 'Register For %s', 'pmpro-signup-shortcode' ), get_option( 'blogname' ) );
 		}
 	} elseif ( $title_display === false ) {
 		$title = '';
