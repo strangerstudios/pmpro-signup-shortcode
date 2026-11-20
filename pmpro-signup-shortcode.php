@@ -403,7 +403,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 							<input type="hidden" id="pmpro_signup_shortcode" name="pmpro_signup_shortcode" value="1" />
 							<?php do_action( 'pmpro_signup_form_before_fields' ); ?>
 							<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_fields' ) ); ?>">
-								<?php if ( ! empty( $intro ) ) { ?>
+								<?php if ( ! empty( $intro ) && is_string( $intro ) ) { // A boolean true intro has no text to show. ?>
 									<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_fields-description' ) ); ?>">
 										<?php echo wp_kses_post( wpautop($intro) ); ?>
 									</div>
