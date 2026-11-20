@@ -411,7 +411,7 @@ function pmprosus_signup_shortcode( $atts, $content=null, $code="" ) {
 
 								<?php
 									if ( $levels === null ) { ?>
-										<input type="hidden" id="level" name="level" value="<?php echo intval( $level ); ?>" />
+										<input type="hidden" id="level" name="level" value="<?php echo intval( $pmpro_level->id ); ?>" />
 									<?php } else { ?>
 										<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-select pmpro_form_field-levels' ) ); ?>">
 											<label for="level" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_label' ) ); ?>"><?php esc_html_e( 'Membership Level', 'pmpro-signup-shortcode' );?></label>
