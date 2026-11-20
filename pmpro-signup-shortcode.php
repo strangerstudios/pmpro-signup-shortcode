@@ -153,8 +153,10 @@ function pmprosus_pmpro_confirmation_url($url, $user_id, $level) {
 	unset($_SESSION['pmprosus_referrer']);
 	unset($_SESSION['pmprosus_redirect_to']);
 
-	//save referrer to user meta
-	update_user_meta($user_id, 'pmprosus_referrer', $referrer );
+	//save referrer to user meta, but don't overwrite a saved referrer on checkouts that didn't come from a signup form
+	if ( ! empty( $referrer ) ) {
+		update_user_meta($user_id, 'pmprosus_referrer', $referrer );
+	}
 
 	//change confirmation URL to redirect if set
 	if($redirect) {
